@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssetTargetFallback>%3bnet461%3bportable-net45+win8</AssetTargetFallback>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,6 +11,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Server.DataAccess\Server.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
