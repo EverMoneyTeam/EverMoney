@@ -6,6 +6,6 @@ namespace Server.DataAccess
     {
         // TODO for Antony: Add security here
         public static string ConnectionString =>
-            $"Data Source={Environment.MachineName};Initial Catalog=EverMoney;Integrated Security=True";
+            $"Data Source={Environment.MachineName};Initial Catalog=EverMoney;Integrated Security=false;User ID=evermoney_app;Password=evermoney";
     }
 }
