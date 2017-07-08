@@ -1,4 +1,6 @@
-﻿namespace Server.DataAccess.Model
+﻿using System.Collections.Generic;
+
+namespace Server.DataAccess.Model
 {
     public class CashAccount
     {
@@ -12,7 +14,7 @@
 
         public Currency Currency { get; set; }
 
-        public int AccountId { get; set; }
+        public int? AccountId { get; set; }
 
         public Account Account { get; set; }
 
@@ -21,5 +23,12 @@
         public User User { get; set; }
 
         public bool IsJointCashAccount { get; set; }
+
+        public virtual ICollection<Cashflow> Cashflows { get; set; }
+
+        public CashAccount()
+        {
+            Cashflows = new HashSet<Cashflow>();
+        }
     }
 }
