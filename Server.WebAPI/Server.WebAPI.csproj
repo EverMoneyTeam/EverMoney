@@ -10,10 +10,6 @@
     <ProjectReference Include="..\Server.DataAccess\Server.DataAccess.csproj" />
   </ItemGroup>
   
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-  
   <Target Name="CreateLogsFolder" AfterTargets="AfterPublish">
     <MakeDir Directories="$(PublishUrl)Logs" Condition="!Exists('$(PublishUrl)Logs')" />
   </Target>
