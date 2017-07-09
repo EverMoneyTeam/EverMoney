@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Server.DataAccess.Context;
+using Server.DataAccess.Migrations;
 using System.IO;
 
 namespace Server.WebAPI
@@ -40,8 +43,8 @@ namespace Server.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSingleton<IRepository, Repository>();
-            //services.AddTransient<IMapper, HouseMapper>();
+            services.AddDbContext<SecurityContext>(options =>
+                options.UseSqlServer(DataAccess.Constant.ConnectionString));
 
             // Add framework services.
             services.AddMvcCore().AddJsonFormatters();
@@ -57,6 +60,16 @@ namespace Server.WebAPI
             app.UseStaticFiles();
 
             app.UseMvc();
+
+            if (env.IsDevelopment())
+            {
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    var context = serviceScope.ServiceProvider.GetService<SecurityContext>();
+                    context.Database.Migrate();
+                    context.EnsureSeedData();
+                }
+            }
         }
     }
 }

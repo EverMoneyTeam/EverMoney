@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Server.DataAccess;
 using Server.DataAccess.Context;
 using System;
 using System.Net;
@@ -11,13 +10,13 @@ namespace Server.WebAPI.Controller
     [Route("api/[controller]")]
     public class UserController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly SecurityContext _securityContext;
+        private readonly SecurityContext _context;
         private readonly ILogger _logger;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(SecurityContext context, ILogger<UserController> logger)
         {
             _logger = logger;
-            _securityContext = ContextFactory.SecurityContext;
+            _context = context;
         }
 
         // GET: /api/user/GetByLogin?login=...&password=...  
@@ -26,7 +25,7 @@ namespace Server.WebAPI.Controller
         {
             try
             {
-                return Ok(_securityContext.Users.Where(a => a.Account.Login == login && a.Account.Password == password));
+                return Ok(_context.Users.Where(a => a.Account.Login == login && a.Account.Password == password));
             }
             catch (Exception exception)
             {
