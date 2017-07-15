@@ -1,24 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Server.DataAccess.Model
 {
-    public class CashAccount
+    public class CashAccount : BaseModel
     {
-        public int CashAccountId { get; set; }
-
         public string Name { get; set; }
 
         public decimal Amount { get; set; }
 
-        public int CurrencyId { get; set; }
+        public Guid CurrencyId { get; set; }
 
         public Currency Currency { get; set; }
 
-        public int? AccountId { get; set; }
+        public Guid? AccountId { get; set; }
 
         public Account Account { get; set; }
 
-        public int? UserId { get; set; }
+        public Guid? UserId { get; set; }
 
         public User User { get; set; }
 

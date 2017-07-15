@@ -43,8 +43,7 @@ namespace Server.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SecurityContext>(options =>
-                options.UseSqlServer(DataAccess.Constant.ConnectionString));
+            services.AddDbContext<SecurityContext>();
 
             // Add framework services.
             services.AddMvcCore().AddJsonFormatters();
@@ -66,7 +65,7 @@ namespace Server.WebAPI
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     var context = serviceScope.ServiceProvider.GetService<SecurityContext>();
-                    context.Database.Migrate();
+                    context.EnsureUpdated();
                     context.EnsureSeedData();
                 }
             }

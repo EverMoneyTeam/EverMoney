@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Server.DataAccess.Model
 {
-    public class CashflowCategory
+    public class CashflowCategory : BaseModel
     {
-        public int CashflowCategoryId { get; set; }
-
         public string Name { get; set; }
 
-        public int? AccountId { get; set; }
+        public Guid AccountId { get; set; }
 
         public Account Account { get; set; }
         

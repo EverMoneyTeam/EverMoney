@@ -2,10 +2,8 @@
 
 namespace Server.DataAccess.Model
 {
-    public class Account
+    public class Account : BaseModel
     {
-        public int AccountId { get; set; }
-
         public string Login { get; set; }
 
         public string Password { get; set; }

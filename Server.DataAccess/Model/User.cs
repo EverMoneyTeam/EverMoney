@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Server.DataAccess.Model
 {
-    public class User
+    public class User : BaseModel
     {
-        public int UserId { get; set; }
-
-        public int? AccountId { get; set; }
+        public Guid AccountId { get; set; }
 
         public virtual Account Account { get; set; }
 

@@ -19,13 +19,26 @@ namespace Server.WebAPI.Controller
             _context = context;
         }
 
-        // GET: /api/user/GetByLogin?login=...&password=...  
-        [HttpGet]
-        public IActionResult Get(string login, string password)
+        [HttpGet("GetByLogin")]
+        public IActionResult GetByLogin(string login, string password)
         {
             try
             {
                 return Ok(_context.Users.Where(a => a.Account.Login == login && a.Account.Password == password));
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("GetById/{id}")]
+        public IActionResult GetById(Guid id)
+        {
+            try
+            {
+                return Ok(_context.Users.Where(a => a.Account.Id == id));
             }
             catch (Exception exception)
             {

@@ -11,8 +11,8 @@ using System;
 namespace Server.DataAccess.Migrations
 {
     [DbContext(typeof(SecurityContext))]
-    [Migration("20170708190713_AddBaseModels")]
-    partial class AddBaseModels
+    [Migration("20170715215011_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,36 +23,36 @@ namespace Server.DataAccess.Migrations
 
             modelBuilder.Entity("Server.DataAccess.Model.Account", b =>
                 {
-                    b.Property<int>("AccountId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Login");
 
                     b.Property<string>("Password");
 
-                    b.HasKey("AccountId");
+                    b.HasKey("Id");
 
                     b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("Server.DataAccess.Model.CashAccount", b =>
                 {
-                    b.Property<int>("CashAccountId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AccountId");
+                    b.Property<Guid?>("AccountId");
 
                     b.Property<decimal>("Amount");
 
-                    b.Property<int>("CurrencyId");
+                    b.Property<Guid>("CurrencyId");
 
                     b.Property<bool>("IsJointCashAccount");
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("UserId");
+                    b.Property<Guid?>("UserId");
 
-                    b.HasKey("CashAccountId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
@@ -65,22 +65,22 @@ namespace Server.DataAccess.Migrations
 
             modelBuilder.Entity("Server.DataAccess.Model.Cashflow", b =>
                 {
-                    b.Property<int>("CashflowId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<decimal>("Amount");
 
-                    b.Property<int?>("CashAccountId");
+                    b.Property<Guid>("CashAccountId");
 
-                    b.Property<int?>("CashflowCategoryId");
+                    b.Property<Guid>("CashflowCategoryId");
 
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("UserId");
+                    b.Property<Guid?>("UserId");
 
-                    b.HasKey("CashflowId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CashAccountId");
 
@@ -93,14 +93,14 @@ namespace Server.DataAccess.Migrations
 
             modelBuilder.Entity("Server.DataAccess.Model.CashflowCategory", b =>
                 {
-                    b.Property<int>("CashflowCategoryId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AccountId");
+                    b.Property<Guid>("AccountId");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("CashflowCategoryId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
@@ -109,28 +109,28 @@ namespace Server.DataAccess.Migrations
 
             modelBuilder.Entity("Server.DataAccess.Model.Currency", b =>
                 {
-                    b.Property<int>("CurrencyId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Code");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("CurrencyId");
+                    b.HasKey("Id");
 
                     b.ToTable("Currency");
                 });
 
             modelBuilder.Entity("Server.DataAccess.Model.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AccountId");
+                    b.Property<Guid>("AccountId");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
@@ -157,11 +157,13 @@ namespace Server.DataAccess.Migrations
                 {
                     b.HasOne("Server.DataAccess.Model.CashAccount", "CashAccount")
                         .WithMany("Cashflows")
-                        .HasForeignKey("CashAccountId");
+                        .HasForeignKey("CashAccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Server.DataAccess.Model.CashflowCategory", "CashflowCategory")
                         .WithMany("Cashflows")
-                        .HasForeignKey("CashflowCategoryId");
+                        .HasForeignKey("CashflowCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Server.DataAccess.Model.User", "User")
                         .WithMany("Cashflows")
@@ -172,14 +174,16 @@ namespace Server.DataAccess.Migrations
                 {
                     b.HasOne("Server.DataAccess.Model.Account", "Account")
                         .WithMany("CashflowCategories")
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Server.DataAccess.Model.User", b =>
                 {
                     b.HasOne("Server.DataAccess.Model.Account", "Account")
                         .WithMany("Users")
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

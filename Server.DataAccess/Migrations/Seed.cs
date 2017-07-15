@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Server.DataAccess.Context;
 using Server.DataAccess.Model;
@@ -10,11 +11,6 @@ namespace Server.DataAccess.Migrations
     {
         public static void EnsureSeedData(this SecurityContext context)
         {
-            if (!context.AllMigrationsApplied())
-            {
-                return;
-            }
-
             if (context.Accounts.Any() && context.Users.Any())
             {
                 return;
@@ -33,9 +29,9 @@ namespace Server.DataAccess.Migrations
 
             var users = new User[]
             {
-                new User{Name = "Pasha", AccountId = accounts.Single(a => a.Login == "login").AccountId},
-                new User{Name = "Ira", AccountId = accounts.Single(a => a.Login == "login").AccountId},
-                new User{Name = "Alex", AccountId = accounts.Single(a => a.Login == "test_account").AccountId}
+                new User{Name = "Pasha", AccountId = accounts.Single(a => a.Login == "login").Id},
+                new User{Name = "Ira", AccountId = accounts.Single(a => a.Login == "login").Id},
+                new User{Name = "Alex", AccountId = accounts.Single(a => a.Login == "test_account").Id}
             };
 
             foreach (User u in users)
@@ -43,6 +39,14 @@ namespace Server.DataAccess.Migrations
                 context.Users.Add(u);
             }
             context.SaveChanges();
+        }
+
+        public static void EnsureUpdated(this SecurityContext context)
+        {
+            if (!context.AllMigrationsApplied())
+            {
+                context.Database.Migrate();
+            }
         }
 
         public static bool AllMigrationsApplied(this SecurityContext context)
