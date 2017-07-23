@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace Server.DataAccess.Migrations
 {
@@ -12,7 +11,7 @@ namespace Server.DataAccess.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier"),
                     Login = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -25,7 +24,7 @@ namespace Server.DataAccess.Migrations
                 name: "Currency",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier"),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -38,8 +37,8 @@ namespace Server.DataAccess.Migrations
                 name: "CashflowCategory",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier"),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -57,8 +56,8 @@ namespace Server.DataAccess.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier"),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -76,11 +75,11 @@ namespace Server.DataAccess.Migrations
                 name: "CashAccount",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier"),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Amount = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsJointCashAccount = table.Column<bool>(type: "bit", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18, 2)"),
+                    CurrencyId = table.Column<Guid>(type: "uniqueidentifier"),
+                    IsJointCashAccount = table.Column<bool>(type: "bit"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -111,11 +110,11 @@ namespace Server.DataAccess.Migrations
                 name: "Cashflow",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    CashAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CashflowCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier"),
+                    Amount = table.Column<decimal>(type: "decimal(18, 2)"),
+                    CashAccountId = table.Column<Guid>(type: "uniqueidentifier"),
+                    CashflowCategoryId = table.Column<Guid>(type: "uniqueidentifier"),
+                    Date = table.Column<DateTime>(type: "datetime2"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
