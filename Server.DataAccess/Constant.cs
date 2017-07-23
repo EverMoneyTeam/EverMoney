@@ -4,6 +4,6 @@ namespace Server.DataAccess
     {
         // TODO for Antony: Add security here
         public static string ConnectionString =>
-            $"Data Source=SERVER_NAME;Initial Catalog=DB_NAME;Integrated Security=false;User ID=LOGIN;Password=PASSWORD";
+            "Data Source=localhost;Initial Catalog=EverMoney;Integrated Security=true;";
     }
 }
