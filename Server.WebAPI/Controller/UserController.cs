@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Server.DataAccess.Context;
 using System;
-using System.Net;
 using Microsoft.Extensions.Logging;
 
 namespace Server.WebAPI.Controller
@@ -22,29 +21,13 @@ namespace Server.WebAPI.Controller
         [HttpGet("GetByLogin")]
         public IActionResult GetByLogin(string login, string password)
         {
-            try
-            {
-                return Ok(_context.Users.Where(a => a.Account.Login == login && a.Account.Password == password));
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+            return Ok(_context.Users.Where(a => a.Account.Login == login && a.Account.Password == password));
         }
 
         [HttpGet("GetById/{id}")]
         public IActionResult GetById(Guid id)
         {
-            try
-            {
-                return Ok(_context.Users.Where(a => a.Account.Id == id));
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception.Message);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+            return Ok(_context.Users.Where(a => a.Account.Id == id));
         }
     }
 }
