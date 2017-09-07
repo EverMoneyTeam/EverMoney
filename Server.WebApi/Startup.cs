@@ -11,8 +11,9 @@ using Microsoft.Extensions.Options;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Server.DataAccess.Context;
 
-namespace EverMoney.WebApi
+namespace Server.WebApi
 {
     public class Startup
     {
@@ -31,6 +32,9 @@ namespace EverMoney.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add framework services.
+            services.AddDbContext<SecurityContext>();
+
             //configure the jwt   
             ConfigureJwtAuthService(services);
 
@@ -38,8 +42,14 @@ namespace EverMoney.WebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             //use the authentication  
             app.UseAuthentication();
 

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EverMoney.WebApi", "EverMoney.WebApi\EverMoney.WebApi.csproj", "{ED2DE9C3-1C14-4C37-A513-3E409A456B33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.WebApi", "Server.WebApi\Server.WebApi.csproj", "{ED2DE9C3-1C14-4C37-A513-3E409A456B33}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.DataAccess", "Server.DataAccess\Server.DataAccess.csproj", "{2B114AFB-A225-435A-962C-502BFE66B1F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{ED2DE9C3-1C14-4C37-A513-3E409A456B33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED2DE9C3-1C14-4C37-A513-3E409A456B33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED2DE9C3-1C14-4C37-A513-3E409A456B33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B114AFB-A225-435A-962C-502BFE66B1F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B114AFB-A225-435A-962C-502BFE66B1F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B114AFB-A225-435A-962C-502BFE66B1F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B114AFB-A225-435A-962C-502BFE66B1F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
