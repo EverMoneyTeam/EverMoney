@@ -9,7 +9,7 @@ namespace Server.DataAccess.Migrations
 {
     public static class DbInitializer
     {
-        public static void EnsureSeedData(this SecurityContext context)
+        public static void EnsureSeedData(this DBContext context)
         {
             if (context.Accounts.Any() && context.Users.Any())
             {
@@ -41,7 +41,7 @@ namespace Server.DataAccess.Migrations
             context.SaveChanges();
         }
 
-        public static void EnsureUpdated(this SecurityContext context)
+        public static void EnsureUpdated(this DBContext context)
         {
             if (!context.AllMigrationsApplied())
             {
@@ -49,7 +49,7 @@ namespace Server.DataAccess.Migrations
             }
         }
 
-        public static bool AllMigrationsApplied(this SecurityContext context)
+        public static bool AllMigrationsApplied(this DBContext context)
         {
             var applied = context.GetService<IHistoryRepository>()
                 .GetAppliedMigrations()

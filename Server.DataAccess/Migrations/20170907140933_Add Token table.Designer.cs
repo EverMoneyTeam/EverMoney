@@ -2,15 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Server.DataAccess.Context;
 using System;
 
 namespace Server.DataAccess.Migrations
 {
-    [DbContext(typeof(DbContext))]
-    partial class SecurityContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DBContext))]
+    [Migration("20170907140933_Add Token table")]
+    partial class AddTokentable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,6 +121,24 @@ namespace Server.DataAccess.Migrations
                     b.ToTable("Currency");
                 });
 
+            modelBuilder.Entity("Server.DataAccess.Model.Token", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AccountId");
+
+                    b.Property<int>("IsStop");
+
+                    b.Property<string>("RefreshToken");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Tokens");
+                });
+
             modelBuilder.Entity("Server.DataAccess.Model.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -170,6 +192,14 @@ namespace Server.DataAccess.Migrations
                 {
                     b.HasOne("Server.DataAccess.Model.Account", "Account")
                         .WithMany("CashflowCategories")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Server.DataAccess.Model.Token", b =>
+                {
+                    b.HasOne("Server.DataAccess.Model.Account", "Account")
+                        .WithMany("Tokens")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

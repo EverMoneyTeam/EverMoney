@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Server.DataAccess.Context;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Server.WebApi.Controllers
 {
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly SecurityContext _context;
+        private readonly DBContext _context;
         private readonly ILogger _logger;
 
-        public UserController(SecurityContext context, ILogger<UserController> logger)
+        public UserController(DBContext context, ILogger<UserController> logger)
         {
             _logger = logger;
             _context = context;
@@ -28,6 +26,7 @@ namespace Server.WebApi.Controllers
         }
 
         [HttpGet("GetById/{id}")]
+        [Authorize]
         public IActionResult GetById(Guid id)
         {
             return Ok(_context.Users.Where(a => a.Account.Id == id));
