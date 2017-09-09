@@ -55,7 +55,10 @@ namespace Server.WebApi
 
             //Разобраться
             //services.AddMvcCore().AddJsonFormatters();
-            services.AddMvc();
+            services.AddMvc(config =>
+            {
+                config.Filters.Add(typeof(CustomExceptionFilter));
+            });
 
 
         }
