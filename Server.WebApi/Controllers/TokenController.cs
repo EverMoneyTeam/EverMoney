@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Server.WebApi.ConfigOption;
 using Server.DataAccess.Model;
 using Server.DataAccess.Repository;
+using Server.WebApi.ViewModel;
 
 namespace Server.WebApi.Controllers
 {
@@ -30,7 +31,7 @@ namespace Server.WebApi.Controllers
         }
 
         [HttpPost("auth")]
-        public IActionResult Auth([FromBody]Parameters parameters)
+        public IActionResult Auth([FromBody]AuthParameters parameters)
         {
             if (parameters == null)
             {
@@ -51,8 +52,22 @@ namespace Server.WebApi.Controllers
             }
         }
 
-        //scenario 1 get the access-token by username and password  
-        private ResponseData DoPassword(Parameters parameters)
+        [HttpPost("registration")]
+        public IActionResult Registrate([FromBody]RegistrationParameters parameters)
+        {
+            if (parameters == null)
+            {
+                return Json(new ResponseData(ResponseDataOption.NullOfParameters));
+            }
+            else
+            {
+                _accountRepository.AddAccount(parameters.Login, parameters.Password);
+                return Json(new ResponseData(ResponseDataOption.Ok));
+            }
+        }
+
+            //scenario 1 get the access-token by username and password  
+            private ResponseData DoPassword(AuthParameters parameters)
         {
             //validate the client_id/client_secret/username/passwo  
             var accountId = _accountRepository.GetAccountId(parameters.Login, parameters.Password);
@@ -66,7 +81,7 @@ namespace Server.WebApi.Controllers
 
             var token = new Token
             {
-                AccountId = accountId,
+                AccountId = accountId.Value,
                 RefreshToken = refresh_token,
                 IsStop = 0
             };
@@ -83,7 +98,7 @@ namespace Server.WebApi.Controllers
         }
 
         //scenario 2 get the access_token by refresh_token  
-        private ResponseData DoRefreshToken(Parameters parameters)
+        private ResponseData DoRefreshToken(AuthParameters parameters)
         {
             var token = _tokenRepository.GetToken(parameters.RefreshToken, parameters.AccountId);
 

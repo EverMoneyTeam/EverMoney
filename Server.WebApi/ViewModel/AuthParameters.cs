@@ -2,7 +2,7 @@
 
 namespace Server.WebApi.Controllers
 {
-    public class Parameters
+    public class AuthParameters
     {
         public string AccountId { get; set; }
 
