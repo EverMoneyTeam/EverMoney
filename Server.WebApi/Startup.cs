@@ -120,7 +120,7 @@ namespace Server.WebApi
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearerAuthentication(o =>
+            .AddJwtBearer(o =>
             {
                 o.TokenValidationParameters = tokenValidationParameters;
             });
