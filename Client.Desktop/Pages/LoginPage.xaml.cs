@@ -33,16 +33,15 @@ namespace Client.Desktop.Pages
             string password = pbxPassword.Password;
 
             Authorization aut = new Authorization();
-            ResponseData responseData = aut.AuthenticateUser(null, login, password, "password", null);
+            ResponseJWTFormat responseData = aut.AuthenticateUser(null, login, password, "password", null);
             if (responseData == null)
             {
                 MessageBox.Show("Invalid username or password");
                 return;
             }
 
-            //Globals.LoggedInUser = user;
-            MessageBox.Show("Login successful");
-            //NavigationService.Navigate(new DetailsPage());
+
+            MessageBox.Show(JWTParser.ReturnAccountId(responseData) + Environment.NewLine + JWTParser.CheckSignature(responseData));
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)

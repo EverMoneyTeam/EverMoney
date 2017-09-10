@@ -30,19 +30,24 @@ namespace Client.Desktop.Pages
             string password = pbxPassword.Password;
 
             Authorization authorization = new Authorization();
-            ResponseData response = authorization.RegisterAccount(login, password);
+            ResponseJWTFormat response = authorization.RegisterAccount(login, password);
             if (response == null)
             {
                 MessageBox.Show("Registration failed");
             }
-            else if (response.Message == "Ok")
+            else
             {
                 MessageBox.Show("Registration successful");
             }
-            else
-            {
-                MessageBox.Show(response.Message);
-            }
+            
+            //else if (response.Message == "Ok")
+            //{
+            //    MessageBox.Show("Registration successful");
+            //}
+            //else
+            //{
+            //    MessageBox.Show(response.Message);
+            //}
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)

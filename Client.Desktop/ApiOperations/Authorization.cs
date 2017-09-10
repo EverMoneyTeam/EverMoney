@@ -18,17 +18,17 @@ namespace Client.Desktop.ApiOperations
             this.baseUrl = "http://localhost:5000/api";
         }
 
-        public ResponseData AuthenticateUser(string accountId, string login, string password, string grantType, string refreshToken)
+        public ResponseJWTFormat AuthenticateUser(string accountId, string login, string password, string grantType, string refreshToken)
         {
             string endpoint = this.baseUrl + "/token/auth";
             string method = "POST";
             string json = JsonConvert.SerializeObject(new
             {
-                accountId = accountId,
-                login = login,
-                password = password,
-                grantType = grantType,
-                refreshToken = refreshToken
+                accountId,
+                login,
+                password,
+                grantType,
+                refreshToken
             });
 
             WebClient wc = new WebClient();
@@ -36,12 +36,14 @@ namespace Client.Desktop.ApiOperations
             try
             {
                 string response = wc.UploadString(endpoint, method, json);
-                return JsonConvert.DeserializeObject<ResponseData>(response);
+                return JsonConvert.DeserializeObject<ResponseJWTFormat>(response);
             }
             catch (Exception)
             {
                 return null;
             }
+
+
         }
 
         //    public User GetUserDetails(User user)
@@ -65,7 +67,7 @@ namespace Client.Desktop.ApiOperations
         //        }
         //    }
 
-        public ResponseData RegisterAccount(string login, string password)
+        public ResponseJWTFormat RegisterAccount(string login, string password)
         {
             string endpoint = this.baseUrl + "/token/registration";
             string method = "POST";
@@ -80,7 +82,7 @@ namespace Client.Desktop.ApiOperations
             try
             {
                 string response = wc.UploadString(endpoint, method, json);
-                return JsonConvert.DeserializeObject<ResponseData>(response);
+                return JsonConvert.DeserializeObject<ResponseJWTFormat>(response);
             }
             catch (Exception)
             {
