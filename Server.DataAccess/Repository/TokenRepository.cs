@@ -8,39 +8,36 @@ namespace Server.DataAccess.Repository
     public interface ITokenRepository
     {
         bool AddToken(Token token);
-        Token GetToken(string refresh_token, string client_id);
+        Token GetToken(string refreshToken, string accountId);
         bool ExpireToken(Token token);
     }
 
     public class TokenRepository : ITokenRepository
     {
+        private readonly DatabaseContext _databaseContext;
+
+        public TokenRepository(DatabaseContext databaseContext)
+        {
+            _databaseContext = databaseContext;
+        }
+
         public bool AddToken(Token token)
         {
-            using (DBContext db = new DBContext())
-            {
-                db.Tokens.Add(token);
-
-                return db.SaveChanges() > 0;
-            }
+            _databaseContext.Tokens.Add(token);
+            return _databaseContext.SaveChanges() > 0;
         }
 
         public bool ExpireToken(Token token)
         {
-            using (DBContext db = new DBContext())
-            {
-                db.Tokens.Update(token);
-
-                return db.SaveChanges() > 0;
-            }
+            token.IsStop = 1;
+            _databaseContext.Tokens.Update(token);
+            return _databaseContext.SaveChanges() > 0;
         }
 
-        public Token GetToken(string refresh_token, string client_id)
+        public Token GetToken(string refreshToken, string accountId)
         {
-            var accountId = new Guid(client_id);
-            using (DBContext db = new DBContext())
-            {
-                return db.Tokens.FirstOrDefault(x => x.AccountId == accountId && x.RefreshToken == refresh_token);
-            }
+            var accountIdGuid = new Guid(accountId);
+            return _databaseContext.Tokens.FirstOrDefault(x => x.AccountId == accountIdGuid && x.RefreshToken == refreshToken);
         }
     }
 }

@@ -10,7 +10,7 @@ using System;
 
 namespace Server.DataAccess.Migrations
 {
-    [DbContext(typeof(DBContext))]
+    [DbContext(typeof(DatabaseContext))]
     [Migration("20170715215011_InitDatabase")]
     partial class InitDatabase
     {
