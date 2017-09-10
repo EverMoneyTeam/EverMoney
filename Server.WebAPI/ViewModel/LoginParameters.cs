@@ -2,7 +2,7 @@
 
 namespace Server.WebApi.ViewModel
 {
-    public class RegistrationParameters
+    public class LoginParameters
     {
         [Required]
         [MinLength(5)]

@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Server.DataAccess.Context;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Server.WebApi.Controllers
@@ -10,12 +9,10 @@ namespace Server.WebApi.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly DBContext _context;
-        private readonly ILogger _logger;
+        private readonly DatabaseContext _context;
 
-        public UserController(DBContext context, ILogger<UserController> logger)
+        public UserController(DatabaseContext context)
         {
-            _logger = logger;
             _context = context;
         }
 

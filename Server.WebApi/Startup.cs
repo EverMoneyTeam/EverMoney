@@ -7,10 +7,12 @@ using Microsoft.Extensions.Logging;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Server.DataAccess.Context;
-using Server.WebApi.ConfigOption;
 using Server.DataAccess.Repository;
 using Server.DataAccess.Migrations;
+using Server.WebApi.AppSetting;
+using Server.WebApi.ExceptionHandler;
 
 namespace Server.WebApi
 {
@@ -25,7 +27,7 @@ namespace Server.WebApi
 
             Configuration = builder.Build();
 
-            if (env.IsEnvironment("Development"))
+            if (env.IsDevelopment())
             {
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
@@ -39,28 +41,21 @@ namespace Server.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddDbContext<DBContext>();
+            services.AddDbContext<DatabaseContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddSingleton<ITokenRepository, TokenRepository>();
-            services.AddSingleton<IAccountRepository, AccountRepository>();
+            services.AddScoped<ITokenRepository, TokenRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
 
-            //configure the jwt   
             ConfigureJwtAuthService(services);
-            // Adds services required for using options.
+
             services.AddOptions();
+            services.Configure<JwtConfigs>(Configuration.GetSection("JwtConfigs"));
 
-            // Register the IConfiguration instance which MyOptions binds against.
-            services.Configure<Audience>(Configuration.GetSection("Audience"));
-
-            //Разобраться
-            //services.AddMvcCore().AddJsonFormatters();
             services.AddMvc(config =>
             {
                 config.Filters.Add(typeof(CustomExceptionFilter));
             });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,7 +67,6 @@ namespace Server.WebApi
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            //use the authentication  
             app.UseAuthentication();
 
             app.UseMvc();
@@ -81,7 +75,7 @@ namespace Server.WebApi
             {
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    var context = serviceScope.ServiceProvider.GetService<DBContext>();
+                    var context = serviceScope.ServiceProvider.GetService<DatabaseContext>();
                     context.EnsureUpdated();
                     context.EnsureSeedData();
                 }
@@ -90,7 +84,7 @@ namespace Server.WebApi
 
         public void ConfigureJwtAuthService(IServiceCollection services)
         {
-            var audienceConfig = Configuration.GetSection("Audience");
+            var audienceConfig = Configuration.GetSection("JwtConfigs");
             var symmetricKeyAsBase64 = audienceConfig["Secret"];
             var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
             var signingKey = new SymmetricSecurityKey(keyByteArray);
@@ -103,11 +97,11 @@ namespace Server.WebApi
 
                 // Validate the JWT Issuer (iss) claim  
                 ValidateIssuer = true,
-                ValidIssuer = audienceConfig["Iss"],
+                ValidIssuer = audienceConfig["Issuer"],
 
-                // Validate the JWT Audience (aud) claim  
+                // Validate the JWT JwtConfigs (aud) claim  
                 ValidateAudience = true,
-                ValidAudience = audienceConfig["Aud"],
+                ValidAudience = audienceConfig["Audience"],
 
                 // Validate the token expiry  
                 ValidateLifetime = true,

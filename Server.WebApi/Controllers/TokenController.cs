@@ -4,168 +4,139 @@ using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using Server.WebApi.ConfigOption;
 using Server.DataAccess.Model;
 using Server.DataAccess.Repository;
+using Server.WebApi.AppSetting;
+using Server.WebApi.ExceptionHandler;
+using Server.WebApi.ExceptionHandler.ValidateModel;
 using Server.WebApi.ViewModel;
 
 namespace Server.WebApi.Controllers
 {
     [Route("api/token")]
+    [ValidateModel]
     public class TokenController : Controller
     {
-        //some config in the appsettings.json  
-        private Audience _settings;
-        //repository to handler the sqlite database  
-        private ITokenRepository _tokenRepository;
+        private readonly JwtConfigs _settings;
+        private readonly ITokenRepository _tokenRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        private IAccountRepository _accountRepository;
-
-        public TokenController(IOptions<Audience> settings, ITokenRepository tokenRepository, IAccountRepository accountRepository)
+        public TokenController(IOptions<JwtConfigs> settings, ITokenRepository tokenRepository, IAccountRepository accountRepository)
         {
-            this._settings = settings.Value;
-            this._tokenRepository = tokenRepository;
-            this._accountRepository = accountRepository;
+            _settings = settings.Value;
+            _tokenRepository = tokenRepository;
+            _accountRepository = accountRepository;
         }
 
-        [HttpPost("auth")]
-        public IActionResult Auth([FromBody]AuthParameters parameters)
+        [HttpPost("login")]
+        public IActionResult Login([FromBody]LoginParameters parameters)
         {
-            if (parameters == null)
-            {
-                throw new CustomAppException("NullOfParameters"); //return Json(new ResponseData(ResponseDataOption.NullOfParameters));
-            }
-
-            if (parameters.GrantType == "password")
-            {
-                return Json(DoPassword(parameters));
-            }
-            else if (parameters.GrantType == "refresh_token")
-            {
-                return Json(DoRefreshToken(parameters));
-            }
-            else
-            {
-                throw new CustomAppException("BadRequest"); //return Json(new ResponseData(ResponseDataOption.BadRequest));
-            }
-        }
-
-        [HttpPost("registration")]
-        public IActionResult Registrate([FromBody]RegistrationParameters parameters)
-        {
-            if (parameters == null)
-            {
-                throw new CustomAppException("NullOfParameters"); //return Json(new ResponseData(ResponseDataOption.NullOfParameters));
-            }
-            else
-            {
-                _accountRepository.AddAccount(parameters.Login, parameters.Password);
-                return Ok("Success");//return Json(new ResponseData(ResponseDataOption.Ok));
-            }
-        }
-
-            //scenario 1 get the access-token by username and password  
-            private ResponseJWTFormat DoPassword(AuthParameters parameters)
-        {
-            //validate the client_id/client_secret/username/passwo  
             var accountId = _accountRepository.GetAccountId(parameters.Login, parameters.Password);
 
             if (accountId == null)
             {
-                throw new CustomAppException("InvalidUserInfomation"); //return new ResponseData(ResponseDataOption.InvalidUserInfomation);
+                throw new CustomAppException("Invalid login or password");
             }
 
-            var refresh_token = Guid.NewGuid().ToString().Replace("-", "");
+            var refreshToken = Guid.NewGuid().ToString().Replace("-", "");
 
             var token = new Token
             {
                 AccountId = accountId.Value,
-                RefreshToken = refresh_token,
+                RefreshToken = refreshToken,
                 IsStop = 0
             };
 
-            //store the refresh_token   
             if (_tokenRepository.AddToken(token))
             {
-                return GetJwt(accountId.ToString(), refresh_token);
+                return Json(GetJwt(accountId.ToString(), refreshToken));
             }
-            else
-            {
-                throw new CustomAppException("ResponseDataOption"); //return new ResponseData(ResponseDataOption.CanNotAddTokenToDatabase);
-            }
+
+            throw new CustomAppException("Can not login");
         }
 
-        //scenario 2 get the access_token by refresh_token  
-        private ResponseJWTFormat DoRefreshToken(AuthParameters parameters)
+        [Authorize]
+        [HttpPost("refreshToken")]
+        public IActionResult Refresh([FromBody]RefreshTokenParameters parameters)
         {
             var token = _tokenRepository.GetToken(parameters.RefreshToken, parameters.AccountId);
 
             if (token == null)
             {
-                throw new CustomAppException("ResponseDataOption");//return new ResponseData(ResponseDataOption.CanNotRefreshToken);
+                throw new CustomAppException("Invalid refresh token or accountId");
             }
 
             if (token.IsStop == 1)
             {
-                throw new CustomAppException("RefreshTokenHasExpired");//return new ResponseData(ResponseDataOption.RefreshTokenHasExpired);
+                throw new CustomAppException("Refresh token is expired");
             }
-            
-            var refresh_token = Guid.NewGuid().ToString().Replace("-", "");
 
-            token.IsStop = 1;
-            //expire the old refresh_token and add a new refresh_token  
+            var refreshToken = Guid.NewGuid().ToString().Replace("-", "");
+            
             var updateFlag = _tokenRepository.ExpireToken(token);
 
             var addFlag = _tokenRepository.AddToken(new Token
             {
                 AccountId = new Guid(parameters.AccountId),
-                RefreshToken = refresh_token,
+                RefreshToken = refreshToken,
                 IsStop = 0
             });
 
             if (updateFlag && addFlag)
             {
-                return GetJwt(parameters.AccountId, refresh_token);
+                return Json(GetJwt(parameters.AccountId, refreshToken));
             }
-            else
-            {
-                throw new CustomAppException("CanNotExpireTokenOrANewToken");//return new ResponseData(ResponseDataOption.CanNotExpireTokenOrANewToken);
-            }
+
+            throw new CustomAppException("Can not update expired token");
         }
 
-        //get the jwt token   
-        private ResponseJWTFormat GetJwt(string client_id, string refresh_token)
+        [Authorize]
+        [HttpPost("logout")]
+        public IActionResult Logout([FromBody]RefreshTokenParameters parameters)
         {
-            var now = DateTime.UtcNow;
+            //TODO  
+            throw new NotImplementedException();
+        }
+
+        [HttpPost("registration")]
+        public IActionResult Registration([FromBody]RegistrationParameters parameters)
+        {
+            _accountRepository.AddAccount(parameters.Login, parameters.Password);
+            return Ok();
+        }
+
+        private ResponseJwtFormat GetJwt(string accountId, string refreshToken)
+        {
+            var now = DateTime.Now;
             var expiresIn = now.Add(TimeSpan.FromDays(1));
 
-            var claims = new Claim[]
+            var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, client_id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, accountId),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, now.ToUniversalTime().ToString(), ClaimValueTypes.Integer64)
             };
 
-            var symmetricKeyAsBase64 = _settings.Secret;
-            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
+            var keyByteArray = Encoding.ASCII.GetBytes(_settings.Secret);
             var signingKey = new SymmetricSecurityKey(keyByteArray);
 
             var jwt = new JwtSecurityToken(
-                issuer: _settings.Iss,
-                audience: _settings.Aud,
+                issuer: _settings.Issuer,
+                audience: _settings.Audience,
                 claims: claims,
                 notBefore: now,
                 expires: expiresIn,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256));
+
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            return new ResponseJWTFormat
+            return new ResponseJwtFormat
             {
                 AccessToken = encodedJwt,
-                ExpiresIn = expiresIn.ToString(),
-                RefreshToken = refresh_token,
+                ExpiresIn = expiresIn,
+                RefreshToken = refreshToken
             };
         }
     }
