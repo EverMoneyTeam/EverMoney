@@ -35,7 +35,7 @@ namespace Server.WebApi.Controllers
         {
             if (parameters == null)
             {
-                return Json(new ResponseData(ResponseDataOption.NullOfParameters));
+                throw new CustomAppException("NullOfParameters"); //return Json(new ResponseData(ResponseDataOption.NullOfParameters));
             }
 
             if (parameters.GrantType == "password")
@@ -48,7 +48,7 @@ namespace Server.WebApi.Controllers
             }
             else
             {
-                return Json(new ResponseData(ResponseDataOption.BadRequest));
+                throw new CustomAppException("BadRequest"); //return Json(new ResponseData(ResponseDataOption.BadRequest));
             }
         }
 
@@ -57,24 +57,24 @@ namespace Server.WebApi.Controllers
         {
             if (parameters == null)
             {
-                return Json(new ResponseData(ResponseDataOption.NullOfParameters));
+                throw new CustomAppException("NullOfParameters"); //return Json(new ResponseData(ResponseDataOption.NullOfParameters));
             }
             else
             {
                 _accountRepository.AddAccount(parameters.Login, parameters.Password);
-                return Json(new ResponseData(ResponseDataOption.Ok));
+                return Ok("Success");//return Json(new ResponseData(ResponseDataOption.Ok));
             }
         }
 
             //scenario 1 get the access-token by username and password  
-            private ResponseData DoPassword(AuthParameters parameters)
+            private ResponseJWTFormat DoPassword(AuthParameters parameters)
         {
             //validate the client_id/client_secret/username/passwo  
             var accountId = _accountRepository.GetAccountId(parameters.Login, parameters.Password);
 
             if (accountId == null)
             {
-                return new ResponseData(ResponseDataOption.InvalidUserInfomation);
+                throw new CustomAppException("InvalidUserInfomation"); //return new ResponseData(ResponseDataOption.InvalidUserInfomation);
             }
 
             var refresh_token = Guid.NewGuid().ToString().Replace("-", "");
@@ -89,27 +89,27 @@ namespace Server.WebApi.Controllers
             //store the refresh_token   
             if (_tokenRepository.AddToken(token))
             {
-                return new ResponseData(ResponseDataOption.Ok, GetJwt(accountId.ToString(), refresh_token));
+                return GetJwt(accountId.ToString(), refresh_token);
             }
             else
             {
-                return new ResponseData(ResponseDataOption.CanNotAddTokenToDatabase);
+                throw new CustomAppException("ResponseDataOption"); //return new ResponseData(ResponseDataOption.CanNotAddTokenToDatabase);
             }
         }
 
         //scenario 2 get the access_token by refresh_token  
-        private ResponseData DoRefreshToken(AuthParameters parameters)
+        private ResponseJWTFormat DoRefreshToken(AuthParameters parameters)
         {
             var token = _tokenRepository.GetToken(parameters.RefreshToken, parameters.AccountId);
 
             if (token == null)
             {
-                return new ResponseData(ResponseDataOption.CanNotRefreshToken);
+                throw new CustomAppException("ResponseDataOption");//return new ResponseData(ResponseDataOption.CanNotRefreshToken);
             }
 
             if (token.IsStop == 1)
             {
-                return new ResponseData(ResponseDataOption.RefreshTokenHasExpired);
+                throw new CustomAppException("RefreshTokenHasExpired");//return new ResponseData(ResponseDataOption.RefreshTokenHasExpired);
             }
             
             var refresh_token = Guid.NewGuid().ToString().Replace("-", "");
@@ -127,18 +127,19 @@ namespace Server.WebApi.Controllers
 
             if (updateFlag && addFlag)
             {
-                return new ResponseData(ResponseDataOption.Ok, GetJwt(parameters.AccountId, refresh_token));
+                return GetJwt(parameters.AccountId, refresh_token);
             }
             else
             {
-                return new ResponseData(ResponseDataOption.CanNotExpireTokenOrANewToken);
+                throw new CustomAppException("CanNotExpireTokenOrANewToken");//return new ResponseData(ResponseDataOption.CanNotExpireTokenOrANewToken);
             }
         }
 
         //get the jwt token   
-        private string GetJwt(string client_id, string refresh_token)
+        private ResponseJWTFormat GetJwt(string client_id, string refresh_token)
         {
             var now = DateTime.UtcNow;
+            var expiresIn = now.Add(TimeSpan.FromDays(1));
 
             var claims = new Claim[]
             {
@@ -156,18 +157,16 @@ namespace Server.WebApi.Controllers
                 audience: _settings.Aud,
                 claims: claims,
                 notBefore: now,
-                expires: now.Add(TimeSpan.FromDays(1)),
+                expires: expiresIn,
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            var response = new
+            return new ResponseJWTFormat
             {
-                access_token = encodedJwt,
-                expires_in = (int)TimeSpan.FromMinutes(2).TotalSeconds,
-                refresh_token = refresh_token,
+                AccessToken = encodedJwt,
+                ExpiresIn = expiresIn.ToString(),
+                RefreshToken = refresh_token,
             };
-
-            return JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });
         }
     }
 }
