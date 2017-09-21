@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Client.Desktop.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,16 @@ namespace Client.Desktop
         public MainWindow()
         {
             InitializeComponent();
+            var token = Properties.Login.Default.JwtToken;
+            if (string.IsNullOrWhiteSpace(token))
+                Frame.NavigationService.Navigate(new LoginPage());
+            else
+                Frame.NavigationService.Navigate(new Welcome());
+        }
+
+        private void Switch_MainPage(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Test");
         }
     }
 }

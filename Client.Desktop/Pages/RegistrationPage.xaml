@@ -4,17 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Client.Desktop.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="485" d:DesignWidth="715"
       Title="RegistrationPage">
 
     <Grid>
         <StackPanel HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="300">
             <TextBlock Text="Create Account" HorizontalAlignment="Center" FontSize="36" />
-            <TextBlock Text="Login:" Margin="0,5,0,0" />
-            <TextBox x:Name="tbxLogin" Padding="5" />
-            <TextBlock Text="Password:" Margin="0,5,0,0" />
-            <PasswordBox x:Name="pbxPassword" Padding="5" />
+            <TextBox x:Name="tbxLogin" materialDesign:HintAssist.Hint="Login" Margin="0,5,0,0"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+            <PasswordBox		Margin="0,5,0,0"
+                     x:Name="pbxPassword"
+                     materialDesign:HintAssist.Hint="Password"
+                     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
             <Button x:Name="btnReg" Content="REGISTER" Padding="5" Margin="0,5,0,0" Click="btnReg_Click" />
             <Button x:Name="btnBack" Content="BACK" Padding="5" Margin="0,5,0,0" Click="btnBack_Click" />
         </StackPanel>

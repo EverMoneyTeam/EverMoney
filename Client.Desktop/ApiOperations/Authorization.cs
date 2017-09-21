@@ -11,24 +11,16 @@ namespace Client.Desktop.ApiOperations
 {
     class Authorization
     {
-        private string baseUrl;
+        const string baseUrl = "http://localhost:5000/api";
 
-        public Authorization()
+        public ResponseJWTFormat AuthenticateUser(string login, string password)
         {
-            this.baseUrl = "http://localhost:5000/api";
-        }
-
-        public ResponseJWTFormat AuthenticateUser(string accountId, string login, string password, string grantType, string refreshToken)
-        {
-            string endpoint = this.baseUrl + "/token/auth";
+            string endpoint = baseUrl + "/token/login";
             string method = "POST";
             string json = JsonConvert.SerializeObject(new
             {
-                accountId,
-                login,
-                password,
-                grantType,
-                refreshToken
+                login = login,
+                password = password
             });
 
             WebClient wc = new WebClient();
@@ -42,34 +34,11 @@ namespace Client.Desktop.ApiOperations
             {
                 return null;
             }
-
-
         }
-
-        //    public User GetUserDetails(User user)
-        //    {
-        //        string endpoint = this.baseUrl + "/users/" + user.Id;
-        //        string access_token = user.access_token;
-
-        //        WebClient wc = new WebClient();
-        //        wc.Headers["Content-Type"] = "application/json";
-        //        wc.Headers["Authorization"] = access_token;
-        //        try
-        //        {
-        //            string response = wc.DownloadString(endpoint);
-        //            user = JsonConvert.DeserializeObject<User>(response);
-        //            user.access_token = access_token;
-        //            return user;
-        //        }
-        //        catch (Exception)
-        //        {
-        //            return null;
-        //        }
-        //    }
 
         public ResponseJWTFormat RegisterAccount(string login, string password)
         {
-            string endpoint = this.baseUrl + "/token/registration";
+            string endpoint = baseUrl + "/token/registration";
             string method = "POST";
             string json = JsonConvert.SerializeObject(new
             {
