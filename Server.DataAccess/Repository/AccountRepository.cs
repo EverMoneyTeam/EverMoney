@@ -1,4 +1,5 @@
-﻿using Server.DataAccess.Context;
+﻿using BCrypt;
+using Server.DataAccess.Context;
 using System;
 using System.Linq;
 
@@ -27,7 +28,12 @@ namespace Server.DataAccess.Repository
 
         public Guid? GetAccountId(string login, string password)
         {
-            return _databaseContext.Accounts.FirstOrDefault(x => x.Login == login && x.Password == password)?.Id;
+            var account = _databaseContext.Accounts.FirstOrDefault(x => x.Login == login);
+            if (BCryptHelper.CheckPassword(password, account.Password))
+            {
+                return account.Id;
+            }
+            return null;
         }
     }
 }

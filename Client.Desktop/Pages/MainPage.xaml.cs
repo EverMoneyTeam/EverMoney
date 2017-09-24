@@ -24,5 +24,15 @@ namespace Client.Desktop.Pages
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Login.Default.JwtToken = "";
+            Properties.Login.Default.UserLogin = "Guest";
+            Properties.Login.Default.UserPassword = "";
+            Properties.Login.Default.Save();
+
+            NavigationService.Navigate(new LoginPage());
+        }
     }
 }

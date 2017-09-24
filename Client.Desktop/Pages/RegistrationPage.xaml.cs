@@ -24,14 +24,14 @@ namespace Client.Desktop.Pages
             InitializeComponent();
         }
 
-        private void btnReg_Click(object sender, RoutedEventArgs e)
+        private async void btnReg_Click(object sender, RoutedEventArgs e)
         {
             string login = tbxLogin.Text;
-            string password = pbxPassword.Password;
+            string password = BCrypt.Net.BCrypt.HashPassword(pbxPassword.Password);
 
-            Authorization authorization = new Authorization();
-            ResponseJWTFormat response = authorization.RegisterAccount(login, password);
-            if (response == null)
+            
+            bool response = await Authorization.CreateAccountAsync(login, password);
+            if (response == false)
             {
                 MessageBox.Show("Registration failed");
             }

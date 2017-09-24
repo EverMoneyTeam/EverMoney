@@ -27,22 +27,21 @@ namespace Client.Desktop.Pages
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            //string login = tbxLogin.Text;
-            //string password = BCrypt.Net.BCrypt.HashPassword(pbxPassword.Password);
+            string login = tbxLogin.Text;
+            string password = pbxPassword.Password;
 
-            string login = "login";
-            string password = BCrypt.Net.BCrypt.HashPassword("password");
+            //string login = "login";
+            //string password = BCrypt.Net.BCrypt.HashPassword("password");
 
-            Authorization aut = new Authorization();
-            ResponseJWTFormat responseData = aut.AuthenticateUser(login, password);
+            ResponseJWTFormat responseData = await Authorization.GetTokenAsync(login, password);
             if (responseData == null)
             {
                 MessageBox.Show("Invalid username or password");
                 return;
             }
-            //CredentialLocker credentialLocker = new CredentialLocker();
+
             Properties.Login.Default.JwtToken = responseData.AccessToken;
             Properties.Login.Default.UserLogin = login;
             Properties.Login.Default.UserPassword = password;

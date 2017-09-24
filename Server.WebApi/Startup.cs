@@ -13,6 +13,8 @@ using Server.DataAccess.Repository;
 using Server.DataAccess.Migrations;
 using Server.WebApi.AppSetting;
 using Server.WebApi.ExceptionHandler;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Server.WebApi
 {
@@ -51,6 +53,12 @@ namespace Server.WebApi
 
             services.AddOptions();
             services.Configure<JwtConfigs>(Configuration.GetSection("JwtConfigs"));
+
+            //Adding required Https protocol for all requests
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
 
             services.AddMvc(config =>
             {

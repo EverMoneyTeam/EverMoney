@@ -33,7 +33,7 @@ namespace Client.Desktop
 
         private void Switch_MainPage(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Test");
+            Frame.NavigationService.Navigate(new MainPage());
         }
     }
 }

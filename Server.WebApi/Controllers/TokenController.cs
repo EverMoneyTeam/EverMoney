@@ -92,17 +92,19 @@ namespace Server.WebApi.Controllers
             throw new CustomAppException("Can not update expired token");
         }
 
-        [Authorize]
-        [HttpPost("logout")]
-        public IActionResult Logout([FromBody]RefreshTokenParameters parameters)
-        {
-            //TODO  
-            throw new NotImplementedException();
-        }
+        //[Authorize]
+        //[HttpPost("logout")]
+        //public IActionResult Logout([FromBody]RefreshTokenParameters parameters)
+        //{
+        //    //TODO  
+
+        //    throw new NotImplementedException();
+        //}
 
         [HttpPost("registration")]
         public IActionResult Registration([FromBody]RegistrationParameters parameters)
         {
+            //TODO Add Check
             _accountRepository.AddAccount(parameters.Login, parameters.Password);
             return Ok();
         }
