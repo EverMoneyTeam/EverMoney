@@ -27,7 +27,7 @@ namespace Client.Desktop.Pages
         private async void btnReg_Click(object sender, RoutedEventArgs e)
         {
             string login = tbxLogin.Text;
-            string password = BCrypt.Net.BCrypt.HashPassword(pbxPassword.Password);
+            string password = pbxPassword.Password;
 
             
             bool response = await Authorization.CreateAccountAsync(login, password);

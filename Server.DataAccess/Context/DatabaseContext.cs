@@ -11,6 +11,14 @@ namespace Server.DataAccess.Context
 
         public DbSet<Token> Tokens { get; set; }
 
+        public DbSet<CashAccount> CashAccounts { get; set; }
+
+        public DbSet<Cashflow> Cashflows { get; set; }
+
+        public DbSet<CashflowCategory> CashflowCategories { get; set; }
+
+        public DbSet<Currency> Currencies { get; set; }
+
         private readonly bool _forLocalMigration = true;
 
         public DatabaseContext()
