@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Server.DataAccess.Context;
@@ -9,6 +10,7 @@ namespace Server.DataAccess.Migrations
 {
     public static class DbInitializer
     {
+        [Obsolete]
         public static void EnsureSeedData(this DatabaseContext context)
         {
             if (context.Accounts.Any() && context.Users.Any())

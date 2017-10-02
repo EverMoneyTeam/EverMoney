@@ -85,12 +85,11 @@ namespace Server.WebApi
                 {
                     var context = serviceScope.ServiceProvider.GetService<DatabaseContext>();
                     context.EnsureUpdated();
-                    context.EnsureSeedData();
                 }
             }
         }
 
-        public void ConfigureJwtAuthService(IServiceCollection services)
+        private void ConfigureJwtAuthService(IServiceCollection services)
         {
             var audienceConfig = Configuration.GetSection("JwtConfigs");
             var symmetricKeyAsBase64 = audienceConfig["Secret"];

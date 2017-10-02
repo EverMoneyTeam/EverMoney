@@ -1,5 +1,4 @@
-﻿using Client.Desktop.ApiOperations;
-using Client.Desktop.Models;
+﻿using Client.Desktop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Client.Desktop.Utils;
+using MaterialDesignThemes.Wpf;
 
 namespace Client.Desktop.Pages
 {
@@ -32,27 +33,24 @@ namespace Client.Desktop.Pages
             string login = tbxLogin.Text;
             string password = pbxPassword.Password;
 
-            //string login = "login";
-            //string password = BCrypt.Net.BCrypt.HashPassword("password");
-
-            ResponseJWTFormat responseData = await Authorization.GetTokenAsync(login, password);
-            if (responseData == null)
+            var responseData = await ApiAuthService.PostAsync(ApiRequestEnum.Login, new {login, password});
+            if (!responseData.IsSuccessStatusCode)
             {
-                MessageBox.Show("Invalid username or password");
+                await DialogHostExtension.ShowError(responseData);
                 return;
             }
 
-            Properties.Login.Default.JwtToken = responseData.AccessToken;
+            //Properties.Login.Default.JwtToken = responseData.AccessToken;
             Properties.Login.Default.UserLogin = login;
-            Properties.Login.Default.UserPassword = password;
             Properties.Login.Default.Save();
+            await DialogHostExtension.ShowInfo("Ok");
 
             NavigationService.Navigate(new MainPage());
         }
 
-        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new RegistrationPage());
+            NavigationService.GoBack();
         }
     }
 }

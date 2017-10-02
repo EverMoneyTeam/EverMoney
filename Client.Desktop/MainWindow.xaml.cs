@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 
 namespace Client.Desktop
 {
@@ -24,12 +25,7 @@ namespace Client.Desktop
         public MainWindow()
         {
             InitializeComponent();
-            //var token = Properties.Login.Default.JwtToken;
-            //if (string.IsNullOrWhiteSpace(token))
-            //    Frame.NavigationService.Navigate(new LoginPage());
-            //else
-            //    Frame.NavigationService.Navigate(new Welcome());
-
+            Grid.Children.Add(new DialogHost() { Name = "MainDialog" });
             Frame.NavigationService.Navigate(new MainPage());
         }
 

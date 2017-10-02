@@ -1,8 +1,9 @@
-﻿using Client.Desktop.ApiOperations;
-using Client.Desktop.Models;
+﻿using Client.Desktop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Client.Desktop.Helper;
+using Client.Desktop.Utils;
+using MaterialDesignThemes.Wpf;
 
 namespace Client.Desktop.Pages
 {
@@ -26,28 +30,25 @@ namespace Client.Desktop.Pages
 
         private async void btnReg_Click(object sender, RoutedEventArgs e)
         {
-            string login = tbxLogin.Text;
-            string password = pbxPassword.Password;
+            var login = tbxLogin.Text;
+            var password = pbxPassword.Password;
 
-            
-            bool response = await Authorization.CreateAccountAsync(login, password);
-            if (response == false)
+            try
             {
-                MessageBox.Show("Registration failed");
+                var response = await ApiAuthService.PostAsync(ApiRequestEnum.Register, new { login, password });
+                if (response.IsSuccessStatusCode)
+                {
+                    await DialogHostExtension.ShowInfo("Registration successful");
+                }
+                else
+                {
+                    await DialogHostExtension.ShowError(response);
+                }
             }
-            else
+            catch (HttpRequestException exception)
             {
-                MessageBox.Show("Registration successful");
+                await DialogHostExtension.ShowError(exception);
             }
-            
-            //else if (response.Message == "Ok")
-            //{
-            //    MessageBox.Show("Registration successful");
-            //}
-            //else
-            //{
-            //    MessageBox.Show(response.Message);
-            //}
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)

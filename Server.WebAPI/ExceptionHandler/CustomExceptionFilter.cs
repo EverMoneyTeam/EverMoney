@@ -52,6 +52,13 @@ namespace Server.WebApi.ExceptionHandler
                         statusCode = (int)HttpStatusCode.InternalServerError;
                         message = ex.Message;
                     })
+                    .On<CustomUserException>(ex =>
+                    {
+                        _logger.LogError(ex, "CustomUserException has been thrown");
+
+                        statusCode = (int)HttpStatusCode.BadRequest;
+                        message = ex.Message;
+                    })
                     .Catch(context.Exception, throwIfNotHandled: false);
 
             if (!result.Handled)
@@ -59,7 +66,8 @@ namespace Server.WebApi.ExceptionHandler
                 _logger.LogError(context.Exception, "Exception unknown has been thrown");
 
                 statusCode = (int)HttpStatusCode.InternalServerError;
-                message = "Connection failed to some internal service";
+                message = "Connection failed to some internal service" +
+                          context.Exception.Message;
             }
 
             context.HttpContext.Response.StatusCode = statusCode;

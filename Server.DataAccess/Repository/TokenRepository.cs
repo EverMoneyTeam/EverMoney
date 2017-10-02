@@ -10,6 +10,7 @@ namespace Server.DataAccess.Repository
         bool AddToken(Token token);
         Token GetToken(string refreshToken, string accountId);
         bool ExpireToken(Token token);
+        bool ExpireToken(string refreshToken, string accountId);
     }
 
     public class TokenRepository : ITokenRepository
@@ -29,6 +30,19 @@ namespace Server.DataAccess.Repository
 
         public bool ExpireToken(Token token)
         {
+            token.IsStop = 1;
+            _databaseContext.Tokens.Update(token);
+            return _databaseContext.SaveChanges() > 0;
+        }
+
+        public bool ExpireToken(string refreshToken, string accountId)
+        {
+            var token = GetToken(refreshToken, accountId);
+            if (token == null)
+            {
+                return false;
+            }
+
             token.IsStop = 1;
             _databaseContext.Tokens.Update(token);
             return _databaseContext.SaveChanges() > 0;

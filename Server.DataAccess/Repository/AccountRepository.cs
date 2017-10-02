@@ -9,6 +9,7 @@ namespace Server.DataAccess.Repository
     {
         Guid? GetAccountId(string login, string password);
         void AddAccount(string login, string password);
+        bool IsAccountExist(string login);
     }
 
     public class AccountRepository : IAccountRepository
@@ -29,11 +30,16 @@ namespace Server.DataAccess.Repository
         public Guid? GetAccountId(string login, string password)
         {
             var account = _databaseContext.Accounts.FirstOrDefault(x => x.Login == login);
-            if (BCryptHelper.CheckPassword(password, account.Password))
+            if (account != null && BCryptHelper.CheckPassword(password, account.Password))
             {
                 return account.Id;
             }
             return null;
+        }
+
+        public bool IsAccountExist(string login)
+        {
+            return _databaseContext.Accounts.Any(x => x.Login == login);
         }
     }
 }

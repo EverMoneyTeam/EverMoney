@@ -35,46 +35,34 @@ namespace Server.WebApi.Controllers
         {
             var accountId = _accountRepository.GetAccountId(parameters.Login, parameters.Password);
 
-            if (accountId == null)
-            {
-                throw new CustomAppException("Invalid login or password");
-            }
+            if (accountId == null) throw new CustomUserException("Invalid login or password");
 
             var refreshToken = Guid.NewGuid().ToString().Replace("-", "");
 
-            var token = new Token
+            if (_tokenRepository.AddToken(new Token
             {
                 AccountId = accountId.Value,
                 RefreshToken = refreshToken,
                 IsStop = 0
-            };
-
-            if (_tokenRepository.AddToken(token))
+            }))
             {
                 return Json(GetJwt(accountId.ToString(), refreshToken));
             }
 
-            throw new CustomAppException("Can not login");
+            throw new CustomUserException("Can not login");
         }
 
-        [Authorize]
         [HttpPost("refreshToken")]
         public IActionResult Refresh([FromBody]RefreshTokenParameters parameters)
         {
             var token = _tokenRepository.GetToken(parameters.RefreshToken, parameters.AccountId);
 
-            if (token == null)
-            {
-                throw new CustomAppException("Invalid refresh token or accountId");
-            }
+            if (token == null) throw new CustomUserException("Invalid refresh token or accountId");
 
-            if (token.IsStop == 1)
-            {
-                throw new CustomAppException("Refresh token is expired");
-            }
+            if (token.IsStop == 1) throw new CustomUserException("Refresh token is expired");
 
             var refreshToken = Guid.NewGuid().ToString().Replace("-", "");
-            
+
             var updateFlag = _tokenRepository.ExpireToken(token);
 
             var addFlag = _tokenRepository.AddToken(new Token
@@ -89,23 +77,30 @@ namespace Server.WebApi.Controllers
                 return Json(GetJwt(parameters.AccountId, refreshToken));
             }
 
-            throw new CustomAppException("Can not update expired token");
+            throw new CustomUserException("Can not update expired token");
         }
 
-        //[Authorize]
-        //[HttpPost("logout")]
-        //public IActionResult Logout([FromBody]RefreshTokenParameters parameters)
-        //{
-        //    //TODO  
-
-        //    throw new NotImplementedException();
-        //}
+        [Authorize]
+        [HttpPost("logout")]
+        public IActionResult Logout([FromBody]RefreshTokenParameters parameters)
+        {
+            if (_tokenRepository.ExpireToken(parameters.RefreshToken, parameters.AccountId))
+            {
+                Ok();
+            }
+            throw new CustomUserException("Can't log out. Wrong data");
+        }
 
         [HttpPost("registration")]
         public IActionResult Registration([FromBody]RegistrationParameters parameters)
         {
-            //TODO Add Check
-            _accountRepository.AddAccount(parameters.Login, parameters.Password);
+            var login = parameters.Login.Trim().ToLower();
+            if (_accountRepository.IsAccountExist(login))
+            {
+                throw new CustomUserException("User with this login is already exist");
+            }
+
+            _accountRepository.AddAccount(parameters.Login, BCrypt.BCryptHelper.HashPassword(parameters.Password, BCrypt.BCryptHelper.GenerateSalt()));
             return Ok();
         }
 
