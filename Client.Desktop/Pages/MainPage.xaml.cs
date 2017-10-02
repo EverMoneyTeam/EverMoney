@@ -23,9 +23,19 @@ namespace Client.Desktop.Pages
         public MainPage()
         {
             InitializeComponent();
+
+            if (Properties.Login.Default.JwtToken != "")
+            {
+                btnLogInLogOut.Content = "Выход";
+                btnLogInLogOut.Click += new RoutedEventHandler(ButtonLogOut);
+
+                btnRegister.Visibility = Visibility.Hidden;
+
+                tbGreetings.Text = "Добро Пожаловать, " + Properties.Login.Default.UserLogin;
+            }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonLogOut(object sender, RoutedEventArgs e)
         {
             Properties.Login.Default.JwtToken = "";
             Properties.Login.Default.UserLogin = "Guest";
@@ -34,5 +44,17 @@ namespace Client.Desktop.Pages
 
             NavigationService.Navigate(new LoginPage());
         }
+
+        private void ButtonLogIn(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new LoginPage());
+        }
+
+        private void ButtonRegister(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new RegistrationPage());
+        }
+
+
     }
 }

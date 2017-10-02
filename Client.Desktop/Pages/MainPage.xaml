@@ -6,10 +6,31 @@
       xmlns:local="clr-namespace:Client.Desktop.Pages"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d"
-      d:DesignHeight="485" d:DesignWidth="715"
+      d:DesignHeight="485" d:DesignWidth="850"
       Title="MainPage">
 
     <Grid>
-        <Button Content="Выход" HorizontalAlignment="Left" Margin="630,10,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="76*"/>
+            <RowDefinition Height="409*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="85"/>
+        </Grid.ColumnDefinitions>
+        
+        
+        <Border
+        BorderBrush="Black" 
+        BorderThickness="0, 0, 0, 2" 
+        Padding="25" 
+        Grid.ColumnSpan="3"/>
+        
+        <Button Name="btnLogInLogOut" Content="Вход" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center" Width="75" Click="ButtonLogIn" Grid.ColumnSpan="2" Grid.Column="1"/>
+        <Button Name="btnRegister" Content="Регистрация" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Width="75" Click="ButtonRegister" Grid.Column="1"/>
+        <TextBlock Name="tbGreetings" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="Добро Пожаловать, Гость" FontSize="30" FontFamily="Times New Roman"  VerticalAlignment="Center"/>
     </Grid>
+    
 </Page>

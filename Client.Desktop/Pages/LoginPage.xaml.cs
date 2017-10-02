@@ -47,7 +47,7 @@ namespace Client.Desktop.Pages
             Properties.Login.Default.UserPassword = password;
             Properties.Login.Default.Save();
 
-            NavigationService.Navigate(new Welcome());
+            NavigationService.Navigate(new MainPage());
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)

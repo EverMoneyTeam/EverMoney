@@ -24,11 +24,13 @@ namespace Client.Desktop
         public MainWindow()
         {
             InitializeComponent();
-            var token = Properties.Login.Default.JwtToken;
-            if (string.IsNullOrWhiteSpace(token))
-                Frame.NavigationService.Navigate(new LoginPage());
-            else
-                Frame.NavigationService.Navigate(new Welcome());
+            //var token = Properties.Login.Default.JwtToken;
+            //if (string.IsNullOrWhiteSpace(token))
+            //    Frame.NavigationService.Navigate(new LoginPage());
+            //else
+            //    Frame.NavigationService.Navigate(new Welcome());
+
+            Frame.NavigationService.Navigate(new MainPage());
         }
 
         private void Switch_MainPage(object sender, MouseButtonEventArgs e)
