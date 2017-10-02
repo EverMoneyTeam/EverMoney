@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Server.WebApi.Controllers
 {
@@ -11,6 +8,13 @@ namespace Server.WebApi.Controllers
     {
         [HttpGet]
         public IActionResult Get()
+        {
+            return Ok();
+        }
+
+        [HttpGet("authorized")]
+        [Authorize]
+        public IActionResult GetAuthorized()
         {
             return Ok();
         }

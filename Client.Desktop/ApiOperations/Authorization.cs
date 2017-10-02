@@ -17,7 +17,7 @@ namespace Client.Desktop.ApiOperations
 
         static Authorization()
         {
-            client.BaseAddress = new Uri("https://localhost/api/");
+            client.BaseAddress = new Uri("https://localhost:5001/api/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
