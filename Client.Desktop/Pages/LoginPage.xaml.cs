@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Client.Desktop.Utils;
 using MaterialDesignThemes.Wpf;
+using System.Net.Http;
 
 namespace Client.Desktop.Pages
 {
@@ -40,10 +41,12 @@ namespace Client.Desktop.Pages
                 return;
             }
 
-            //Properties.Login.Default.JwtToken = responseData.AccessToken;
+            var responseJwtToken = await responseData.Content.ReadAsAsync<ResponseJWTFormat>();
+            Properties.Login.Default.JwtToken = responseJwtToken.AccessToken;
             Properties.Login.Default.UserLogin = login;
+            Properties.Login.Default.RefreshToken = responseJwtToken.RefreshToken;
             Properties.Login.Default.Save();
-            await DialogHostExtension.ShowInfo("Ok");
+            //await DialogHostExtension.ShowInfo("Ok");
 
             NavigationService.Navigate(new MainPage());
         }

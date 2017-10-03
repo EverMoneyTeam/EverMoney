@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repository\ExpensesRepository.cs" />
     <Compile Include="SQLiteConfiguration.cs" />
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Model\BaseModel.cs" />

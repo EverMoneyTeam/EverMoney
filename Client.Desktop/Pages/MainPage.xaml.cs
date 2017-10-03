@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Client.Desktop.Models;
+using Client.Desktop.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +29,7 @@ namespace Client.Desktop.Pages
             if (Properties.Login.Default.JwtToken != "")
             {
                 btnLogInLogOut.Content = "Выход";
+                btnLogInLogOut.Click -= new RoutedEventHandler(ButtonLogIn);
                 btnLogInLogOut.Click += new RoutedEventHandler(ButtonLogOut);
 
                 btnRegister.Visibility = Visibility.Hidden;
@@ -35,14 +38,21 @@ namespace Client.Desktop.Pages
             }
         }
 
-        private void ButtonLogOut(object sender, RoutedEventArgs e)
+        private async void ButtonLogOut(object sender, RoutedEventArgs e)
         {
+            string accountId = JWTParser.ReturnAccountId(Properties.Login.Default.JwtToken);
+            string refreshToken = Properties.Login.Default.RefreshToken;
+            var responseData = await ApiAuthService.PostAsync(ApiRequestEnum.Logout, new { refreshToken, accountId });
+
             Properties.Login.Default.JwtToken = "";
             Properties.Login.Default.UserLogin = "Guest";
             Properties.Login.Default.UserPassword = "";
+            Properties.Login.Default.RefreshToken = "";
             Properties.Login.Default.Save();
 
-            NavigationService.Navigate(new LoginPage());
+
+            //NavigationService.Refresh();
+            NavigationService.Navigate(new MainPage());
         }
 
         private void ButtonLogIn(object sender, RoutedEventArgs e)

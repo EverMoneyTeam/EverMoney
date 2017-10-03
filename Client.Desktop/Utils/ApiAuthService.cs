@@ -12,7 +12,8 @@ namespace Client.Desktop.Utils
     {
         Login,
         Register,
-        RefreshToken
+        RefreshToken, 
+        Logout
     }
 
     public static class ApiAuthService
@@ -49,6 +50,9 @@ namespace Client.Desktop.Utils
                     break;
                 case ApiRequestEnum.RefreshToken:
                     uri = "token/refreshToken";
+                    break;
+                case ApiRequestEnum.Logout:
+                    uri = "token/logout";
                     break;
                 default:
                     return string.Empty;

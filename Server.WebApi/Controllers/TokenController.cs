@@ -82,7 +82,7 @@ namespace Server.WebApi.Controllers
 
         [Authorize]
         [HttpPost("logout")]
-        public IActionResult Logout([FromBody]RefreshTokenParameters parameters)
+        public IActionResult Logout([FromBody]LogoutParameters parameters)
         {
             if (_tokenRepository.ExpireToken(parameters.RefreshToken, parameters.AccountId))
             {

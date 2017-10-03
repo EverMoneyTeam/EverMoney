@@ -33,5 +33,12 @@ namespace Client.Desktop
         {
             Frame.NavigationService.Navigate(new MainPage());
         }
+
+
+        private void Switch_ExpensesPage(object sender, MouseButtonEventArgs e)
+        {
+            Frame.NavigationService.Navigate(new ExpensesPage());
+        }
+        
     }
 }

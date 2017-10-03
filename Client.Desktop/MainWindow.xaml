@@ -47,7 +47,7 @@
                         <AccessText Margin="5,0,0,0" Text="Главная" VerticalAlignment="Center" />
                     </StackPanel>
                 </Label>
-                <Label Grid.Row="2" Cursor="Hand" MouseLeftButtonUp="Switch_MainPage">
+                <Label Grid.Row="2" Cursor="Hand" MouseLeftButtonUp="Switch_ExpensesPage">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="ArrowUpBoldCircleOutline" Width="24" Height="24" />
                         <AccessText Margin="5,0,0,0" Text="Расходы" VerticalAlignment="Center" />
