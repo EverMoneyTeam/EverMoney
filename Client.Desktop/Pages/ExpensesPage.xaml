@@ -4,10 +4,108 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Client.Desktop.Pages"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="485" d:DesignWidth="850"
       Title="ExpensesPage">
+    <materialDesign:DialogHost DialogClosing="Sample1_DialogHost_OnDialogClosing"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" Height="485" Width="850">
+        <materialDesign:DialogHost.DialogContent>
+            <Grid Height="400" Width="300" VerticalAlignment="Top" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="147*"/>
+                    <ColumnDefinition Width="145*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55*"/>
+                    <RowDefinition Height="44*"/>
+                    <RowDefinition Height="61*"/>
+                    <RowDefinition Height="50*"/>
+                    <RowDefinition Height="43*"/>
+                    <RowDefinition Height="98*"/>
+                    <RowDefinition Height="49*"/>
+                </Grid.RowDefinitions>
+                <Button Name="btnExpense"
+                    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                    Background="Gray"
+                    BorderBrush="Gray"
+                    Margin="10,10,10,0"
+                    ToolTip="Resource name: MaterialDesignRaisedAccentButton"
+                    materialDesign:RippleAssist.Feedback="Red" Height="37" Content="Расходы" VerticalAlignment="Top"
+                        Click="btnExpense_Click"/>
+                <Button Name="btnIncome"
+                    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                    Background="Gray"
+                    BorderBrush="Gray"
+                    Margin="10,10,8,0"
+                    ToolTip="Resource name: MaterialDesignRaisedAccentButton"
+                    materialDesign:RippleAssist.Feedback="Green" Height="37" Content="Доходы" Grid.Column="1" VerticalAlignment="Top"
+                        Click="btnIncome_Click"/>
 
-    <DataGrid Name="dataGrid"/>
+                <ComboBox Name="cbCashAccount" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  materialDesign:HintAssist.Hint="Кошелёк"
+                  materialDesign:ComboBoxAssist.ShowSelectedItem="false" 
+                  IsEditable="True" materialDesign:HintAssist.HintOpacity=".26" Margin="35,10,35,0" Height="25" VerticalAlignment="Top"/>
 
+
+                <TextBox Name="tbAmount" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" materialDesign:HintAssist.Hint="Сумма" 
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="35,10,35,0" Height="42" VerticalAlignment="Top" />
+
+                <ComboBox Name="cbCattegory" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"  materialDesign:HintAssist.Hint="Категория"
+                  materialDesign:ComboBoxAssist.ShowSelectedItem="false" 
+                  IsEditable="True" materialDesign:HintAssist.HintOpacity=".26" Margin="35,14,35,0" Height="29" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                </ComboBox>
+
+                <DatePicker Name="dpDate" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="35,10,35,0" materialDesign:HintAssist.Hint="Дата" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Height="24" VerticalAlignment="Top" />
+
+                <TextBox Name="tbDescription" Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="35,10,35,0"
+                 AcceptsReturn="True"                 
+                 VerticalScrollBarVisibility="Auto"
+                 SpellCheck.IsEnabled="True"
+                 materialDesign:HintAssist.Hint="Multiline text" Height="76" VerticalAlignment="Top">Описание</TextBox>
+
+                <Button Name="btnAccept" Grid.Row="6" Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsDefault="True"
+                                        Margin="10,0,10,10"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand" Height="30" VerticalAlignment="Bottom">
+                    <Button.CommandParameter>
+                        <system:Boolean>True</system:Boolean>
+                    </Button.CommandParameter>
+                    Принять
+                </Button>
+                <Button Name="btnCancel" Grid.Row="6" Grid.Column="1"  Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        Margin="10,0,10,10"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand" Height="30" VerticalAlignment="Bottom">
+                    <Button.CommandParameter>
+                        <system:Boolean>False</system:Boolean>
+                    </Button.CommandParameter>
+                    Отмена
+                </Button>
+            </Grid>
+
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" MinHeight="380" />
+            </Grid.RowDefinitions>
+
+            <Button Name="btnAddTransaction" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="473,34,275,29"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Click="btnAddTransaction_Click" Height="Auto">
+                Добавить
+            </Button>
+            <Button Name="btnUpdateTransaction" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="603,34,145,29"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Height="Auto" Click="btnUpdateTransaction_Click">
+                Изменить
+            </Button>
+            <Button Name="btnDeleteTransaction" Style="{StaticResource MaterialDesignRaisedDarkButton}" Margin="728,34,20,29"
+                    ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Height="Auto" Click="btnDeleteTransaction_Click">
+                Удалить
+            </Button>
+
+            <DataGrid Name="dataGrid" BorderThickness="2" Height="364" VerticalAlignment="Bottom" Margin="0,0,20,10" Grid.Row="1"/>
+        </Grid>
+    </materialDesign:DialogHost>
 </Page>

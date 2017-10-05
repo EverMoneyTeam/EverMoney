@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
+using Client.DataAccess.Context;
 
 namespace Client.Desktop
 {
@@ -25,6 +26,12 @@ namespace Client.Desktop
         public MainWindow()
         {
             InitializeComponent();
+            if (Properties.App.Default.FirstRun)
+            {
+                Seed.SeedMethod();
+                Properties.App.Default.FirstRun = false;
+                Properties.App.Default.Save();
+            }
             Grid.Children.Add(new DialogHost() { Name = "MainDialog" });
             Frame.NavigationService.Navigate(new MainPage());
         }
@@ -39,6 +46,10 @@ namespace Client.Desktop
         {
             Frame.NavigationService.Navigate(new ExpensesPage());
         }
-        
+
+        private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
+        {
+
+        }
     }
 }
