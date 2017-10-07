@@ -90,8 +90,9 @@
                     </StackPanel>
                 </Label>
             </Grid>
-            <Frame Grid.Column="1" x:Name="Frame" Margin="0" NavigationUIVisibility="Hidden"/>
-
+            <materialDesign:DialogHost Margin="0"  Grid.Column="1" >
+                <Frame x:Name="Frame" NavigationUIVisibility="Hidden"/>
+            </materialDesign:DialogHost>
         </Grid>
     </Grid>
 </Window>

@@ -1,6 +1,8 @@
 ﻿using Client.DataAccess.Context;
+using Client.DataAccess.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,7 @@ namespace Client.DataAccess.Repository
 {
     public class Expense
     {
+        public string Id { get; set; }
         public string Category { get; set; }
         public decimal Amount { get; set; }
         public string Currency { get; set; }
@@ -35,6 +38,7 @@ namespace Client.DataAccess.Repository
                             on cashAccount.CurrencyId equals currency.Id
                             select new Expense
                             {
+                                Id = cashFlows.Id,
                                 Category = cfCategory.Name,
                                 Amount = cashFlows.Amount,
                                 Currency = currency.Name,
@@ -47,31 +51,34 @@ namespace Client.DataAccess.Repository
             }
         }
 
-        public void AddExpense(string cashAccountId, decimal amount, string category, DateTime date, string description)
+        public void AddExpense(string cashAccountId, decimal amount, string cashflowCategoryId, DateTime date, string description)
         {
             using (var db = new DatabaseContext())
             {
-                var cashflowCategoryId = db.CashflowCategories.FirstOrDefault(x => x.Name == category).Id;
-
                 db.Cashflows.Add(new Model.Cashflow() { Id = Guid.NewGuid().ToString(), CashAccountId = cashAccountId, Amount = amount, CashflowCategoryId = cashflowCategoryId, Date = date, Description = description });
                 db.CashAccounts.FirstOrDefault(x => x.Id == cashAccountId).Amount -= amount;
                 db.SaveChanges();
             }
         }
 
-        //TODO: Update Method, Think about change tracker
-        //public void UpdateExpense(string cashAccountId, decimal amount, string category, DateTime date, string description)
-        //{
-        //    using (var db = new DatabaseContext())
-        //    {
-        //        var cashflowCategoryId = db.CashflowCategories.FirstOrDefault(x => x.Name == category).Id;
+        public void UpdateExpense(string id, string cashAccountId, decimal amount, string cashflowCategoryId, DateTime date, string description)
+        {
+            using (var db = new DatabaseContext())
+            {
+                var result = db.Cashflows.SingleOrDefault(c => c.Id == id);
 
-        //        db.Cashflows.Add(new Model.Cashflow() { Id = Guid.NewGuid().ToString(), CashAccountId = cashAccountId, Amount = amount, CashflowCategoryId = cashflowCategoryId, Date = date, Description = description });
-        //        db.CashAccounts.FirstOrDefault(x => x.Id == cashAccountId).Amount -= amount;
-        //        db.SaveChanges();
-        //    }
-        //}
+                decimal temp = result.Amount;
 
+                result.CashAccountId = cashAccountId;
+                result.Amount = amount;
+                result.CashflowCategoryId = cashflowCategoryId;
+                result.Date = date;
+                result.Description = description;
 
+                db.CashAccounts.FirstOrDefault(x => x.Id == cashAccountId).Amount = db.CashAccounts.FirstOrDefault(x => x.Id == cashAccountId).Amount + temp - amount;
+
+                db.SaveChanges();
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace Client.DataAccess.Repository
 {
     public class Category
     {
+        public string Id { get; set; }
         public string Name { get; set; }
     }
     public class CategoryRepository
@@ -18,8 +19,9 @@ namespace Client.DataAccess.Repository
             using (var db = new DatabaseContext())
             {
                 var query = from cashFlowsCategories in db.CashflowCategories
-                        select new Category
+                            select new Category
                             {
+                                Id = cashFlowsCategories.Id,
                                 Name = cashFlowsCategories.Name
                             };
 

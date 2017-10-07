@@ -10,6 +10,7 @@
         xmlns:local="clr-namespace:Client.Desktop.Pages"
         mc:Ignorable="d"
         Title="Transaction" Height="450" Width="300">
+    
     <Grid Height="400" VerticalAlignment="Top" Margin="0,10,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="147*"/>

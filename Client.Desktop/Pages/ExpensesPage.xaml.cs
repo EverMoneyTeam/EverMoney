@@ -15,8 +15,12 @@ namespace Client.Desktop.Pages
     /// </summary>
     public partial class ExpensesPage : Page
     {
+        //TODO: Dialog windows
+
         bool isExpense;
         bool isAdd;
+        string selectedRowCashFlowId;
+
         public ExpensesPage()
         {
             InitializeComponent();
@@ -32,8 +36,8 @@ namespace Client.Desktop.Pages
 
             //Инициализация comboBox значениями из БД
             CategoryRepository categoryRepository = new CategoryRepository();
-            cbCattegory.DisplayMemberPath = "Name";
-            cbCattegory.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = categoryRepository.GetAllCategories() });
+            cbCategory.DisplayMemberPath = "Name";
+            cbCategory.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = categoryRepository.GetAllCategories() });
 
             //Загрузка данных в Grid в новом потоке
             Dispatcher.BeginInvoke(new ThreadStart(delegate { LoadData(); }));
@@ -50,7 +54,7 @@ namespace Client.Desktop.Pages
 
         private void btnIncome_Click(object sender, RoutedEventArgs e)
         {
-            //TODO:Ask Ihor how to do it wright, Discuss advisability of one interface for expense and income
+            //TODO:Ask Ihor how to do it right, Discuss advisability of one interface for expense and income
             btnIncome.Background = Brushes.Green;
             btnIncome.BorderBrush = Brushes.Green;
             btnExpense.Background = Brushes.Gray;
@@ -61,6 +65,7 @@ namespace Client.Desktop.Pages
         private void LoadData()
         {
             ExpensesRepository expensesRepository = new ExpensesRepository();
+            //TODO without id
             dataGrid.ItemsSource = expensesRepository.GetAllExpenses();
         }
 
@@ -70,31 +75,45 @@ namespace Client.Desktop.Pages
             {
                 ExpensesRepository expensesRepository = new ExpensesRepository();
                 var cashAccountSelectedItem = cbCashAccount.SelectedItem as CashAccount;
+                var categorySelectedItem = cbCategory.SelectedItem as Category;
                 //TODO: Fix DateTime output format
-                expensesRepository.AddExpense(cashAccountSelectedItem.Id, Convert.ToDecimal(tbAmount.Text), cbCattegory.Text, DateTime.ParseExact(dpDate.Text, "d", null).Date, tbDescription.Text);
+                //TODO: Add check if all values are inputed 
+                expensesRepository.AddExpense(cashAccountSelectedItem.Id, Convert.ToDecimal(tbAmount.Text), categorySelectedItem.Id, DateTime.ParseExact(dpDate.Text, "d", null).Date, tbDescription.Text);
                 Dispatcher.BeginInvoke(new ThreadStart(delegate { LoadData(); }));
                 cbCashAccount.Text = "";
                 tbAmount.Text = "";
                 tbDescription.Text = "";
-                cbCattegory.Text = "";
+                cbCategory.Text = "";
                 dpDate.Text = "";
             }
-            //TODO:Ask Ihor how to do it wright
+            //TODO:Ask Ihor how to do it right
             else if (Equals(eventArgs.Parameter, true) && !isAdd)
             {
+                ExpensesRepository expensesRepository = new ExpensesRepository();
+                var cashAccountSelectedItem = cbCashAccount.SelectedItem as CashAccount;
+                var categorySelectedItem = cbCategory.SelectedItem as Category;
 
+                expensesRepository.UpdateExpense(selectedRowCashFlowId, cashAccountSelectedItem.Id, Convert.ToDecimal(tbAmount.Text), categorySelectedItem.Id, DateTime.ParseExact(dpDate.Text, "d", null).Date, tbDescription.Text);
+                Dispatcher.BeginInvoke(new ThreadStart(delegate { LoadData(); }));
+                cbCashAccount.Text = "";
+                tbAmount.Text = "";
+                tbDescription.Text = "";
+                cbCategory.Text = "";
+                dpDate.Text = "";
             }
-
         }
 
         private void btnUpdateTransaction_Click(object sender, RoutedEventArgs e)
         {
+            //TODO: Add check that row is selected
             isAdd = false;
+
             Expense selectedExpense = (Expense)dataGrid.SelectedItem;
+            selectedRowCashFlowId = selectedExpense.Id;
             cbCashAccount.Text = selectedExpense.Cash;
             tbAmount.Text = selectedExpense.Amount.ToString();
             tbDescription.Text = selectedExpense.Description;
-            cbCattegory.Text = selectedExpense.Category;
+            cbCategory.Text = selectedExpense.Category;
             dpDate.Text = selectedExpense.Date.Date.ToString();
         }
 
@@ -106,6 +125,27 @@ namespace Client.Desktop.Pages
         private void btnAddTransaction_Click(object sender, RoutedEventArgs e)
         {
             isAdd = true;
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAccept_Click(object sender, RoutedEventArgs e)
+        {
+            ExpensesRepository expensesRepository = new ExpensesRepository();
+            var cashAccountSelectedItem = cbCashAccount.SelectedItem as CashAccount;
+            var categorySelectedItem = cbCategory.SelectedItem as Category;
+            //TODO: Fix DateTime output format
+            //TODO: Add check if all values are inputed 
+            expensesRepository.AddExpense(cashAccountSelectedItem.Id, Convert.ToDecimal(tbAmount.Text), categorySelectedItem.Id, DateTime.ParseExact(dpDate.Text, "d", null).Date, tbDescription.Text);
+            Dispatcher.BeginInvoke(new ThreadStart(delegate { LoadData(); }));
+            cbCashAccount.Text = "";
+            tbAmount.Text = "";
+            tbDescription.Text = "";
+            cbCategory.Text = "";
+            dpDate.Text = "";
         }
     }
 }
