@@ -1,85 +1,148 @@
-﻿<Window x:Class="Client.Desktop.Pages.Transaction"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
-            
-        xmlns:local="clr-namespace:Client.Desktop.Pages"
-        mc:Ignorable="d"
-        Title="Transaction" Height="450" Width="300">
-    
-    <Grid Height="400" VerticalAlignment="Top" Margin="0,10,0,0">
+﻿<Window
+    x:Class="Client.Desktop.Pages.Transaction"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Client.Desktop.Pages"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    Title="Transaction"
+    Width="300"
+    Height="450"
+    mc:Ignorable="d">
+
+    <Grid
+        Height="400"
+        Margin="0,10,0,0"
+        VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="147*"/>
-            <ColumnDefinition Width="145*"/>
+            <ColumnDefinition Width="147*" />
+            <ColumnDefinition Width="145*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="55*"/>
-            <RowDefinition Height="44*"/>
-            <RowDefinition Height="61*"/>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="43*"/>
-            <RowDefinition Height="98*"/>
-            <RowDefinition Height="49*"/>
+            <RowDefinition Height="55*" />
+            <RowDefinition Height="44*" />
+            <RowDefinition Height="61*" />
+            <RowDefinition Height="50*" />
+            <RowDefinition Height="43*" />
+            <RowDefinition Height="98*" />
+            <RowDefinition Height="49*" />
         </Grid.RowDefinitions>
-        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                Background="Gray"
-                BorderBrush="Gray"
-                    Margin="10,10,10,0"
-                    ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                    materialDesign:RippleAssist.Feedback="Red" Height="37" Content="Расходы" VerticalAlignment="Top"/>
-        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                                Background="Gray"
-                BorderBrush="Gray"
-                    Margin="10,10,8,0"
-                    ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                    materialDesign:RippleAssist.Feedback="Green" Height="37" Content="Доходы" Grid.Column="1" VerticalAlignment="Top"/>
+        <Button
+            Height="37"
+            Margin="10,10,10,0"
+            VerticalAlignment="Top"
+            materialDesign:RippleAssist.Feedback="Red"
+            Background="Gray"
+            BorderBrush="Gray"
+            Content="Расходы"
+            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+            ToolTip="Resource name: MaterialDesignRaisedAccentButton" />
+        <Button
+            Grid.Column="1"
+            Height="37"
+            Margin="10,10,8,0"
+            VerticalAlignment="Top"
+            materialDesign:RippleAssist.Feedback="Green"
+            Background="Gray"
+            BorderBrush="Gray"
+            Content="Доходы"
+            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+            ToolTip="Resource name: MaterialDesignRaisedAccentButton" />
 
-        <ComboBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  materialDesign:HintAssist.Hint="Кошелёк"
-                  materialDesign:ComboBoxAssist.ShowSelectedItem="false" 
-                  IsEditable="True" materialDesign:HintAssist.HintOpacity=".26" Margin="35,10,35,0" Height="25" VerticalAlignment="Top"/>
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="25"
+            Margin="35,10,35,0"
+            VerticalAlignment="Top"
+            materialDesign:ComboBoxAssist.ShowSelectedItem="false"
+            materialDesign:HintAssist.Hint="Кошелёк"
+            materialDesign:HintAssist.HintOpacity=".26"
+            IsEditable="True" />
 
 
-        <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" materialDesign:HintAssist.Hint="Сумма" 
-                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="35,10,35,0" Height="42" VerticalAlignment="Top" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="42"
+            Margin="35,10,35,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="Сумма"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
-        <ComboBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"  materialDesign:HintAssist.Hint="Категория"
-                  materialDesign:ComboBoxAssist.ShowSelectedItem="false" 
-                  IsEditable="True" materialDesign:HintAssist.HintOpacity=".26" Margin="35,14,35,0" Height="29" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+        <ComboBox
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="29"
+            Margin="35,14,35,0"
+            VerticalAlignment="Top"
+            materialDesign:ComboBoxAssist.ShowSelectedItem="false"
+            materialDesign:HintAssist.Hint="Категория"
+            materialDesign:HintAssist.HintOpacity=".26"
+            IsEditable="True"
+            RenderTransformOrigin="0.5,0.5">
             <ComboBox.RenderTransform>
                 <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleY="0.165"/>
-                    <RotateTransform/>
-                    <TranslateTransform Y="0.33"/>
+                    <ScaleTransform />
+                    <SkewTransform AngleY="0.165" />
+                    <RotateTransform />
+                    <TranslateTransform Y="0.33" />
                 </TransformGroup>
             </ComboBox.RenderTransform>
         </ComboBox>
 
-        <DatePicker Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="35,10,35,0" materialDesign:HintAssist.Hint="Дата" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Height="24" VerticalAlignment="Top" />
+        <DatePicker
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="24"
+            Margin="35,10,35,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="Дата"
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
 
-        <TextBox Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="35,10,35,0"
-                 AcceptsReturn="True"                 
-                 VerticalScrollBarVisibility="Auto"
-                 SpellCheck.IsEnabled="True"
-                 materialDesign:HintAssist.Hint="Описание" Height="76" VerticalAlignment="Top"></TextBox>
+        <TextBox
+            Grid.Row="5"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Height="76"
+            Margin="35,10,35,0"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="Описание"
+            AcceptsReturn="True"
+            SpellCheck.IsEnabled="True"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto" />
 
-        <Button Grid.Row="6" Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}"
-                                        IsDefault="True"
-                                        Margin="10,0,10,10"
-                                        Command="materialDesign:DialogHost.CloseDialogCommand" Height="30" VerticalAlignment="Bottom">
+        <Button
+            Grid.Row="6"
+            Grid.Column="0"
+            Height="30"
+            Margin="10,0,10,10"
+            VerticalAlignment="Bottom"
+            Command="materialDesign:DialogHost.CloseDialogCommand"
+            IsDefault="True"
+            Style="{StaticResource MaterialDesignFlatButton}">
             <Button.CommandParameter>
                 <system:Boolean>True</system:Boolean>
             </Button.CommandParameter>
             Принять
         </Button>
-        <Button Grid.Row="6" Grid.Column="1"  Style="{StaticResource MaterialDesignFlatButton}"
-                                        IsCancel="True"
-                                        Margin="10,0,10,10"
-                                        Command="materialDesign:DialogHost.CloseDialogCommand" Height="30" VerticalAlignment="Bottom">
+        <Button
+            Grid.Row="6"
+            Grid.Column="1"
+            Height="30"
+            Margin="10,0,10,10"
+            VerticalAlignment="Bottom"
+            Command="materialDesign:DialogHost.CloseDialogCommand"
+            IsCancel="True"
+            Style="{StaticResource MaterialDesignFlatButton}">
             <Button.CommandParameter>
                 <system:Boolean>False</system:Boolean>
             </Button.CommandParameter>

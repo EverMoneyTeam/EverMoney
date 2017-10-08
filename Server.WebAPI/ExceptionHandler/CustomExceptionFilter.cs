@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Net;
+using System.Security.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Rest;
 using SimpleExceptionHandling;
 

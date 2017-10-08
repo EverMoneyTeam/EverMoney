@@ -49,7 +49,11 @@ namespace Client.Desktop
 
         private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
         {
+        }
 
+        private void Switch_UserPage(object sender, MouseButtonEventArgs e)
+        {
+            Frame.NavigationService.Navigate(new UserPage());
         }
     }
 }

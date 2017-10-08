@@ -112,6 +112,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>App.settings</DependentUpon>
     </Compile>
+    <Compile Include="Pages\UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ApiAuthService.cs" />
     <Compile Include="Utils\DialogHostExtension.cs" />
     <Page Include="MainWindow.xaml">
@@ -145,6 +148,10 @@
     <Page Include="Pages\TransactionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Welcome.xaml">
       <SubType>Designer</SubType>
