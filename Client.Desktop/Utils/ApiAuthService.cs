@@ -13,7 +13,8 @@ namespace Client.Desktop.Utils
         Login,
         Register,
         RefreshToken, 
-        Logout
+        Logout,
+        Health
     }
 
     public static class ApiAuthService
@@ -31,6 +32,7 @@ namespace Client.Desktop.Utils
         private static HttpClient GetClient()
         {
             var httpClient = new HttpClient { BaseAddress = new Uri("https://localhost:5001/api/") };
+           httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.Login.Default.JwtToken);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return httpClient;
         }
@@ -53,6 +55,9 @@ namespace Client.Desktop.Utils
                     break;
                 case ApiRequestEnum.Logout:
                     uri = "token/logout";
+                    break;
+                case ApiRequestEnum.Health:
+                    uri = "health/authorized";
                     break;
                 default:
                     return string.Empty;

@@ -86,7 +86,7 @@ namespace Server.WebApi.Controllers
         {
             if (_tokenRepository.ExpireToken(parameters.RefreshToken, parameters.AccountId))
             {
-                Ok();
+                return Ok();
             }
             throw new CustomUserException("Can't log out. Wrong data");
         }

@@ -40,7 +40,7 @@
         <Grid
             Name="UserGrid"
             Row="1"
-            Visibility="Visible">
+            Visibility="Hidden">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />

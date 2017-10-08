@@ -37,7 +37,7 @@ namespace Client.Desktop.Pages
             var responseData = await ApiAuthService.PostAsync(ApiRequestEnum.Login, new {login, password});
             if (!responseData.IsSuccessStatusCode)
             {
-                await DialogHostExtension.ShowError(responseData);
+                MessageBoxExtension.ShowError(responseData);
                 return;
             }
 

@@ -38,16 +38,16 @@ namespace Client.Desktop.Pages
                 var response = await ApiAuthService.PostAsync(ApiRequestEnum.Register, new { login, password });
                 if (response.IsSuccessStatusCode)
                 {
-                    await DialogHostExtension.ShowInfo("Registration successful");
+                    MessageBoxExtension.ShowInfo("Registration successful");
                 }
                 else
                 {
-                    await DialogHostExtension.ShowError(response);
+                    MessageBoxExtension.ShowError(response);
                 }
             }
             catch (HttpRequestException exception)
             {
-                await DialogHostExtension.ShowError(exception);
+                MessageBoxExtension.ShowError(exception);
             }
         }
 

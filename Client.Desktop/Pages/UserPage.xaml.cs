@@ -40,7 +40,7 @@ namespace Client.Desktop.Pages
             string refreshToken = Properties.Login.Default.RefreshToken;
             var responseData = await ApiAuthService.PostAsync(ApiRequestEnum.Logout, new { refreshToken, accountId });
             if (responseData != null && !responseData.IsSuccessStatusCode)
-                await DialogHostExtension.ShowError(responseData);
+                MessageBoxExtension.ShowError(responseData);
 
             Properties.Login.Default.JwtToken = "";
             Properties.Login.Default.UserLogin = "Guest";
@@ -48,9 +48,8 @@ namespace Client.Desktop.Pages
             Properties.Login.Default.RefreshToken = "";
             Properties.Login.Default.Save();
 
-
-            NavigationService.Refresh();
-            //NavigationService.Navigate(new MainPage());
+            //NavigationService.Refresh();
+            NavigationService.Navigate(new MainPage());
         }
 
         private void ButtonLogIn(object sender, RoutedEventArgs e)
@@ -63,9 +62,11 @@ namespace Client.Desktop.Pages
             NavigationService.Navigate(new RegistrationPage());
         }
 
-        private void ButtonSync(object sender, RoutedEventArgs e)
+        private async void ButtonSync(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var response = await ApiAuthService.GetAsync(ApiRequestEnum.Health);
+            if (response != null && !response.IsSuccessStatusCode)
+                MessageBoxExtension.ShowError(response);
         }
     }
 }

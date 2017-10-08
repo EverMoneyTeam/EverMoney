@@ -116,7 +116,7 @@
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\ApiAuthService.cs" />
-    <Compile Include="Utils\DialogHostExtension.cs" />
+    <Compile Include="Utils\MessageBoxExtension.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
