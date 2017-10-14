@@ -10,11 +10,11 @@ namespace Client.DataAccess.Model
 
         public string CurrencyId { get; set; }
 
-        public virtual Currency Currency { get; set; }
+        public Currency Currency { get; set; }
 
-        public string UserId { get; set; }
+        public string AccountId { get; set; }
 
-        public virtual User User { get; set; }
+        public Account Account { get; set; }
 
         public bool IsJointCashAccount { get; set; }
 

@@ -7,8 +7,6 @@ namespace Server.DataAccess.Context
     {
         public DbSet<Account> Accounts { get; set; }
 
-        public DbSet<User> Users { get; set; }
-
         public DbSet<Token> Tokens { get; set; }
 
         public DbSet<CashAccount> CashAccounts { get; set; }

@@ -17,10 +17,6 @@ namespace Server.DataAccess.Model
 
         public Account Account { get; set; }
 
-        public Guid? UserId { get; set; }
-
-        public User User { get; set; }
-
         public bool IsJointCashAccount { get; set; }
 
         public virtual ICollection<Cashflow> Cashflows { get; set; }

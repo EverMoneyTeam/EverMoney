@@ -85,6 +85,7 @@ namespace Server.WebApi
                 {
                     var context = serviceScope.ServiceProvider.GetService<DatabaseContext>();
                     context.EnsureUpdated();
+                    context.EnsureSeedData();
                 }
             }
         }

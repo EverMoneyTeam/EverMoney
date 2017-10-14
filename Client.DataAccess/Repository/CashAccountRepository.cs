@@ -31,8 +31,7 @@ namespace Client.DataAccess.Repository
                                 Id = cashAccount.Id,
                                 Name = cashAccount.Name,
                                 Amount = cashAccount.Amount,
-                                CurrencyId = cashAccount.CurrencyId,
-                                UserId = cashAccount.UserId
+                                CurrencyId = cashAccount.CurrencyId
                             };
 
                 return query.ToList();

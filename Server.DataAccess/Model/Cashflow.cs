@@ -17,9 +17,5 @@ namespace Server.DataAccess.Model
         public Guid CashflowCategoryId { get; set; }
 
         public virtual CashflowCategory CashflowCategory { get; set; }
-
-        public Guid? UserId { get; set; }
-
-        public virtual User User { get; set; }
     }
 }

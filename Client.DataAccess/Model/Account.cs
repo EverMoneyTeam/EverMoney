@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Server.DataAccess.Model
+namespace Client.DataAccess.Model
 {
     public class Account : BaseModel
     {
-        public string Login { get; set; }
-
-        public string Password { get; set; }
-
-        public virtual ICollection<Token> Tokens { get; set; }
 
         public virtual ICollection<CashAccount> CashAccounts { get; set; }
 
@@ -16,7 +15,6 @@ namespace Server.DataAccess.Model
 
         public Account()
         {
-            Tokens = new HashSet<Token>();
             CashAccounts = new HashSet<CashAccount>();
             CashflowCategories = new HashSet<CashflowCategory>();
         }

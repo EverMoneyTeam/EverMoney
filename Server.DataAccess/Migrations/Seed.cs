@@ -10,35 +10,27 @@ namespace Server.DataAccess.Migrations
 {
     public static class DbInitializer
     {
-        [Obsolete]
         public static void EnsureSeedData(this DatabaseContext context)
         {
-            if (context.Accounts.Any() && context.Users.Any())
+            if (context.Accounts.Any() && context.Currencies.Any())
             {
                 return;
             }
 
-            var accounts = new[] {
-                new Account{ Login = "login", Password = "password" },
-                new Account{ Login = "test_account", Password="test_password" }
-            };
+            context.Accounts.Add(new Account { Id = new Guid("00000000-0000-0000-0000-000000000000"), Login = "login", Password = BCrypt.BCryptHelper.HashPassword("password", BCrypt.BCryptHelper.GenerateSalt()) });
 
-            foreach (var a in accounts)
-            {
-                context.Accounts.Add(a);
-            }
             context.SaveChanges();
 
-            var users = new[]
+            var currency = new[]
             {
-                new User{Name = "Pasha", AccountId = accounts.Single(a => a.Login == "login").Id},
-                new User{Name = "Ira", AccountId = accounts.Single(a => a.Login == "login").Id},
-                new User{Name = "Alex", AccountId = accounts.Single(a => a.Login == "test_account").Id}
+                new Currency{ Id = new Guid("00000000-0000-0000-0000-000000000001"), Name = "Гривня", Code = "UAH"},
+                new Currency{ Id = new Guid("00000000-0000-0000-0000-000000000002"), Name = "Dollar (US)", Code = "USD"},
+                new Currency{ Id = new Guid("00000000-0000-0000-0000-000000000003"), Name = "Euro", Code = "EUR"}
             };
 
-            foreach (var u in users)
+            foreach (var u in currency)
             {
-                context.Users.Add(u);
+                context.Currencies.Add(u);
             }
             context.SaveChanges();
         }

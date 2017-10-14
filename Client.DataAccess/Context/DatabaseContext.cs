@@ -18,7 +18,7 @@ namespace Client.DataAccess.Context
 
         public DbSet<Currency> Currencies { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Account> Accounts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
