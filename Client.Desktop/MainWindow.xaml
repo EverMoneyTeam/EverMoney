@@ -16,166 +16,146 @@
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
-    <Grid x:Name="Grid">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <Grid x:Name="Grid">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Label
-                    Grid.Column="1"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="Switch_MainPage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="24"
-                            Height="24"
-                            Kind="Etsy" />
-                        <AccessText
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Главная" />
-                    </StackPanel>
-                </Label>
-                <Label
-                    Grid.Column="2"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="Switch_ExpensesPage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="24"
-                            Height="24"
-                            Kind="ArrowUpBoldCircleOutline" />
-                        <AccessText
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Расходы" />
-                    </StackPanel>
-                </Label>
-                <Label
-                    Grid.Column="3"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="Switch_MainPage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="24"
-                            Height="24"
-                            Kind="ArrowDownBoldCircleOutline" />
-                        <AccessText
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Доходы" />
-                    </StackPanel>
-                </Label>
-                <Label
-                    Grid.Column="4"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="Switch_MainPage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="24"
-                            Height="24"
-                            Kind="BriefcaseCheck" />
-                        <AccessText
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Бюджет" />
-                    </StackPanel>
-                </Label>
-                <Label
-                    Grid.Column="5"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="Switch_MainPage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="24"
-                            Height="24"
-                            Kind="CalendarToday" />
-                        <AccessText
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Календарь" />
-                    </StackPanel>
-                </Label>
-                <Label
-                    Grid.Column="6"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="Switch_MainPage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="24"
-                            Height="24"
-                            Kind="Bank" />
-                        <AccessText
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Банки" />
-                    </StackPanel>
-                </Label>
-                <Label
-                    Grid.Column="7"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="Switch_MainPage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="24"
-                            Height="24"
-                            Kind="SwapHorizontal" />
-                        <AccessText
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Долги" />
-                    </StackPanel>
-                </Label>
-                <Label
-                    Grid.Column="8"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="Switch_MainPage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="24"
-                            Height="24"
-                            Kind="ChartAreaspline" />
-                        <AccessText
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Отчеты" />
-                    </StackPanel>
-                </Label>
-                <Label
-                    Grid.Column="9"
-                    HorizontalAlignment="Right"
-                    Cursor="Hand"
-                    MouseLeftButtonUp="Switch_UserPage">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon
-                            Width="24"
-                            Height="24"
-                            Kind="AccountCircle" />
-                        <AccessText
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Пользователь" />
-                    </StackPanel>
-                </Label>
-            </Grid>
-            <materialDesign:DialogHost Grid.Row="1" Margin="0">
-                <Frame x:Name="Frame" NavigationUIVisibility="Hidden" />
-            </materialDesign:DialogHost>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="1" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="Etsy" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Главная" />
+                        </StackPanel>
+                    </Label>
+                    <Label
+                        Grid.Column="2"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="Switch_ExpensesPage">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="ArrowUpBoldCircleOutline" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Расходы" />
+                        </StackPanel>
+                    </Label>
+                    <Label Grid.Column="3" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="ArrowDownBoldCircleOutline" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Доходы" />
+                        </StackPanel>
+                    </Label>
+                    <Label Grid.Column="4" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="BriefcaseCheck" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Бюджет" />
+                        </StackPanel>
+                    </Label>
+                    <Label Grid.Column="5" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="CalendarToday" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Календарь" />
+                        </StackPanel>
+                    </Label>
+                    <Label Grid.Column="6" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="Bank" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Банки" />
+                        </StackPanel>
+                    </Label>
+                    <Label Grid.Column="7" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="SwapHorizontal" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Долги" />
+                        </StackPanel>
+                    </Label>
+                    <Label Grid.Column="8" Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="ChartAreaspline" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Отчеты" />
+                        </StackPanel>
+                    </Label>
+                    <Label
+                        Grid.Column="9"
+                        HorizontalAlignment="Right"
+                        Cursor="Hand">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="AccountCircle" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Пользователь" />
+                        </StackPanel>
+                    </Label>
+                </Grid>
+                <materialDesign:DialogHost Grid.Row="1" Margin="0">
+                    <Frame x:Name="Frame" NavigationUIVisibility="Hidden" />
+                </materialDesign:DialogHost>
 
+            </Grid>
         </Grid>
-    </Grid>
+    </materialDesign:DialogHost>
 </Window>

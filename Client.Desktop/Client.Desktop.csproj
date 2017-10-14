@@ -100,19 +100,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Helper\ResponseParser.cs" />
-    <Compile Include="Pages\ExpensesPage.xaml.cs">
+    <Compile Include="ViewModel\AddExpenseDialogViewModel.cs" />
+    <Compile Include="ViewModel\ExpensesPageViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="View\AddExpenseDialog.xaml.cs">
+      <DependentUpon>AddExpenseDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExpensesPage.xaml.cs">
       <DependentUpon>ExpensesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TransactionWindow.xaml.cs">
+    <Compile Include="View\TransactionWindow.xaml.cs">
       <DependentUpon>TransactionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Phone.cs" />
     <Compile Include="Properties\App.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>App.settings</DependentUpon>
     </Compile>
-    <Compile Include="Pages\UserPage.xaml.cs">
+    <Compile Include="View\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\ApiAuthService.cs" />
@@ -129,31 +137,35 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\ExpensesPage.xaml">
+    <Page Include="View\AddExpenseDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\LoginPage.xaml">
+    <Page Include="View\ExpensesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MainPage.xaml">
+    <Page Include="View\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RegistrationPage.xaml">
+    <Page Include="View\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TransactionWindow.xaml">
+    <Page Include="View\RegistrationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\UserPage.xaml">
+    <Page Include="View\TransactionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Welcome.xaml">
+    <Page Include="View\Welcome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,16 +173,16 @@
   <ItemGroup>
     <Compile Include="Models\JWTParser.cs" />
     <Compile Include="Models\ResponseJWTFormat.cs" />
-    <Compile Include="Pages\LoginPage.xaml.cs">
+    <Compile Include="View\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MainPage.xaml.cs">
+    <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\RegistrationPage.xaml.cs">
+    <Compile Include="View\RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Welcome.xaml.cs">
+    <Compile Include="View\Welcome.xaml.cs">
       <DependentUpon>Welcome.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -211,6 +223,7 @@
       <Name>Client.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.105.2\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.105.2\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
