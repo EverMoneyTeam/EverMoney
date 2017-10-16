@@ -1,47 +1,163 @@
-﻿using Client.DataAccess.Repository;
+﻿using Client.DataAccess.Model;
+using Client.DataAccess.Repository;
 using Client.Desktop.Helper;
 using Client.Desktop.View;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Client.Desktop.ViewModel
 {
-    public class ExpensesPageViewModel
+    public class CashFlowsPageViewModel : BaseViewModel
     {
-        public ObservableCollection<Expense> Expenses { get; set; }
+        private ObservableCollection<CashFlow> _CashFlows;
 
-        public ICommand RunDialogCommand => new RelayCommand(ExecuteRunDialog);
+        private CashFlow _CashFlow;
 
-        private async void ExecuteRunDialog(object o)
+        public ICommand RunAddDialogCommand => new RelayCommand(ExecuteRunAddDialog);
+
+        public ICommand RunUpdateDialogCommand => new RelayCommand(ExecuteRunUpdateDialog);
+
+        public ICommand RunDeleteDialogCommand => new RelayCommand(ExecuteRunDeleteDialog);
+
+        public AddCashFlowDialogViewModel addCashFlowDialogViewModel = new AddCashFlowDialogViewModel();
+
+        public UpdateCashFlowDialogViewModel updateCashFlowDialogViewModel;
+
+        public DeleteCashFlowDialogViewModel deleteCashFlowDialogViewModel;
+
+        public CashFlowsPageViewModel()
+        {
+            CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
+            var allCashFlows = CashFlowsRepository.GetAllCashFlows();
+            CashFlows = new ObservableCollection<CashFlow>(allCashFlows);
+            SelectedCashFlow = allCashFlows[0];
+        }
+
+        public ObservableCollection<CashFlow> CashFlows
+        {
+            get
+            {
+                return _CashFlows;
+            }
+            set
+            {
+                this.MutateVerbose(ref _CashFlows, value, RaisePropertyChanged());
+            }
+        }
+
+        public CashFlow SelectedCashFlow
+        {
+            get
+            {
+                return _CashFlow;
+            }
+            set
+            {
+                this.MutateVerbose(ref _CashFlow, value, RaisePropertyChanged());
+            }
+        }
+
+        private async void ExecuteRunAddDialog(object o)
         {
             //let's set up a little MVVM, cos that's what the cool kids are doing:
-            var view = new AddExpenseDialog
+            var view = new AddCashFlowDialog
             {
-                DataContext = new AddExpenseDialogViewModel()
+
+                DataContext = addCashFlowDialogViewModel
             };
 
             //show the dialog
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "RootDialog", ClosingAddDialogEventHandler);
 
             //check the result...
-            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+            //Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
         }
 
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        private void ClosingAddDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            Console.WriteLine("You can intercept the closing event, and cancel here.");
+            if ((bool)eventArgs.Parameter == true)
+            {
+                //TODO: add check
+                CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
+                var cashAccountSelectedItem = addCashFlowDialogViewModel.SelectedCashAccount as CashAccount;
+                var categorySelectedItem = addCashFlowDialogViewModel.SelectedCashFlowCategory as CashFlowCategory;
+
+                CashFlowsRepository.AddCashFlow(cashAccountSelectedItem.Id, addCashFlowDialogViewModel.Amount, categorySelectedItem.Id, Convert.ToDateTime(addCashFlowDialogViewModel.Date), addCashFlowDialogViewModel.Description);
+                //Renue content DataGrid
+                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows());
+                //Set to zero fields
+                addCashFlowDialogViewModel = new AddCashFlowDialogViewModel();
+            }
         }
 
-        public ExpensesPageViewModel()
+        private async void ExecuteRunUpdateDialog(object o)
         {
-            ExpensesRepository expensesRepository = new ExpensesRepository();
-            Expenses = new ObservableCollection<Expense>(expensesRepository.GetAllExpenses());
+            //let's set up a little MVVM, cos that's what the cool kids are doing:
+            updateCashFlowDialogViewModel = new UpdateCashFlowDialogViewModel(SelectedCashFlow);
+            var view = new UpdateCashFlowDialog
+            {
+
+                DataContext = updateCashFlowDialogViewModel
+            };
+
+
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ClosingUpdateDialogEventHandler);
+
+            //check the result...
+            //Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
         }
+
+        private void ClosingUpdateDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool)eventArgs.Parameter == true)
+            {
+                CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
+                var cashAccountSelectedItem = updateCashFlowDialogViewModel.SelectedCashAccount as CashAccount;
+                var categorySelectedItem = updateCashFlowDialogViewModel.SelectedCashFlowCategory as CashFlowCategory;
+
+                CashFlowsRepository.UpdateCashFlow(SelectedCashFlow.Id, cashAccountSelectedItem.Id, updateCashFlowDialogViewModel.Amount, categorySelectedItem.Id, Convert.ToDateTime(updateCashFlowDialogViewModel.Date), updateCashFlowDialogViewModel.Description);
+                //Renue content DataGrid
+                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows());
+            }
+        }
+
+        private async void ExecuteRunDeleteDialog(object o)
+        {
+            //let's set up a little MVVM, cos that's what the cool kids are doing:
+            deleteCashFlowDialogViewModel = new DeleteCashFlowDialogViewModel(SelectedCashFlow);
+            var view = new DeleteCashFlowDialog
+            {
+
+                DataContext = deleteCashFlowDialogViewModel
+            };
+
+
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
+
+            //check the result...
+            //Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+
+        private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool)eventArgs.Parameter == true)
+            {
+                CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
+                CashFlowsRepository.DeleteCashFlow(SelectedCashFlow.Id);
+                //Renue content DataGrid
+                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows());
+            }
+        }
+
     }
 }

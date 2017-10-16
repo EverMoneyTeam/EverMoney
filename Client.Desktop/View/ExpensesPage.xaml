@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Client.Desktop.Pages.ExpensesPage"
+    x:Class="Client.Desktop.Pages.CashFlowsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,32 +7,46 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
-    Title="ExpensesPage"
+    Title="CashFlowsPage"
     d:DesignHeight="485"
     d:DesignWidth="850"
     mc:Ignorable="d">
 
-    <Grid Height="485" VerticalAlignment="Bottom">
+
+    <Grid
+        Width="800"
+        Height="485"
+        VerticalAlignment="Bottom">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="130" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" MinHeight="380" />
         </Grid.RowDefinitions>
 
+
+
         <Button
             Name="btnAddTransaction"
+            Width="100"
             Height="Auto"
-            Margin="473,34,275,29"
-            Command="{Binding RunDialogCommand}"
+            Margin="0,34,15,29"
+            HorizontalAlignment="Right"
+            Command="{Binding RunAddDialogCommand}"
             Style="{StaticResource MaterialDesignRaisedDarkButton}"
             ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
             Добавить
         </Button>
-        
+
         <Button
             Name="btnUpdateTransaction"
+            Grid.Column="1"
             Height="Auto"
-            Margin="603,34,145,29"
-            Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+            Margin="15,34,15,29"
+            Command="{Binding RunUpdateDialogCommand}"
             Style="{StaticResource MaterialDesignRaisedDarkButton}"
             ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
             Изменить
@@ -40,8 +54,10 @@
 
         <Button
             Name="btnDeleteTransaction"
+            Grid.Column="2"
             Height="Auto"
-            Margin="728,34,20,29"
+            Margin="15,34,15,29"
+            Command="{Binding RunDeleteDialogCommand}"
             Style="{StaticResource MaterialDesignRaisedDarkButton}"
             ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
             Удалить
@@ -50,10 +66,23 @@
         <DataGrid
             Name="dataGrid"
             Grid.Row="1"
+            Grid.ColumnSpan="3"
             Height="364"
-            Margin="0,0,20,10"
+            Margin="20,0,20,10"
             VerticalAlignment="Bottom"
+            AutoGenerateColumns="False"
             BorderThickness="2"
-            ItemsSource="{Binding Expenses}" />
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding CashFlows}"
+            SelectedItem="{Binding SelectedCashFlow}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=CashFlowCategory.Name}" Header="Category" />
+                <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Amount" />
+                <DataGridTextColumn Binding="{Binding Path=CashAccount.Currency.Name}" Header="Currency" />
+                <DataGridTextColumn Binding="{Binding Path=Date}" Header="Date" />
+                <DataGridTextColumn Binding="{Binding Path=CashAccount.Name}" Header="Vallet" />
+                <DataGridTextColumn Binding="{Binding Path=Description}" Header="Description" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

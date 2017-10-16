@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Client.Desktop.ViewModel
 {
-    class MainWindowViewModel
+    public class MainWindowViewModel
     {
 
     }

@@ -12,7 +12,7 @@ namespace Client.DataAccess.Repository
     {
         public static Account GetAccount(string id)
         {
-            using (var db = new DatabaseContext())
+            using (var db = DbContextFactory.GetDbContext())
             {
                 return db.Accounts.FirstOrDefault(a => a.Id == id);
             }

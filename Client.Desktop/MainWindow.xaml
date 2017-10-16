@@ -51,7 +51,7 @@
                     <Label
                         Grid.Column="2"
                         Cursor="Hand"
-                        MouseLeftButtonUp="Switch_ExpensesPage">
+                        MouseLeftButtonUp="Switch_CashFlowsPage">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon
                                 Width="24"

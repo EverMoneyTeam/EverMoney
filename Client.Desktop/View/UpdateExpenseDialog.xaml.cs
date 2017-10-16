@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Client.Desktop.View
 {
     /// <summary>
-    /// Interaction logic for AddCashFlowDialog.xaml
+    /// Interaction logic for UpdateCashFlowDialog.xaml
     /// </summary>
-    public partial class AddCashFlowDialog : UserControl
+    public partial class UpdateCashFlowDialog : UserControl
     {
-        public AddCashFlowDialog()
+        public UpdateCashFlowDialog()
         {
             InitializeComponent();
         }

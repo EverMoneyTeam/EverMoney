@@ -14,15 +14,15 @@ namespace Client.DataAccess.Model
 
         public virtual ICollection<CashAccount> CashAccounts { get; set; }
 
-        public virtual ICollection<CashflowCategory> CashflowCategories { get; set; }
+        public virtual ICollection<CashFlowCategory> CashFlowCategories { get; set; }
 
         public virtual ICollection<HistoryChange> HistoryChanges { get; set; }
 
         public Account()
         {
             CashAccounts = new HashSet<CashAccount>();
-            CashflowCategories = new HashSet<CashflowCategory>();
             HistoryChanges = new HashSet<HistoryChange>();
+            CashFlowCategories = new HashSet<CashFlowCategory>();
         }
     }
 }

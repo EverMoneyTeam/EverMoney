@@ -18,11 +18,11 @@ namespace Client.DataAccess.Model
 
         public bool IsJointCashAccount { get; set; }
 
-        public virtual ICollection<Cashflow> Cashflows { get; set; }
+        public virtual ICollection<CashFlow> CashFlows { get; set; }
 
         public CashAccount()
         {
-            Cashflows = new HashSet<Cashflow>();
+            CashFlows = new HashSet<CashFlow>();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Client.DataAccess.Repository
 {
     internal class HistoryChangesRepository
     {
-        internal void AddCashflow(DatabaseContext context, Cashflow cashflow)
+        internal void AddCashFlow(DatabaseContext context, CashFlow CashFlow)
         {
             context.HistoryChanges.Add(
                 new HistoryChange

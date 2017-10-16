@@ -4,14 +4,13 @@ using Client.Desktop.Helper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Client.Desktop.ViewModel
 {
-    public class AddCashFlowDialogViewModel : BaseViewModel
+    public class UpdateCashFlowDialogViewModel : BaseViewModel
     {
         private CashAccount _cashAccount;
         private ObservableCollection<CashAccount> _cashAccounts = new ObservableCollection<CashAccount>();
@@ -93,17 +92,32 @@ namespace Client.Desktop.ViewModel
             }
         }
 
-        public AddCashFlowDialogViewModel()
+        public UpdateCashFlowDialogViewModel(CashFlow selectedCashFlow)
         {
+            //Initialise all fields in dialog, depending on selected CashFlow from DataGrid
             CashAccountRepository cashAccountRepository = new CashAccountRepository();
             var allCashAccounts = cashAccountRepository.GetAllCashAccounts();
-            CashAccounts = new ObservableCollection<CashAccount>(allCashAccounts);
-            SelectedCashAccountIndex = 0;
-
             CashFlowCategoryRepository cashFlowCategoryRepository = new CashFlowCategoryRepository();
             var allCashFlowCategories = cashFlowCategoryRepository.GetAllCashFlowCategories();
-            CashFlowCategories = new ObservableCollection<CashFlowCategory>(allCashFlowCategories);
-            SelectedCashFlowCategoryIndex = 0;
+
+            //TODO: is it right to look for cashAccount by Name
+            SelectedCashAccount = selectedCashFlow.CashAccount;
+
+            SelectedCashAccountIndex = allCashAccounts.FindIndex(x => x.Name == selectedCashFlow.CashAccount.Name);
+
+            CashAccounts = new ObservableCollection<CashAccount>(allCashAccounts);
+
+            Amount = selectedCashFlow.Amount;
+            
+            SelectedCashFlowCategory = selectedCashFlow.CashFlowCategory;
+
+            SelectedCashFlowCategoryIndex = allCashFlowCategories.FindIndex(x => x.Name == selectedCashFlow.CashFlowCategory.Name);
+
+            CashFlowCategories = new ObservableCollection<CashFlowCategory>(cashFlowCategoryRepository.GetAllCashFlowCategories());
+
+            Date = selectedCashFlow.Date.ToString();
+
+            Description = selectedCashFlow.Description;
         }
     }
 }

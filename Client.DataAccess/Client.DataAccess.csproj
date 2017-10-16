@@ -65,15 +65,15 @@
     <Compile Include="Model\HistoryChange.cs" />
     <Compile Include="Repository\AccountRepository.cs" />
     <Compile Include="Repository\CashAccountRepository.cs" />
-    <Compile Include="Repository\CategoryRepository.cs" />
+    <Compile Include="Repository\CashFlowCategoryRepository.cs" />
     <Compile Include="Repository\ExpensesRepository.cs" />
     <Compile Include="Repository\HistoryChangesRepository.cs" />
     <Compile Include="SQLiteConfiguration.cs" />
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\CashAccount.cs" />
-    <Compile Include="Model\Cashflow.cs" />
-    <Compile Include="Model\CashflowCategory.cs" />
+    <Compile Include="Model\CashFlow.cs" />
+    <Compile Include="Model\CashFlowCategory.cs" />
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

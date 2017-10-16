@@ -100,13 +100,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\NotifyPropertyChangedExtension.cs" />
     <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Helper\ResponseParser.cs" />
     <Compile Include="ViewModel\AddExpenseDialogViewModel.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\DeleteExpenseDialogViewModel.cs" />
     <Compile Include="ViewModel\ExpensesPageViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\UpdateExpenseDialogViewModel.cs" />
     <Compile Include="View\AddExpenseDialog.xaml.cs">
       <DependentUpon>AddExpenseDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeleteExpenseDialog.xaml.cs">
+      <DependentUpon>DeleteExpenseDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ExpensesPage.xaml.cs">
       <DependentUpon>ExpensesPage.xaml</DependentUpon>
@@ -114,11 +121,13 @@
     <Compile Include="View\TransactionWindow.xaml.cs">
       <DependentUpon>TransactionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Phone.cs" />
     <Compile Include="Properties\App.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>App.settings</DependentUpon>
+    </Compile>
+    <Compile Include="View\UpdateExpenseDialog.xaml.cs">
+      <DependentUpon>UpdateExpenseDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
@@ -141,6 +150,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DeleteExpenseDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ExpensesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TransactionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UpdateExpenseDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

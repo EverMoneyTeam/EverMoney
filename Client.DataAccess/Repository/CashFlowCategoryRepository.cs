@@ -8,23 +8,22 @@ using System.Threading.Tasks;
 
 namespace Client.DataAccess.Repository
 {
-    public class CashAccountRepository
+    public class CashFlowCategoryRepository
     {
-        public List<CashAccount> GetAllCashAccounts()
+        public List<CashFlowCategory> GetAllCashFlowCategories()
         {
             using (var db = DbContextFactory.GetDbContext())
             {
-                return db.CashAccounts.ToList();
+                return db.CashFlowCategories.ToList();
             }
         }
 
-        public CashAccount GetCashAccountByName(string name)
+        public CashFlowCategory GetCashFlowCategoryByName(string name)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
-                return db.CashAccounts.FirstOrDefault(x => x.Name == name);
+                return db.CashFlowCategories.FirstOrDefault(x => x.Name == name);
             }
         }
-
     }
 }

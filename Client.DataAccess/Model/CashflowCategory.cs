@@ -2,7 +2,7 @@
 
 namespace Client.DataAccess.Model
 {
-    public class CashflowCategory : BaseModel
+    public class CashFlowCategory : BaseModel
     {
         public string Name { get; set; }
 
@@ -10,11 +10,11 @@ namespace Client.DataAccess.Model
 
         public Account Account { get; set; }
 
-        public virtual ICollection<Cashflow> Cashflows { get; set; }
+        public virtual ICollection<CashFlow> CashFlows { get; set; }
 
-        public CashflowCategory()
+        public CashFlowCategory()
         {
-            Cashflows = new HashSet<Cashflow>();
+            CashFlows = new HashSet<CashFlow>();
         }
     }
 }

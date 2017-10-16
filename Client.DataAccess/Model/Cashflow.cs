@@ -2,7 +2,7 @@
 
 namespace Client.DataAccess.Model
 {
-    public class Cashflow : BaseModel
+    public class CashFlow : BaseModel
     {
         public decimal Amount { get; set; }
 
@@ -14,8 +14,8 @@ namespace Client.DataAccess.Model
 
         public virtual CashAccount CashAccount { get; set; }
 
-        public string CashflowCategoryId { get; set; }
+        public string CashFlowCategoryId { get; set; }
 
-        public virtual CashflowCategory CashflowCategory { get; set; }
+        public virtual CashFlowCategory CashFlowCategory { get; set; }
     }
 }

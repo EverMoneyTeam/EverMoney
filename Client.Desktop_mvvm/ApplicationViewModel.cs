@@ -15,7 +15,7 @@ namespace Client.Desktop_mvvm
     {
         private Phone selectedPhone;
 
-        public List<Expense> Expenses{ get; set; }
+        public List<CashFlow> Expenses{ get; set; }
 
         public ObservableCollection<Phone> Phones { get; set; }
         public Phone SelectedPhone

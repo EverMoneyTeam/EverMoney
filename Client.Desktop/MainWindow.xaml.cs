@@ -15,7 +15,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using Client.DataAccess.Context;
-using Client.Desktop.ViewModel;
 
 namespace Client.Desktop
 {
@@ -33,7 +32,7 @@ namespace Client.Desktop
                 Properties.App.Default.Save();
             }
             ConfigureDatabase();
-            DataContext = new MainWindowViewModel();
+            //DataContext = new MainWindowViewModel();
         }
 
         private void Switch_MainPage(object sender, MouseButtonEventArgs e)
@@ -47,9 +46,9 @@ namespace Client.Desktop
         //}
 
 
-        private void Switch_ExpensesPage(object sender, MouseButtonEventArgs e)
+        private void Switch_CashFlowsPage(object sender, MouseButtonEventArgs e)
         {
-            Frame.NavigationService.Navigate(new ExpensesPage());
+            Frame.NavigationService.Navigate(new CashFlowsPage());
         }
 
         //private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
