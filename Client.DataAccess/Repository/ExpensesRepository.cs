@@ -22,25 +22,30 @@ namespace Client.DataAccess.Repository
 
     public class ExpensesRepository
     {
+        HistoryChangesRepository _changesRepository = new HistoryChangesRepository();
+
         public List<Expense> GetAllExpenses()
         {
-            using (var db = new DatabaseContext())
+            using (var db = DbContextFactory.GetDbContext())
             {
                 var query = from cashFlows in db.Cashflows
 
                             join cashAccount in db.CashAccounts
-                            on cashFlows.CashAccountId equals cashAccount.Id
+                                on cashFlows.CashAccountId equals cashAccount.Id
 
                             join cfCategory in db.CashflowCategories
-                            on cashFlows.CashflowCategoryId equals cfCategory.Id
+                                on cashFlows.CashflowCategoryId equals cfCategory.Id
 
                             join currency in db.Currencies
-                            on cashAccount.CurrencyId equals currency.Id
+                                on cashAccount.CurrencyId equals currency.Id
+
+                            where cashFlows.Amount < 0
+
                             select new Expense
                             {
                                 Id = cashFlows.Id,
                                 Category = cfCategory.Name,
-                                Amount = cashFlows.Amount,
+                                Amount = Math.Abs(cashFlows.Amount),
                                 Currency = currency.Name,
                                 Date = cashFlows.Date,
                                 Cash = cashAccount.Name,
@@ -53,17 +58,32 @@ namespace Client.DataAccess.Repository
 
         public void AddExpense(string cashAccountId, decimal amount, string cashflowCategoryId, DateTime date, string description)
         {
-            using (var db = new DatabaseContext())
+            using (var db = DbContextFactory.GetDbContext())
             {
-                db.Cashflows.Add(new Model.Cashflow() { Id = Guid.NewGuid().ToString(), CashAccountId = cashAccountId, Amount = amount, CashflowCategoryId = cashflowCategoryId, Date = date, Description = description });
+                var cashflow = new Cashflow()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    CashAccountId = cashAccountId,
+                    Amount = -amount,
+                    CashflowCategoryId = cashflowCategoryId,
+                    Date = date,
+                    Description = description
+                };
+
+                db.Cashflows.Add(cashflow);
+
                 db.CashAccounts.FirstOrDefault(x => x.Id == cashAccountId).Amount -= amount;
-                db.SaveChanges();
+
+                if (db.SaveChanges() > 0)
+                {
+                    _changesRepository.AddCashflow(db, cashflow);
+                }
             }
         }
 
         public void UpdateExpense(string id, string cashAccountId, decimal amount, string cashflowCategoryId, DateTime date, string description)
         {
-            using (var db = new DatabaseContext())
+            using (var db = DbContextFactory.GetDbContext())
             {
                 var result = db.Cashflows.SingleOrDefault(c => c.Id == id);
 
@@ -77,7 +97,10 @@ namespace Client.DataAccess.Repository
 
                 db.CashAccounts.FirstOrDefault(x => x.Id == cashAccountId).Amount = db.CashAccounts.FirstOrDefault(x => x.Id == cashAccountId).Amount + temp - amount;
 
-                db.SaveChanges();
+                if (db.SaveChanges() > 0)
+                {
+                    // TODO History
+                }
             }
         }
     }

@@ -28,10 +28,10 @@ namespace Client.Desktop
             InitializeComponent();
             if (Properties.App.Default.FirstRun)
             {
-                Seed.SeedMethod();
                 Properties.App.Default.FirstRun = false;
                 Properties.App.Default.Save();
             }
+            ConfigureDatabase();
             Grid.Children.Add(new DialogHost() { Name = "MainDialog" });
             Frame.NavigationService.Navigate(new MainPage());
         }
@@ -54,6 +54,12 @@ namespace Client.Desktop
         private void Switch_UserPage(object sender, MouseButtonEventArgs e)
         {
             Frame.NavigationService.Navigate(new UserPage());
+        }
+
+        private void ConfigureDatabase()
+        {
+            DbContextFactory.SetPassword(Properties.Login.Default.AccountId);
+            Seed.SeedMethod();
         }
     }
 }

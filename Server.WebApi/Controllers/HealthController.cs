@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Server.WebApi.Helper;
 
 namespace Server.WebApi.Controllers
 {
@@ -16,7 +17,7 @@ namespace Server.WebApi.Controllers
         [Authorize]
         public IActionResult GetAuthorized()
         {
-            return Ok();
+            return Json(new {AccountId = HttpContext.GetAccountId()});
         }
     }
 }

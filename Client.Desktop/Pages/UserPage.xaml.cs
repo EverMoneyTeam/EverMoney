@@ -44,7 +44,7 @@ namespace Client.Desktop.Pages
 
             Properties.Login.Default.JwtToken = "";
             Properties.Login.Default.UserLogin = "Guest";
-            Properties.Login.Default.UserPassword = "";
+            Properties.Login.Default.AccountId = "";
             Properties.Login.Default.RefreshToken = "";
             Properties.Login.Default.Save();
 

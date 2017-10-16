@@ -8,8 +8,8 @@
     <Setting Name="UserLogin" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="UserPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="AccountId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">00000000-0000-0000-0000-000000000000</Value>
     </Setting>
     <Setting Name="RefreshToken" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

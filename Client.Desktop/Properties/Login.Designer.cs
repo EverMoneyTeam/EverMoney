@@ -49,13 +49,13 @@ namespace Client.Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string UserPassword {
+        [global::System.Configuration.DefaultSettingValueAttribute("00000000-0000-0000-0000-000000000000")]
+        public string AccountId {
             get {
-                return ((string)(this["UserPassword"]));
+                return ((string)(this["AccountId"]));
             }
             set {
-                this["UserPassword"] = value;
+                this["AccountId"] = value;
             }
         }
         

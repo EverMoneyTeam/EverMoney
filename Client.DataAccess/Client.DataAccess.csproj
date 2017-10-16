@@ -60,10 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\Seed.cs" />
+    <Compile Include="Context\DbContextFactory.cs" />
     <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\HistoryChange.cs" />
+    <Compile Include="Repository\AccountRepository.cs" />
     <Compile Include="Repository\CashAccountRepository.cs" />
     <Compile Include="Repository\CategoryRepository.cs" />
     <Compile Include="Repository\ExpensesRepository.cs" />
+    <Compile Include="Repository\HistoryChangesRepository.cs" />
     <Compile Include="SQLiteConfiguration.cs" />
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Model\BaseModel.cs" />

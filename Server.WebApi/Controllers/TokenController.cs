@@ -94,7 +94,7 @@ namespace Server.WebApi.Controllers
         [HttpPost("registration")]
         public IActionResult Registration([FromBody]RegistrationParameters parameters)
         {
-            var login = parameters.Login.Trim().ToLower();
+            var login = parameters.Login.Trim();
             if (_accountRepository.IsAccountExist(login))
             {
                 throw new CustomUserException("User with this login is already exist");

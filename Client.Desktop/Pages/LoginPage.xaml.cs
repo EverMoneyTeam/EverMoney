@@ -1,6 +1,7 @@
 ﻿using Client.Desktop.Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using System.Windows.Shapes;
 using Client.Desktop.Utils;
 using MaterialDesignThemes.Wpf;
 using System.Net.Http;
+using Client.DataAccess.Context;
 
 namespace Client.Desktop.Pages
 {
@@ -44,8 +46,10 @@ namespace Client.Desktop.Pages
             var responseJwtToken = await responseData.Content.ReadAsAsync<ResponseJWTFormat>();
             Properties.Login.Default.JwtToken = responseJwtToken.AccessToken;
             Properties.Login.Default.UserLogin = login;
+            Properties.Login.Default.AccountId = new JwtSecurityToken(responseJwtToken.RefreshToken).Subject;
             Properties.Login.Default.RefreshToken = responseJwtToken.RefreshToken;
             Properties.Login.Default.Save();
+            AddNewUser();
             //await DialogHostExtension.ShowInfo("Ok");
 
             NavigationService.Navigate(new MainPage());
@@ -54,6 +58,13 @@ namespace Client.Desktop.Pages
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
+        }
+
+        private void AddNewUser()
+        {
+            //DbContextFactory.SetPassword(Properties.Login.Default.AccountId);
+            //if()
+            //Properties.Login.Default.UserLogin
         }
     }
 }

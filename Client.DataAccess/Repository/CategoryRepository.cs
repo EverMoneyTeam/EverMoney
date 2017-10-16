@@ -16,7 +16,7 @@ namespace Client.DataAccess.Repository
     {
         public List<Category> GetAllCategories()
         {
-            using (var db = new DatabaseContext())
+            using (var db = DbContextFactory.GetDbContext())
             {
                 var query = from cashFlowsCategories in db.CashflowCategories
                             select new Category
