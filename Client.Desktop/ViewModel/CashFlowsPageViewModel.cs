@@ -17,9 +17,11 @@ namespace Client.Desktop.ViewModel
 {
     public class CashFlowsPageViewModel : BaseViewModel
     {
-        private ObservableCollection<CashFlow> _CashFlows;
+        private ObservableCollection<CashFlow> _cashFlows;
 
-        private CashFlow _CashFlow;
+        private CashFlow _cashFlow;
+
+        private ObservableCollection<CashFlowCategory> _cashFlowCategories;
 
         public ICommand RunAddDialogCommand => new RelayCommand(ExecuteRunAddDialog);
 
@@ -45,11 +47,11 @@ namespace Client.Desktop.ViewModel
         {
             get
             {
-                return _CashFlows;
+                return _cashFlows;
             }
             set
             {
-                this.MutateVerbose(ref _CashFlows, value, RaisePropertyChanged());
+                this.MutateVerbose(ref _cashFlows, value, RaisePropertyChanged());
             }
         }
 
@@ -57,11 +59,23 @@ namespace Client.Desktop.ViewModel
         {
             get
             {
-                return _CashFlow;
+                return _cashFlow;
             }
             set
             {
-                this.MutateVerbose(ref _CashFlow, value, RaisePropertyChanged());
+                this.MutateVerbose(ref _cashFlow, value, RaisePropertyChanged());
+            }
+        }
+
+        public ObservableCollection<CashFlowCategory> CashFlowCategories
+        {
+            get
+            {
+                return _cashFlowCategories;
+            }
+            set
+            {
+                this.MutateVerbose(ref _cashFlowCategories, value, RaisePropertyChanged());
             }
         }
 

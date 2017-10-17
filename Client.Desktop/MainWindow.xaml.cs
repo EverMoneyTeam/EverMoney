@@ -48,7 +48,7 @@ namespace Client.Desktop
 
         private void Switch_CashFlowsPage(object sender, MouseButtonEventArgs e)
         {
-            Frame.NavigationService.Navigate(new CashFlowsPage());
+            Frame.NavigationService.Navigate(new CashFlowPage());
         }
 
         //private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)

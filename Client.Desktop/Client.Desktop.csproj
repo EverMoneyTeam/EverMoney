@@ -106,7 +106,7 @@
     <Compile Include="ViewModel\AddExpenseDialogViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\DeleteExpenseDialogViewModel.cs" />
-    <Compile Include="ViewModel\ExpensesPageViewModel.cs" />
+    <Compile Include="ViewModel\CashFlowsPageViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\UpdateExpenseDialogViewModel.cs" />
     <Compile Include="View\AddExpenseDialog.xaml.cs">
@@ -115,8 +115,8 @@
     <Compile Include="View\DeleteExpenseDialog.xaml.cs">
       <DependentUpon>DeleteExpenseDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ExpensesPage.xaml.cs">
-      <DependentUpon>ExpensesPage.xaml</DependentUpon>
+    <Compile Include="View\CashFlowPage.xaml.cs">
+      <DependentUpon>CashFlowPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TransactionWindow.xaml.cs">
       <DependentUpon>TransactionWindow.xaml</DependentUpon>
@@ -154,7 +154,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ExpensesPage.xaml">
+    <Page Include="View\CashFlowPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
