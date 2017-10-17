@@ -13,9 +13,16 @@ namespace Server.DataAccess.Model
         
         public virtual ICollection<Cashflow> Cashflows { get; set; }
 
+        public Guid? ParentCashflowCategoryId { get; set; }
+
+        public virtual CashflowCategory ParentCashflowCategory { get; set; }
+
+        public virtual ICollection<CashflowCategory> ChildrenCashflowCategories { get; set; }
+
         public CashflowCategory()
         {
             Cashflows = new HashSet<Cashflow>();
+            ChildrenCashflowCategories = new HashSet<CashflowCategory>();
         }
     }
 }

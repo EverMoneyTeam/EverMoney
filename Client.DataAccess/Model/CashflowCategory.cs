@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Client.DataAccess.Model
 {
@@ -11,6 +12,12 @@ namespace Client.DataAccess.Model
         public Account Account { get; set; }
 
         public virtual ICollection<CashFlow> CashFlows { get; set; }
+
+        public string ParentCashflowCategoryId { get; set; }
+
+        public virtual CashFlowCategory ParentCashflowCategory { get; set; }
+
+        public virtual ICollection<CashFlowCategory> ChildrenCashflowCategories { get; set; }
 
         public CashFlowCategory()
         {

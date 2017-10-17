@@ -38,6 +38,25 @@ namespace Client.DataAccess.Context
                 db.Currencies.Add(new Currency() { Id = currencyId3, Code = "3", Name = "EUR" });
 
                 db.SaveChanges();
+
+                var category = new CashFlowCategory { Name = "Parent1", AccountId = accountId };
+                db.CashFlowCategories.Add(category);
+
+                db.SaveChanges();
+
+                var categories = new[]
+                {
+
+                new CashFlowCategory{  Name = "Child1", ParentCashflowCategoryId = category.Id, AccountId = accountId},
+                new CashFlowCategory{  Name = "Child2", ParentCashflowCategoryId = category.Id, AccountId = accountId},
+                new CashFlowCategory{  Name = "Parent2", AccountId = accountId},
+            };
+
+                foreach (var u in categories)
+                {
+                    db.CashFlowCategories.Add(u);
+                }
+                db.SaveChanges();
             }
         }
     }
