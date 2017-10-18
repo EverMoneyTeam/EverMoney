@@ -11,7 +11,7 @@
     <Setting Name="AccountId" Type="System.String" Scope="User">
       <Value Profile="(Default)">00000000-0000-0000-0000-000000000000</Value>
     </Setting>
-    <Setting Name="RefreshToken" Type="System.String" Scope="User">
+    <Setting Name="ExpiresIn" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

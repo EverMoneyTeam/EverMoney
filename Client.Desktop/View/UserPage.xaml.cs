@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Client.DataAccess.Repository;
 using Client.Desktop.Models;
 using Client.Desktop.Utils;
 
@@ -37,15 +38,15 @@ namespace Client.Desktop.Pages
         private async void ButtonLogOut(object sender, RoutedEventArgs e)
         {
             string accountId = JWTParser.ReturnAccountId(Properties.Login.Default.JwtToken);
-            string refreshToken = Properties.Login.Default.RefreshToken;
+            string refreshToken = AccountRepository.GetAccount(Properties.Login.Default.AccountId).RefreshToken;
             var responseData = await ApiAuthService.PostAsync(ApiRequestEnum.Logout, new { refreshToken, accountId });
             if (responseData != null && !responseData.IsSuccessStatusCode)
                 MessageBoxExtension.ShowError(responseData);
 
             Properties.Login.Default.JwtToken = "";
             Properties.Login.Default.UserLogin = "Guest";
-            Properties.Login.Default.AccountId = "";
-            Properties.Login.Default.RefreshToken = "";
+            Properties.Login.Default.ExpiresIn = DateTime.MinValue;
+            //Properties.Login.Default.AccountId = "00000000-0000-0000-0000-000000000000";
             Properties.Login.Default.Save();
 
             //NavigationService.Refresh();

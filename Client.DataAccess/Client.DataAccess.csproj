@@ -80,7 +80,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="EverMoney.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>

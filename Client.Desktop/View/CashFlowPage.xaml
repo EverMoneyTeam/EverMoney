@@ -84,14 +84,14 @@
             AutoGenerateColumns="False"
             BorderThickness="2"
             IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Expenses}"
+            ItemsSource="{Binding CashFlows}"
             SelectedItem="{Binding SelectedExpense}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=CashFlowCategory, Mode=TwoWay}" Header="Category" />
-                <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Amount" />
-                <DataGridTextColumn Binding="{Binding Path=Currency}" Header="Currency" />
+                <DataGridTextColumn Binding="{Binding Path=CashFlowCategory.Name}" Header="Category" />
+                <DataGridTextColumn Binding="{Binding Path=AmountGrid}" Header="Amount" />
+                <DataGridTextColumn Binding="{Binding Path=CashAccount.Currency.Name}" Header="Currency" />
                 <DataGridTextColumn Binding="{Binding Path=Date}" Header="Date" />
-                <DataGridTextColumn Binding="{Binding Path=CashAccount}" Header="Vallet" />
+                <DataGridTextColumn Binding="{Binding Path=CashAccount.Name}" Header="Vallet" />
                 <DataGridTextColumn Binding="{Binding Path=Description}" Header="Description" />
             </DataGrid.Columns>
         </DataGrid>

@@ -16,8 +16,6 @@ namespace Client.DataAccess.Model
 
         public Account Account { get; set; }
 
-        public bool IsJointCashAccount { get; set; }
-
         public virtual ICollection<CashFlow> CashFlows { get; set; }
 
         public CashAccount()

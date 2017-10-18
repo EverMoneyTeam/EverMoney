@@ -27,8 +27,8 @@ namespace Client.DataAccess.Context
 
                 db.CashAccounts.Add(new CashAccount() { Id = cashAccountId1, Name = "PrivatBank", Amount = 10000, CurrencyId = currencyId1, AccountId = accountId});
 
-                db.CashFlows.Add(new CashFlow() { Id = Guid.NewGuid().ToString(), Amount = -3000, Date = DateTime.Now, Description = "Скупился на месяц", CashAccountId = cashAccountId1, CashFlowCategoryId = catergoryId1  });
-                db.CashFlows.Add(new CashFlow() { Id = Guid.NewGuid().ToString(), Amount = -6000, Date = DateTime.Now.AddDays(-2), Description = "Скупился одеждой", CashAccountId = cashAccountId1, CashFlowCategoryId = catergoryId2 });
+                db.CashFlows.Add(new CashFlow() { Id = Guid.NewGuid().ToString(), Amount = -3000, Date = DateTime.Now, Description = "Скупился на месяц", CashAccountId = cashAccountId1, CashFlowCategoryId = catergoryId1, AccountId  = accountId });
+                db.CashFlows.Add(new CashFlow() { Id = Guid.NewGuid().ToString(), Amount = -6000, Date = DateTime.Now.AddDays(-2), Description = "Скупился одеждой", CashAccountId = cashAccountId1, CashFlowCategoryId = catergoryId2, AccountId = accountId });
 
                 db.CashFlowCategories.Add(new CashFlowCategory() { Id = catergoryId1, Name = "Продукты питания", AccountId = accountId});
                 db.CashFlowCategories.Add(new CashFlowCategory() { Id = catergoryId2, Name = "Одежда", AccountId = accountId });

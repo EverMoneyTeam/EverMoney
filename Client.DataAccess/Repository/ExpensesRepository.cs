@@ -24,11 +24,11 @@ namespace Client.DataAccess.Repository
     {
         HistoryChangesRepository _changesRepository = new HistoryChangesRepository();
 
-        public List<CashFlow> GetAllCashFlows()
+        public List<CashFlow> GetAllCashFlows(string accountId)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
-                return db.CashFlows.Where(c => c.Amount < 0).Include(c => c.CashAccount.Currency).Include(c => c.CashFlowCategory).ToList();
+                return db.CashFlows.Where(c => c.AccountId == accountId && c.Amount < 0).Include(c => c.CashAccount.Currency).Include(c => c.CashFlowCategory).ToList();
             }
         }
 

@@ -138,7 +138,8 @@
                     <Label
                         Grid.Column="9"
                         HorizontalAlignment="Right"
-                        Cursor="Hand">
+                        Cursor="Hand"
+                        MouseLeftButtonUp="Switch_UserPage">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon
                                 Width="24"

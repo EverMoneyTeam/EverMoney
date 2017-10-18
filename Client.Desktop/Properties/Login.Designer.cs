@@ -61,13 +61,12 @@ namespace Client.Desktop.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RefreshToken {
+        public global::System.DateTime ExpiresIn {
             get {
-                return ((string)(this["RefreshToken"]));
+                return ((global::System.DateTime)(this["ExpiresIn"]));
             }
             set {
-                this["RefreshToken"] = value;
+                this["ExpiresIn"] = value;
             }
         }
     }

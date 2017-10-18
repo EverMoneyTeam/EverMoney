@@ -38,9 +38,10 @@ namespace Client.Desktop.ViewModel
         public CashFlowsPageViewModel()
         {
             CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
-            var allCashFlows = CashFlowsRepository.GetAllCashFlows();
+            var allCashFlows = CashFlowsRepository.GetAllCashFlows(Properties.Login.Default.AccountId);
             CashFlows = new ObservableCollection<CashFlow>(allCashFlows);
-            SelectedCashFlow = allCashFlows[0];
+            if (CashFlows.Any())
+                SelectedCashFlow = CashFlows[0];
         }
 
         public ObservableCollection<CashFlow> CashFlows
@@ -106,7 +107,7 @@ namespace Client.Desktop.ViewModel
 
                 CashFlowsRepository.AddCashFlow(cashAccountSelectedItem.Id, addCashFlowDialogViewModel.Amount, categorySelectedItem.Id, Convert.ToDateTime(addCashFlowDialogViewModel.Date), addCashFlowDialogViewModel.Description);
                 //Renue content DataGrid
-                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows());
+                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
                 //Set to zero fields
                 addCashFlowDialogViewModel = new AddCashFlowDialogViewModel();
             }
@@ -140,7 +141,7 @@ namespace Client.Desktop.ViewModel
 
                 CashFlowsRepository.UpdateCashFlow(SelectedCashFlow.Id, cashAccountSelectedItem.Id, updateCashFlowDialogViewModel.Amount, categorySelectedItem.Id, Convert.ToDateTime(updateCashFlowDialogViewModel.Date), updateCashFlowDialogViewModel.Description);
                 //Renue content DataGrid
-                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows());
+                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
             }
         }
 
@@ -169,7 +170,7 @@ namespace Client.Desktop.ViewModel
                 CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
                 CashFlowsRepository.DeleteCashFlow(SelectedCashFlow.Id);
                 //Renue content DataGrid
-                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows());
+                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
             }
         }
 

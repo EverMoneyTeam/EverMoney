@@ -51,6 +51,7 @@ namespace Client.DataAccess.Context
                 conn.Open();
                 conn.ChangePassword(password);
                 conn.Close();
+                conn = new SQLiteConnection(string.Format(_connectionString, password));
                 if (TryConnect(conn))
                 {
                     _currentPassword = password;

@@ -18,6 +18,8 @@ using Client.Desktop.Utils;
 using MaterialDesignThemes.Wpf;
 using System.Net.Http;
 using Client.DataAccess.Context;
+using Client.DataAccess.Model;
+using Client.DataAccess.Repository;
 
 namespace Client.Desktop.Pages
 {
@@ -26,6 +28,7 @@ namespace Client.Desktop.Pages
     /// </summary>
     public partial class LoginPage : Page
     {
+        private string refreshToken;
         public LoginPage()
         {
             InitializeComponent();
@@ -36,7 +39,7 @@ namespace Client.Desktop.Pages
             string login = tbxLogin.Text;
             string password = pbxPassword.Password;
 
-            var responseData = await ApiAuthService.PostAsync(ApiRequestEnum.Login, new {login, password});
+            var responseData = await ApiAuthService.PostAsync(ApiRequestEnum.Login, new { login, password });
             if (!responseData.IsSuccessStatusCode)
             {
                 MessageBoxExtension.ShowError(responseData);
@@ -44,10 +47,11 @@ namespace Client.Desktop.Pages
             }
 
             var responseJwtToken = await responseData.Content.ReadAsAsync<ResponseJWTFormat>();
+            refreshToken = responseJwtToken.RefreshToken;
             Properties.Login.Default.JwtToken = responseJwtToken.AccessToken;
             Properties.Login.Default.UserLogin = login;
-            Properties.Login.Default.AccountId = new JwtSecurityToken(responseJwtToken.RefreshToken).Subject;
-            Properties.Login.Default.RefreshToken = responseJwtToken.RefreshToken;
+            Properties.Login.Default.AccountId = new JwtSecurityToken(responseJwtToken.AccessToken).Subject;
+            Properties.Login.Default.ExpiresIn = responseJwtToken.ExpiresIn;
             Properties.Login.Default.Save();
             AddNewUser();
             //await DialogHostExtension.ShowInfo("Ok");
@@ -62,9 +66,25 @@ namespace Client.Desktop.Pages
 
         private void AddNewUser()
         {
-            //DbContextFactory.SetPassword(Properties.Login.Default.AccountId);
-            //if()
-            //Properties.Login.Default.UserLogin
+            var accountId = Properties.Login.Default.AccountId;
+            DbContextFactory.SetPassword(accountId);
+            var accounts = AccountRepository.GetAllAccounts();
+            if (accounts.All(a => a.Id != accountId))
+            {
+                AccountRepository.AddAccount(
+                    new Account
+                    {
+                        Id = accountId,
+                        Login = Properties.Login.Default.UserLogin
+                    });
+                var defaultAccount = accounts.FirstOrDefault(a => a.Id == "00000000-0000-0000-0000-000000000000");
+                if (defaultAccount != null && defaultAccount.IsCurrent)
+                {
+                    AccountRepository.UpdateDefaultAccount(accountId);
+                }
+            }
+
+            AccountRepository.SetLoginAccount(accountId, refreshToken);
         }
     }
 }

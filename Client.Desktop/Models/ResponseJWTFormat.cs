@@ -9,7 +9,7 @@ namespace Client.Desktop.Models
     public class ResponseJWTFormat
     {
         public string AccessToken { get; set; }
-        public string ExpiresIn { get; set; }
+        public DateTime ExpiresIn { get; set; }
         public string RefreshToken { get; set; }
     }
 }
