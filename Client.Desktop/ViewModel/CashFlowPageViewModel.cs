@@ -4,18 +4,12 @@ using Client.Desktop.Helper;
 using Client.Desktop.View;
 using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Client.Desktop.ViewModel
 {
-    public class CashFlowsPageViewModel : BaseViewModel
+    public class CashFlowPageViewModel : BaseViewModel
     {
         private ObservableCollection<CashFlow> _cashFlows;
 
@@ -35,7 +29,7 @@ namespace Client.Desktop.ViewModel
 
         public DeleteCashFlowDialogViewModel deleteCashFlowDialogViewModel;
 
-        public CashFlowsPageViewModel()
+        public CashFlowPageViewModel()
         {
             CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
             var allCashFlows = CashFlowsRepository.GetAllCashFlows();

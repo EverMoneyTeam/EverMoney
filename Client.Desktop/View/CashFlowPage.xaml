@@ -29,8 +29,8 @@
             Grid.RowSpan="2"
             Grid.Column="0">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Title}" />
+                <HierarchicalDataTemplate ItemsSource="{Binding CashFlowCatgories}">
+                    <TextBlock Text="{Binding Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
@@ -84,8 +84,8 @@
             AutoGenerateColumns="False"
             BorderThickness="2"
             IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Expenses}"
-            SelectedItem="{Binding SelectedExpense}">
+            ItemsSource="{Binding CashFlows}"
+            SelectedItem="{Binding SelectedCashFlow}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=CashFlowCategory, Mode=TwoWay}" Header="Category" />
                 <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Amount" />

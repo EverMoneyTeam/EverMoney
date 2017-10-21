@@ -26,7 +26,7 @@ namespace Client.Desktop.Pages
         {
             InitializeComponent();
 
-            this.DataContext = new CashFlowsPageViewModel();
+            this.DataContext = new CashFlowPageViewModel();
         }
     }
 }
