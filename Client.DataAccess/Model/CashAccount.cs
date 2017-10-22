@@ -2,7 +2,7 @@
 
 namespace Client.DataAccess.Model
 {
-    public class CashAccount : BaseModel
+    public class CashAccount : SyncModel
     {
         public string Name { get; set; }
 

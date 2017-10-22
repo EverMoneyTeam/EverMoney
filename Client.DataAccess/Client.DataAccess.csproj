@@ -63,6 +63,7 @@
     <Compile Include="Context\DbContextFactory.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\HistoryChange.cs" />
+    <Compile Include="Model\SyncModel.cs" />
     <Compile Include="Repository\AccountRepository.cs" />
     <Compile Include="Repository\CashAccountRepository.cs" />
     <Compile Include="Repository\CashFlowCategoryRepository.cs" />

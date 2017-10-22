@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,9 +67,30 @@ namespace Client.Desktop.Pages
 
         private async void ButtonSync(object sender, RoutedEventArgs e)
         {
+            var expiredIn = Properties.Login.Default.ExpiresIn;
+            if (DateTime.Now.AddMinutes(10) > expiredIn)
+            {
+                var accountId = Properties.Login.Default.AccountId;
+                var refreshToken = AccountRepository.GetAccount(accountId).RefreshToken;
+                var refreshResponse = await ApiAuthService.PostAsync(ApiRequestEnum.RefreshToken, new {AccountId = accountId, RefreshToken = refreshToken});
+                if (refreshResponse != null && !refreshResponse.IsSuccessStatusCode)
+                {
+                    MessageBoxExtension.ShowError(refreshResponse);
+                    return;
+                }
+
+                var responseJwtToken = await refreshResponse.Content.ReadAsAsync<ResponseJWTFormat>();
+                Properties.Login.Default.JwtToken = responseJwtToken.AccessToken;
+                Properties.Login.Default.ExpiresIn = responseJwtToken.ExpiresIn;
+                AccountRepository.SetLoginAccount(accountId, responseJwtToken.RefreshToken);
+                Properties.Login.Default.Save();
+            }
+
             var response = await ApiAuthService.GetAsync(ApiRequestEnum.Health);
             if (response != null && !response.IsSuccessStatusCode)
                 MessageBoxExtension.ShowError(response);
+
+
         }
     }
 }

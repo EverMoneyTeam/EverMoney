@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Client.DataAccess.Model
 {
-    public class CashFlowCategory : BaseModel
+    public class CashFlowCategory : SyncModel
     {
         public string Name { get; set; }
 

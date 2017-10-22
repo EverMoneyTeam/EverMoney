@@ -3,7 +3,7 @@
 
 namespace Client.DataAccess.Model
 {
-    public class CashFlow : BaseModel
+    public class CashFlow : SyncModel
     {
         public decimal Amount { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
@@ -106,14 +107,14 @@ namespace Server.WebApi.Controllers
 
         private ResponseJwtFormat GetJwt(string accountId, string refreshToken)
         {
-            var now = DateTime.Now;
+            var now = DateTime.Now.ToUniversalTime();
             var expiresIn = now.Add(TimeSpan.FromDays(1));
 
             var claims = new[]
             {
             new Claim(JwtRegisteredClaimNames.Sub, accountId),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat, now.ToUniversalTime().ToString(), ClaimValueTypes.Integer64)
+            new Claim(JwtRegisteredClaimNames.Iat, now.ToString(), ClaimValueTypes.Integer64)
             };
 
             var keyByteArray = Encoding.ASCII.GetBytes(_settings.Secret);
@@ -132,7 +133,7 @@ namespace Server.WebApi.Controllers
             return new ResponseJwtFormat
             {
                 AccessToken = encodedJwt,
-                ExpiresIn = expiresIn,
+                ExpiresIn = expiresIn.ToUniversalTime(),
                 RefreshToken = refreshToken
             };
         }
