@@ -48,6 +48,7 @@ namespace Server.WebApi
 
             services.AddScoped<ITokenRepository, TokenRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IHistoryChangeRepository, HistoryChangeRepository>();
 
             ConfigureJwtAuthService(services);
 

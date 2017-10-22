@@ -68,8 +68,7 @@ namespace Server.WebApi.ExceptionHandler
                 _logger.LogError(context.Exception, "Exception unknown has been thrown");
 
                 statusCode = (int)HttpStatusCode.InternalServerError;
-                message = "Connection failed to some internal service" +
-                          context.Exception.Message;
+                message = "Connection failed to some internal service. " + Environment.NewLine + context.Exception.Message;
             }
 
             context.HttpContext.Response.StatusCode = statusCode;

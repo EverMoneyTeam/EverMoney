@@ -7,6 +7,7 @@ namespace Server.DataAccess.Model
     public class BaseModel
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
 
         public BaseModel()
