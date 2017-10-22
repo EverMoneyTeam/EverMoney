@@ -32,7 +32,9 @@ namespace Client.DataAccess.Context
             }
             else
             {
-                throw new DataException("Something wrong with connection");
+                conn = new SQLiteConnection(string.Format(_connectionString, _currentPassword));
+                if (!TryConnect(conn))
+                    throw new DataException("Something wrong with connection");
             }
         }
 

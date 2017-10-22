@@ -67,7 +67,9 @@ namespace Client.Desktop.Pages
         private void AddNewUser()
         {
             var accountId = Properties.Login.Default.AccountId;
+#if RELEASE
             DbContextFactory.SetPassword(accountId);
+#endif
             var accounts = AccountRepository.GetAllAccounts();
             if (accounts.All(a => a.Id != accountId))
             {

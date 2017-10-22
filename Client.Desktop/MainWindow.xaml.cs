@@ -62,7 +62,11 @@ namespace Client.Desktop
 
         private void ConfigureDatabase()
         {
+#if DEBUG
+            DbContextFactory.SetDefaultPassword();
+#else
             DbContextFactory.SetPassword(Properties.Login.Default.AccountId);
+#endif
             Seed.SeedMethod();
         }
     }
