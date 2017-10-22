@@ -17,6 +17,8 @@ namespace Server.DataAccess.Context
 
         public DbSet<Currency> Currencies { get; set; }
 
+        public DbSet<HistoryChange> HistoryChanges { get; set; }
+
         private readonly bool _forLocalMigration = true;
 
         public DatabaseContext()

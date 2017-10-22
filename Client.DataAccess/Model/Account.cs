@@ -14,6 +14,8 @@ namespace Client.DataAccess.Model
 
         public bool IsCurrent { get; set; }
 
+        public int LastUSN { get; set; }
+
         public virtual ICollection<CashAccount> CashAccounts { get; set; }
 
         public virtual ICollection<CashFlowCategory> CashFlowCategories { get; set; }

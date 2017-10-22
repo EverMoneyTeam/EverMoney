@@ -35,24 +35,6 @@ namespace Server.DataAccess.Migrations
                 context.Currencies.Add(u);
             }
             context.SaveChanges();
-
-            var category = new CashflowCategory { Name = "Parent1", AccountId = account.Id };
-            context.CashflowCategories.Add(category);
-            context.SaveChanges();
-
-            var categories = new[]
-            {
-               
-                new CashflowCategory{  Name = "Child1", ParentCashflowCategoryId = category.Id, AccountId = account.Id},
-                new CashflowCategory{  Name = "Child2", ParentCashflowCategoryId = category.Id, AccountId = account.Id},
-                new CashflowCategory{  Name = "Parent2", AccountId = account.Id},
-            };
-
-            foreach (var u in categories)
-            {
-                context.CashflowCategories.Add(u);
-            }
-            context.SaveChanges();
         }
 
         public static void EnsureUpdated(this DatabaseContext context)
