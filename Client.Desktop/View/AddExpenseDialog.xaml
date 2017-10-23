@@ -99,7 +99,7 @@
             ItemsSource="{Binding CashFlowCategories}"
             RenderTransformOrigin="0.5,0.5"
             SelectedIndex="{Binding SelectedCashFlowCategoryIndex}"
-            SelectedItem="{Binding SelectedCashFlowCategoryIndex}" />
+            SelectedItem="{Binding SelectedCashFlowCategory}" />
 
         <DatePicker
             Name="dpDate"

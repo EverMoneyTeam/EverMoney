@@ -7,6 +7,8 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:treeViewModel="clr-namespace:Client.DataAccess.Model;assembly=Client.DataAccess"
+    xmlns:viewModel="clr-namespace:Client.Desktop.ViewModel"
     Title="ExpensesPage"
     d:DesignHeight="485"
     d:DesignWidth="850"
@@ -24,16 +26,54 @@
             <RowDefinition Height="Auto" MinHeight="380" />
         </Grid.RowDefinitions>
 
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <Button
+                Name="btnAddCategoryTransaction"
+                Width="50"
+                Margin="5"
+                HorizontalAlignment="Right"
+                Command="{Binding RunAddCategoryDialogCommand}"
+                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
+                Добавить
+            </Button>
+
+            <Button
+                Name="btnUpdateCategoryTransaction"
+                Width="50"
+                Margin="5"
+                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
+                Изменить
+            </Button>
+
+            <Button
+                Name="btnDeleteCategoryTransaction"
+                Width="50"
+                Margin="5"
+                Command="{Binding RunDeleteCategoryDialogCommand}"
+                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
+                Удалить
+            </Button>
+        </StackPanel>
         <TreeView
-            Name="trvMenu"
-            Grid.RowSpan="2"
-            Grid.Column="0">
+            Grid.Row="1"
+            Grid.Column="0"
+            ItemsSource="{Binding CashFlowCategories}"
+            
+            >
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Title}" />
+
+                <HierarchicalDataTemplate DataType="{x:Type treeViewModel:CashFlowCategory}" ItemsSource="{Binding ChildrenCashflowCategories}">
+                    <TreeViewItem Header="{Binding Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
+
         <Button
             Name="btnAddTransaction"
             Grid.Column="1"
@@ -76,10 +116,8 @@
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="3"
-            Width="653"
             Height="364"
-            Margin="0,0,20,10"
-            HorizontalAlignment="Right"
+            Margin="10,0,20,10"
             VerticalAlignment="Bottom"
             AutoGenerateColumns="False"
             BorderThickness="2"

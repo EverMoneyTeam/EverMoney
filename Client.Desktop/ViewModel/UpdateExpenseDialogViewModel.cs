@@ -97,8 +97,7 @@ namespace Client.Desktop.ViewModel
             //Initialise all fields in dialog, depending on selected CashFlow from DataGrid
             CashAccountRepository cashAccountRepository = new CashAccountRepository();
             var allCashAccounts = cashAccountRepository.GetAllCashAccounts();
-            CashFlowCategoryRepository cashFlowCategoryRepository = new CashFlowCategoryRepository();
-            var allCashFlowCategories = cashFlowCategoryRepository.GetAllCashFlowCategories();
+            var allCashFlowCategories = CashFlowCategoryRepository.GetAllCashFlowCategories();
 
             //TODO: is it right to look for cashAccount by Name
             SelectedCashAccount = selectedCashFlow.CashAccount;
@@ -113,7 +112,7 @@ namespace Client.Desktop.ViewModel
 
             SelectedCashFlowCategoryIndex = allCashFlowCategories.FindIndex(x => x.Name == selectedCashFlow.CashFlowCategory.Name);
 
-            CashFlowCategories = new ObservableCollection<CashFlowCategory>(cashFlowCategoryRepository.GetAllCashFlowCategories());
+            CashFlowCategories = new ObservableCollection<CashFlowCategory>(CashFlowCategoryRepository.GetAllCashFlowCategories());
 
             Date = selectedCashFlow.Date.ToString();
 

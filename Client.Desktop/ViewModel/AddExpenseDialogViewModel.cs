@@ -25,6 +25,18 @@ namespace Client.Desktop.ViewModel
 
         private string _description;
 
+        public AddCashFlowDialogViewModel()
+        {
+            CashAccountRepository cashAccountRepository = new CashAccountRepository();
+            var allCashAccounts = cashAccountRepository.GetAllCashAccounts();
+            CashAccounts = new ObservableCollection<CashAccount>(allCashAccounts);
+            SelectedCashAccountIndex = 0;
+
+            var allCashFlowCategories = CashFlowCategoryRepository.GetAllCashFlowCategories();
+            CashFlowCategories = new ObservableCollection<CashFlowCategory>(allCashFlowCategories);
+            SelectedCashFlowCategoryIndex = 0;
+        }
+
         public CashAccount SelectedCashAccount
         {
             get { return _cashAccount; }
@@ -93,17 +105,6 @@ namespace Client.Desktop.ViewModel
             }
         }
 
-        public AddCashFlowDialogViewModel()
-        {
-            CashAccountRepository cashAccountRepository = new CashAccountRepository();
-            var allCashAccounts = cashAccountRepository.GetAllCashAccounts();
-            CashAccounts = new ObservableCollection<CashAccount>(allCashAccounts);
-            SelectedCashAccountIndex = 0;
 
-            CashFlowCategoryRepository cashFlowCategoryRepository = new CashFlowCategoryRepository();
-            var allCashFlowCategories = cashFlowCategoryRepository.GetAllCashFlowCategories();
-            CashFlowCategories = new ObservableCollection<CashFlowCategory>(allCashFlowCategories);
-            SelectedCashFlowCategoryIndex = 0;
-        }
     }
 }

@@ -103,14 +103,22 @@
     <Compile Include="Helper\NotifyPropertyChangedExtension.cs" />
     <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Helper\ResponseParser.cs" />
+    <Compile Include="ViewModel\AddCategoryDialogViewModel.cs" />
     <Compile Include="ViewModel\AddExpenseDialogViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\DeleteCategoryDialogViewModel.cs" />
     <Compile Include="ViewModel\DeleteExpenseDialogViewModel.cs" />
     <Compile Include="ViewModel\CashFlowsPageViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\UpdateExpenseDialogViewModel.cs" />
+    <Compile Include="View\AddCategoryDialog.xaml.cs">
+      <DependentUpon>AddCategoryDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddExpenseDialog.xaml.cs">
       <DependentUpon>AddExpenseDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeleteCategoryDialog.xaml.cs">
+      <DependentUpon>DeleteCategoryDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DeleteExpenseDialog.xaml.cs">
       <DependentUpon>DeleteExpenseDialog.xaml</DependentUpon>
@@ -146,7 +154,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AddCategoryDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddExpenseDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DeleteCategoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

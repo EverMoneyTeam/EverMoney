@@ -21,20 +21,31 @@ namespace Client.Desktop.ViewModel
 
         private CashFlow _cashFlow;
 
+        private CashFlowCategory _cashFlowCategory;
+
         private ObservableCollection<CashFlowCategory> _cashFlowCategories;
 
         public ICommand RunAddDialogCommand => new RelayCommand(ExecuteRunAddDialog);
 
+        public ICommand RunAddCategoryDialogCommand => new RelayCommand(ExecuteRunAddCategoryDialog);
+
         public ICommand RunUpdateDialogCommand => new RelayCommand(ExecuteRunUpdateDialog);
+
+        public ICommand RunDeleteCategoryDialogCommand => new RelayCommand(ExecuteRunDeleteCategoryDialog);
 
         public ICommand RunDeleteDialogCommand => new RelayCommand(ExecuteRunDeleteDialog);
 
-        public AddCashFlowDialogViewModel addCashFlowDialogViewModel = new AddCashFlowDialogViewModel();
+        public AddCategoryDialogViewModel addCategoryDialogViewModel;
+
+        public AddCashFlowDialogViewModel addCashFlowDialogViewModel;
 
         public UpdateCashFlowDialogViewModel updateCashFlowDialogViewModel;
 
+        public DeleteCategoryDialogViewModel deleteCategoryDialogViewModel; 
+
         public DeleteCashFlowDialogViewModel deleteCashFlowDialogViewModel;
 
+        
         public CashFlowsPageViewModel()
         {
             CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
@@ -42,6 +53,8 @@ namespace Client.Desktop.ViewModel
             CashFlows = new ObservableCollection<CashFlow>(allCashFlows);
             if (CashFlows.Any())
                 SelectedCashFlow = CashFlows[0];
+
+            CashFlowCategories = new ObservableCollection<CashFlowCategory>(CashFlowCategoryRepository.GetAllParentCashFlowCategories());
         }
 
         public ObservableCollection<CashFlow> CashFlows
@@ -80,9 +93,45 @@ namespace Client.Desktop.ViewModel
             }
         }
 
+        public CashFlowCategory SelectedCategory
+        {
+            get
+            {
+                return _cashFlowCategory;
+            }
+            set
+            {
+                this.MutateVerbose(ref _cashFlowCategory, value, RaisePropertyChanged());
+            }
+        }
+
+        private async void ExecuteRunAddCategoryDialog(object o)
+        {
+            //Chack if there is selected category
+            addCategoryDialogViewModel = new AddCategoryDialogViewModel();
+            var view = new AddCategoryDialog
+            {
+                DataContext = addCategoryDialogViewModel
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ClosingAddCategoryDialogEventHandler);
+
+            //check the result...
+            //Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+        private void ClosingAddCategoryDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool)eventArgs.Parameter == true)
+            {
+                CashFlowCategoryRepository.AddCategory(Properties.Login.Default.AccountId, addCategoryDialogViewModel.SelectedParentCashFlowCategory?.Id, addCategoryDialogViewModel.CashFlowCategory);
+                CashFlowCategories = new ObservableCollection<CashFlowCategory>(CashFlowCategoryRepository.GetAllParentCashFlowCategories());
+            }
+        }
+
         private async void ExecuteRunAddDialog(object o)
         {
-            //let's set up a little MVVM, cos that's what the cool kids are doing:
+            addCashFlowDialogViewModel = new AddCashFlowDialogViewModel();
             var view = new AddCashFlowDialog
             {
 
@@ -145,22 +194,38 @@ namespace Client.Desktop.ViewModel
             }
         }
 
+        private async void ExecuteRunDeleteCategoryDialog(object o)
+        {
+            deleteCategoryDialogViewModel = new DeleteCategoryDialogViewModel(SelectedCategory);
+            var view = new DeleteCategoryDialog
+            {
+                DataContext = deleteCategoryDialogViewModel
+            };
+            
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteCategoryDialogEventHandler);
+        }
+
+        private void ClosingDeleteCategoryDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool)eventArgs.Parameter == true)
+            {
+                CashFlowCategoryRepository.DeleteCategory(SelectedCategory.Id);
+                //Renue content Categories TreeView
+                CashFlowCategories = new ObservableCollection<CashFlowCategory>(CashFlowCategoryRepository.GetAllParentCashFlowCategories());
+            }
+        }
+
         private async void ExecuteRunDeleteDialog(object o)
         {
-            //let's set up a little MVVM, cos that's what the cool kids are doing:
             deleteCashFlowDialogViewModel = new DeleteCashFlowDialogViewModel(SelectedCashFlow);
             var view = new DeleteCashFlowDialog
             {
-
                 DataContext = deleteCashFlowDialogViewModel
             };
-
-
+            
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
-
-            //check the result...
-            //Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
         }
 
         private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
