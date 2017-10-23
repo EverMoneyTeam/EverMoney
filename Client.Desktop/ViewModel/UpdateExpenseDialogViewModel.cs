@@ -95,8 +95,7 @@ namespace Client.Desktop.ViewModel
         public UpdateCashFlowDialogViewModel(CashFlow selectedCashFlow)
         {
             //Initialise all fields in dialog, depending on selected CashFlow from DataGrid
-            CashAccountRepository cashAccountRepository = new CashAccountRepository();
-            var allCashAccounts = cashAccountRepository.GetAllCashAccounts();
+            var allCashAccounts = CashAccountRepository.GetAllCashAccounts();
             var allCashFlowCategories = CashFlowCategoryRepository.GetAllCashFlowCategories();
 
             //TODO: is it right to look for cashAccount by Name

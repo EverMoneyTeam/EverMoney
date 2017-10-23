@@ -27,8 +27,7 @@ namespace Client.Desktop.ViewModel
 
         public AddCashFlowDialogViewModel()
         {
-            CashAccountRepository cashAccountRepository = new CashAccountRepository();
-            var allCashAccounts = cashAccountRepository.GetAllCashAccounts();
+            var allCashAccounts = CashAccountRepository.GetAllCashAccounts();
             CashAccounts = new ObservableCollection<CashAccount>(allCashAccounts);
             SelectedCashAccountIndex = 0;
 

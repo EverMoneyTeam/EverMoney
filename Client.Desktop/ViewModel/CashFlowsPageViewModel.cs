@@ -48,8 +48,7 @@ namespace Client.Desktop.ViewModel
         
         public CashFlowsPageViewModel()
         {
-            CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
-            var allCashFlows = CashFlowsRepository.GetAllCashFlows(Properties.Login.Default.AccountId);
+            var allCashFlows = CashFlowRepository.GetAllCashFlows(Properties.Login.Default.AccountId);
             CashFlows = new ObservableCollection<CashFlow>(allCashFlows);
             if (CashFlows.Any())
                 SelectedCashFlow = CashFlows[0];
@@ -124,7 +123,7 @@ namespace Client.Desktop.ViewModel
         {
             if ((bool)eventArgs.Parameter == true)
             {
-                CashFlowCategoryRepository.AddCategory(Properties.Login.Default.AccountId, addCategoryDialogViewModel.SelectedParentCashFlowCategory?.Id, addCategoryDialogViewModel.CashFlowCategory);
+                CashFlowCategoryRepository.AddCashFlowCategory(Properties.Login.Default.AccountId, addCategoryDialogViewModel.SelectedParentCashFlowCategory?.Id, addCategoryDialogViewModel.CashFlowCategory);
                 CashFlowCategories = new ObservableCollection<CashFlowCategory>(CashFlowCategoryRepository.GetAllParentCashFlowCategories());
             }
         }
@@ -150,13 +149,12 @@ namespace Client.Desktop.ViewModel
             if ((bool)eventArgs.Parameter == true)
             {
                 //TODO: add check
-                CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
                 var cashAccountSelectedItem = addCashFlowDialogViewModel.SelectedCashAccount as CashAccount;
                 var categorySelectedItem = addCashFlowDialogViewModel.SelectedCashFlowCategory as CashFlowCategory;
 
-                CashFlowsRepository.AddCashFlow(cashAccountSelectedItem.Id, addCashFlowDialogViewModel.Amount, categorySelectedItem.Id, Convert.ToDateTime(addCashFlowDialogViewModel.Date), addCashFlowDialogViewModel.Description);
+                CashFlowRepository.AddCashFlow(cashAccountSelectedItem.Id, -Math.Abs(addCashFlowDialogViewModel.Amount), categorySelectedItem.Id, Convert.ToDateTime(addCashFlowDialogViewModel.Date), addCashFlowDialogViewModel.Description);
                 //Renue content DataGrid
-                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
+                CashFlows = new ObservableCollection<CashFlow>(CashFlowRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
                 //Set to zero fields
                 addCashFlowDialogViewModel = new AddCashFlowDialogViewModel();
             }
@@ -184,13 +182,12 @@ namespace Client.Desktop.ViewModel
         {
             if ((bool)eventArgs.Parameter == true)
             {
-                CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
                 var cashAccountSelectedItem = updateCashFlowDialogViewModel.SelectedCashAccount as CashAccount;
                 var categorySelectedItem = updateCashFlowDialogViewModel.SelectedCashFlowCategory as CashFlowCategory;
 
-                CashFlowsRepository.UpdateCashFlow(SelectedCashFlow.Id, cashAccountSelectedItem.Id, updateCashFlowDialogViewModel.Amount, categorySelectedItem.Id, Convert.ToDateTime(updateCashFlowDialogViewModel.Date), updateCashFlowDialogViewModel.Description);
+                CashFlowRepository.UpdateCashFlow(SelectedCashFlow.Id, cashAccountSelectedItem.Id, -Math.Abs(updateCashFlowDialogViewModel.Amount), categorySelectedItem.Id, Convert.ToDateTime(updateCashFlowDialogViewModel.Date), updateCashFlowDialogViewModel.Description);
                 //Renue content DataGrid
-                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
+                CashFlows = new ObservableCollection<CashFlow>(CashFlowRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
             }
         }
 
@@ -210,7 +207,7 @@ namespace Client.Desktop.ViewModel
         {
             if ((bool)eventArgs.Parameter == true)
             {
-                CashFlowCategoryRepository.DeleteCategory(SelectedCategory.Id);
+                CashFlowCategoryRepository.DeleteCashFlowCategory(SelectedCategory.Id);
                 //Renue content Categories TreeView
                 CashFlowCategories = new ObservableCollection<CashFlowCategory>(CashFlowCategoryRepository.GetAllParentCashFlowCategories());
             }
@@ -232,10 +229,9 @@ namespace Client.Desktop.ViewModel
         {
             if ((bool)eventArgs.Parameter == true)
             {
-                CashFlowsRepository CashFlowsRepository = new CashFlowsRepository();
-                CashFlowsRepository.DeleteCashFlow(SelectedCashFlow.Id);
+                CashFlowRepository.DeleteCashFlow(SelectedCashFlow.Id);
                 //Renue content DataGrid
-                CashFlows = new ObservableCollection<CashFlow>(CashFlowsRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
+                CashFlows = new ObservableCollection<CashFlow>(CashFlowRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
             }
         }
 

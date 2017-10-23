@@ -67,8 +67,7 @@
     <Compile Include="Repository\AccountRepository.cs" />
     <Compile Include="Repository\CashAccountRepository.cs" />
     <Compile Include="Repository\CashFlowCategoryRepository.cs" />
-    <Compile Include="Repository\ExpensesRepository.cs" />
-    <Compile Include="Repository\HistoryChangesRepository.cs" />
+    <Compile Include="Repository\CashFlowRepository.cs" />
     <Compile Include="SQLiteConfiguration.cs" />
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Model\BaseModel.cs" />
