@@ -17,7 +17,7 @@ namespace Server.DataAccess.Migrations
                 return;
             }
 
-            var account = new Account { Id = new Guid("00000000-0000-0000-0000-000000000000"), Login = "login", Password = BCrypt.BCryptHelper.HashPassword("password", BCrypt.BCryptHelper.GenerateSalt()) };
+            var account = new Account { Id = new Guid("10000000-0000-0000-0000-000000000000"), Login = "login", Password = BCrypt.BCryptHelper.HashPassword("password", BCrypt.BCryptHelper.GenerateSalt()) };
             context.Accounts.Add(account);
 
             context.SaveChanges();

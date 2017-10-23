@@ -13,11 +13,11 @@ namespace Server.DataAccess.Repository
 
         List<HistoryChange> GetChanges(string accountId, int startAt, int count);
 
-        bool InsertDataRow(string accountId, string table, string rowId);
+        int InsertDataRow(string accountId, string table, string rowId);
 
-        bool UpdateDataRow(string accountId, string table, string rowId, string col, string value);
+        int UpdateDataRow(string accountId, string table, string rowId, string col, string value);
 
-        bool DeleteDataRow(string accountId, string table, string rowId);
+        int DeleteDataRow(string accountId, string table, string rowId);
     }
 
     public class HistoryChangeRepository : IHistoryChangeRepository
@@ -31,81 +31,94 @@ namespace Server.DataAccess.Repository
 
         public int GetLastUpdateSequenceNumber(string accountId)
         {
-            return _databaseContext.HistoryChanges.Where(h => h.AccountId == accountId).Max(h => h.USN);
+            var list = _databaseContext.HistoryChanges.Where(h => h.AccountId == accountId).ToList();
+            if (list.Any())
+                return list.Max(h => h.USN);
+            else
+                return 0;
         }
 
         public List<HistoryChange> GetChanges(string accountId, int startAt, int count)
         {
-            return _databaseContext.HistoryChanges.Where(h => h.AccountId == accountId && h.USN >= startAt).OrderBy(h => h.USN).Take(count).ToList();
+            return _databaseContext.HistoryChanges.Where(h => h.AccountId == accountId && h.USN > startAt).OrderBy(h => h.USN).Take(count).ToList();
         }
 
-        public bool InsertDataRow(string accountId, string table, string rowId)
+        public int InsertDataRow(string accountId, string table, string rowId)
         {
-            bool result;
+            bool success;
+            int usn;
 
             using (var dbContextTransaction = _databaseContext.Database.BeginTransaction())
             {
+                usn = GetLastUpdateSequenceNumber(accountId) + 1;
+
                 _databaseContext.HistoryChanges.Add(new HistoryChange
                 {
                     AccountId = accountId,
-                    USN = GetLastUpdateSequenceNumber(accountId) + 1,
+                    USN = usn,
                     Table = table,
                     RowId = rowId,
                     Column = "Id"
                 });
 
-                result = _databaseContext.SaveChanges() > 0;
+                success = _databaseContext.SaveChanges() > 0;
 
                 dbContextTransaction.Commit();
             }
 
-            return result;
+            return success ? usn : 0;
         }
 
-        public bool UpdateDataRow(string accountId, string table, string rowId, string col, string value)
+        public int UpdateDataRow(string accountId, string table, string rowId, string col, string value)
         {
-            bool result;
+            bool success;
+            int usn;
 
             using (var dbContextTransaction = _databaseContext.Database.BeginTransaction())
             {
+                usn = GetLastUpdateSequenceNumber(accountId) + 1;
+
                 _databaseContext.HistoryChanges.Add(new HistoryChange()
-            {
-                AccountId = accountId,
-                USN = GetLastUpdateSequenceNumber(accountId) + 1,
-                Table = table,
-                RowId = rowId,
-                Column = col,
-                Value = value
-            });
+                {
+                    AccountId = accountId,
+                    USN = usn,
+                    Table = table,
+                    RowId = rowId,
+                    Column = col,
+                    Value = value
+                });
 
-                result = _databaseContext.SaveChanges() > 0;
+                success = _databaseContext.SaveChanges() > 0;
 
                 dbContextTransaction.Commit();
             }
 
-            return result;
+            return success ? usn : 0;
         }
 
-        public bool DeleteDataRow(string accountId, string table, string rowId)
+        public int DeleteDataRow(string accountId, string table, string rowId)
         {
-            bool result;
+            bool success;
+            int usn;
 
             using (var dbContextTransaction = _databaseContext.Database.BeginTransaction())
             {
-                    _databaseContext.HistoryChanges.Add(new HistoryChange()
-            {
-                AccountId = accountId,
-                USN = GetLastUpdateSequenceNumber(accountId) + 1,
-                Table = table,
-                RowId = rowId
-            });
+                usn = GetLastUpdateSequenceNumber(accountId) + 1;
 
-                result = _databaseContext.SaveChanges() > 0;
+                _databaseContext.HistoryChanges.Add(new HistoryChange()
+                {
+                    AccountId = accountId,
+                    USN = usn,
+                    Table = table,
+                    RowId = rowId
+                });
+
+                success = _databaseContext.SaveChanges() > 0;
 
                 dbContextTransaction.Commit();
             }
 
-            return result;
+            return success ? usn : 0;
         }
     }
 }
