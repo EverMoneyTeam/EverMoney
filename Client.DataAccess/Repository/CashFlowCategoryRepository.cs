@@ -27,7 +27,7 @@ namespace Client.DataAccess.Repository
             }
         }
 
-        public static bool AddCashFlowCategory(string accountId, string parentId, string name)
+        public static bool AddCashFlowCategory(string accountId, string parentId = null, string name = null)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -51,8 +51,8 @@ namespace Client.DataAccess.Repository
 
                 if (category == null) return false;
 
-                category.Name = name;
-                category.ParentCashflowCategoryId = parentId;
+                if (name != null) category.Name = name;
+                if (parentId != null) category.ParentCashflowCategoryId = parentId;
                 category.DirtyFlag = true;
 
                 return db.SaveChanges() > 0;

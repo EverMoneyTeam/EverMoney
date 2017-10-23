@@ -44,7 +44,7 @@ namespace Client.DataAccess.Repository
             }
         }
 
-        public static bool UpdateCashFlow(string id, string cashAccountId, decimal amount, string cashFlowCategoryId, DateTime date, string description)
+        public static bool UpdateCashFlow(string id, string cashAccountId, decimal? amount, string cashFlowCategoryId, DateTime? date, string description)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -54,18 +54,20 @@ namespace Client.DataAccess.Repository
 
                 var temp = cashFlow.AmountGrid;
 
-                cashFlow.CashAccountId = cashAccountId;
-                cashFlow.Amount = amount;
-                cashFlow.CashFlowCategoryId = cashFlowCategoryId;
-                cashFlow.Date = date;
-                cashFlow.Description = description;
+                if (cashAccountId != null) cashFlow.CashAccountId = cashAccountId;
+                if (amount != null) cashFlow.Amount = amount.Value;
+                if (cashFlowCategoryId != null) cashFlow.CashFlowCategoryId = cashFlowCategoryId;
+                if (date != null) cashFlow.Date = date.Value;
+                if (description != null) cashFlow.Description = description;
                 cashFlow.DirtyFlag = true;
+
+                if (amount == null) return db.SaveChanges() > 0;
 
                 var cashAccount = db.CashAccounts.FirstOrDefault(x => x.Id == cashFlow.CashAccountId);
 
                 if (cashAccount == null) return false;
 
-                cashAccount.Amount -= temp + amount;
+                cashAccount.Amount -= temp + amount.Value;
 
                 return db.SaveChanges() > 0;
             }

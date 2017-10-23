@@ -18,7 +18,7 @@ namespace Client.DataAccess.Repository
             }
         }
 
-        public static bool AddCashAccount(string accountId, string currencyId, string name)
+        public static bool AddCashAccount(string accountId, string currencyId = null, string name = null)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -41,8 +41,8 @@ namespace Client.DataAccess.Repository
                 var cashAccount = db.CashAccounts.FirstOrDefault(c => c.Id == id);
                 if (cashAccount == null) return false;
 
-                cashAccount.CurrencyId = currencyId;
-                cashAccount.Name = name;
+                if (currencyId != null) cashAccount.CurrencyId = currencyId;
+                if (name != null) cashAccount.Name = name;
                 cashAccount.DirtyFlag = true;
 
                 return db.SaveChanges() > 0;
@@ -63,7 +63,7 @@ namespace Client.DataAccess.Repository
 
                 success = db.SaveChanges() > 0;
             }
-            
+
             return success && CashFlowRepository.DeleteCashAccount(id);
         }
 
