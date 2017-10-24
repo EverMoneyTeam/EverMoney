@@ -62,13 +62,19 @@
             Margin="10"
             AutoGenerateColumns="False"
             BorderThickness="2"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            IsReadOnly="True"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding CashAccounts}"
             SelectedItem="{Binding SelectedCashAccount}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=Name}" Header="Name" />
                 <DataGridTextColumn Binding="{Binding Path=Currency.Name}" Header="Currency" />
-                <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Amount" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Path=Amount}"
+                    Header="Amount" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

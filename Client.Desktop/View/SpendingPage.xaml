@@ -105,6 +105,9 @@
             Margin="10"
             AutoGenerateColumns="False"
             BorderThickness="2"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            IsReadOnly="True"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding CashFlows}"
             SelectedItem="{Binding SelectedCashFlow}">
@@ -114,7 +117,10 @@
                 <DataGridTextColumn Binding="{Binding Path=CashAccount.Currency.Name}" Header="Currency" />
                 <DataGridTextColumn Binding="{Binding Path=Date}" Header="Date" />
                 <DataGridTextColumn Binding="{Binding Path=CashAccount.Name}" Header="Vallet" />
-                <DataGridTextColumn Binding="{Binding Path=Description}" Header="Description" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Path=Description}"
+                    Header="Description" />
             </DataGrid.Columns>
         </DataGrid>
         <Label

@@ -31,6 +31,13 @@ namespace Client.Desktop.ViewModel
 
         public DeleteCashAccountDialogViewModel deleteCashAccountDialogViewModel;
 
+        public CashAccountViewModel()
+        {
+            RefreshData();
+            SelectedCashAccountIndex = 0;
+        }
+
+        public int SelectedCashAccountIndex { get; set; }
 
         public CashAccount SelectedCashAccount
         {
@@ -92,7 +99,6 @@ namespace Client.Desktop.ViewModel
         {
             if ((bool) eventArgs.Parameter == true)
             {
-                //TODO: add check
                 var selectedCurrency = addCashAccountDialogViewModel.SelectedCurrency;
 
                 CashAccountRepository.AddCashAccount(Properties.Login.Default.AccountId, selectedCurrency.Id,

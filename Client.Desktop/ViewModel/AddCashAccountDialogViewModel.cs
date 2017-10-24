@@ -23,7 +23,6 @@ namespace Client.Desktop.ViewModel
         {
             var currencies = CurrencyRepository.GetAllCurrencies();
             Currencies = new ObservableCollection<Currency>(currencies);
-            SelectedCurrencyIndex = 0;
         }
 
         public Currency SelectedCurrency
@@ -31,8 +30,6 @@ namespace Client.Desktop.ViewModel
             get => _selectedCurrency;
             set => this.MutateVerbose(ref _selectedCurrency, value, RaisePropertyChanged());
         }
-
-        public int SelectedCurrencyIndex { get; set; }
 
         public ObservableCollection<Currency> Currencies
         {

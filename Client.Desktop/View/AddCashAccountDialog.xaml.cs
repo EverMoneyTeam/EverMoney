@@ -18,7 +18,7 @@ namespace Client.Desktop.View
     /// <summary>
     /// Interaction logic for AddCashAccountDialog.xaml
     /// </summary>
-    public partial class AddCashAccountDialog : Page
+    public partial class AddCashAccountDialog : UserControl
     {
         public AddCashAccountDialog()
         {

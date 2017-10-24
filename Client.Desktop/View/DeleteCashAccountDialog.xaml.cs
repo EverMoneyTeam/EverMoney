@@ -18,7 +18,7 @@ namespace Client.Desktop.View
     /// <summary>
     /// Interaction logic for DeleteCashAccountDialog.xaml
     /// </summary>
-    public partial class DeleteCashAccountDialog : Page
+    public partial class DeleteCashAccountDialog : UserControl
     {
         public DeleteCashAccountDialog()
         {

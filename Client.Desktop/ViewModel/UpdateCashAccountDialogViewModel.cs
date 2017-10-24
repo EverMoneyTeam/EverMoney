@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using Client.DataAccess.Model;
+using Client.DataAccess.Repository;
 using Client.Desktop.Helper;
 
 namespace Client.Desktop.ViewModel
@@ -13,22 +15,23 @@ namespace Client.Desktop.ViewModel
         private decimal _amount;
 
         private string _name;
-        private CashAccount selectedCashAccount;
 
         public UpdateCashAccountDialogViewModel(CashAccount selectedCashAccount)
         {
-            this.selectedCashAccount = selectedCashAccount;
+            Amount = selectedCashAccount.Amount;
+            Name = selectedCashAccount.Name;
+            Currencies = new ObservableCollection<Currency>(CurrencyRepository.GetAllCurrencies());
+            SelectedCurrency = Currencies.First(c => c.Id == selectedCashAccount.CurrencyId);
+            SelectedCurrencyIndex = Currencies.IndexOf(SelectedCurrency);
         }
 
-
-
+        public int SelectedCurrencyIndex { get; set; }
+        
         public Currency SelectedCurrency
         {
             get => _cashFlowCategory;
             set => this.MutateVerbose(ref _cashFlowCategory, value, RaisePropertyChanged());
         }
-
-        public int SelectedCurrencyIndex { get; set; }
 
         public ObservableCollection<Currency> Currencies
         {

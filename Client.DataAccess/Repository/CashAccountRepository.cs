@@ -2,6 +2,7 @@
 using Client.DataAccess.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Client.DataAccess.Repository
         {
             using (var db = DbContextFactory.GetDbContext())
             {
-                return db.CashAccounts.Where(c => c.USN > -1).ToList();
+                return db.CashAccounts.Where(c => c.USN > -1).Include(c => c.Currency).ToList();
             }
         }
 
