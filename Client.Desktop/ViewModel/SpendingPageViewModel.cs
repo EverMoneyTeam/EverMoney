@@ -125,7 +125,7 @@ namespace Client.Desktop.ViewModel
                 var cashAccountSelectedItem = addCashFlowDialogViewModel.SelectedCashAccount as CashAccount;
                 var categorySelectedItem = addCashFlowDialogViewModel.SelectedCashFlowCategory as CashFlowCategory;
 
-                CashFlowRepository.AddCashFlow(cashAccountSelectedItem.Id, -Math.Abs(addCashFlowDialogViewModel.Amount), categorySelectedItem.Id, Convert.ToDateTime(addCashFlowDialogViewModel.Date), addCashFlowDialogViewModel.Description);
+                CashFlowRepository.AddCashFlow(Properties.Login.Default.AccountId, cashAccountSelectedItem.Id, -Math.Abs(addCashFlowDialogViewModel.Amount), categorySelectedItem.Id, Convert.ToDateTime(addCashFlowDialogViewModel.Date), addCashFlowDialogViewModel.Description);
                 //Renue content DataGrid
                 RefreshData();
                 //Set to zero fields
