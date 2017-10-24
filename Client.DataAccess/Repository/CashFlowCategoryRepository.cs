@@ -27,7 +27,15 @@ namespace Client.DataAccess.Repository
             }
         }
 
-        public static bool AddCashFlowCategory(string accountId, string parentId = null, string name = null)
+        public static List<CashFlowCategory> GetModifiedCashFlowCategories()
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                return db.CashFlowCategories.Where(c => c.DirtyFlag).ToList();
+            }
+        }
+
+        public static bool AddCashFlowCategory(string accountId, string parentId, string name)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -43,7 +51,37 @@ namespace Client.DataAccess.Repository
             }
         }
 
+        public static bool AddSyncCashFlowCategory(string id, int usn)
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                db.CashFlowCategories.Add(new CashFlowCategory()
+                {
+                    Id = id,
+                    USN = usn
+                });
+
+                return db.SaveChanges() > 0;
+            }
+        }
+
         public static bool UpdateCashFlowCategory(string id, string parentId, string name)
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                var category = db.CashFlowCategories.FirstOrDefault(c => c.Id == id);
+
+                if (category == null) return false;
+
+                category.Name = name;
+                category.ParentCashflowCategoryId = parentId;
+                category.DirtyFlag = true;
+
+                return db.SaveChanges() > 0;
+            }
+        }
+
+        public static bool UpdateSyncCashFlowCategory(string id, int usn, string accountId = null, string parentId = null, string name = null)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -53,7 +91,8 @@ namespace Client.DataAccess.Repository
 
                 if (name != null) category.Name = name;
                 if (parentId != null) category.ParentCashflowCategoryId = parentId;
-                category.DirtyFlag = true;
+                if (accountId != null) category.AccountId = accountId;
+                category.USN = usn;
 
                 return db.SaveChanges() > 0;
             }
@@ -78,7 +117,7 @@ namespace Client.DataAccess.Repository
             return success && CashFlowRepository.DeleteCashFlowCategory(id);
         }
 
-        public static bool RemoveCashFlowCategory(string id)
+        public static bool DeleteSyncCashFlowCategory(string id)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -87,6 +126,21 @@ namespace Client.DataAccess.Repository
                 if (cashFlowCategory == null) return false;
 
                 db.CashFlowCategories.Remove(cashFlowCategory);
+
+                return db.SaveChanges() > 0;
+            }
+        }
+
+        public static bool UnflagCashFlowCategory(string id, int usn)
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                var cashFlowCategory = db.CashFlowCategories.FirstOrDefault(c => c.Id == id);
+
+                if (cashFlowCategory == null) return false;
+
+                cashFlowCategory.USN = usn;
+                cashFlowCategory.DirtyFlag = false;
 
                 return db.SaveChanges() > 0;
             }

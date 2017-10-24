@@ -18,7 +18,15 @@ namespace Client.DataAccess.Repository
             }
         }
 
-        public static bool AddCashAccount(string accountId, string currencyId = null, string name = null)
+        public static List<CashAccount> GetModifiedCashAccounts()
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                return db.CashAccounts.Where(c => c.DirtyFlag).ToList();
+            }
+        }
+
+        public static bool AddCashAccount(string accountId, string currencyId, string name)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -34,6 +42,38 @@ namespace Client.DataAccess.Repository
             }
         }
 
+        public static bool AddSyncCashAccount(string id, int usn)
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                db.CashAccounts.Add(new CashAccount()
+                {
+                    Id = id,
+                    USN = usn
+                });
+
+                return db.SaveChanges() > 0;
+            }
+        }
+
+        public static bool UpdateSyncCashAccount(string id, int usn, string accountId = null, string currencyId = null, string name = null, string amount = null)
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                var cashAccount = db.CashAccounts.FirstOrDefault(c => c.Id == id);
+                if (cashAccount == null) return false;
+
+                if (accountId != null) cashAccount.AccountId = accountId;
+                if (currencyId != null) cashAccount.CurrencyId = currencyId;
+                if (name != null) cashAccount.Name = name;
+                if (amount != null && decimal.TryParse(amount, out decimal a)) cashAccount.Amount = a;
+
+                cashAccount.USN = usn;
+
+                return db.SaveChanges() > 0;
+            }
+        }
+
         public static bool UpdateCashAccount(string id, string currencyId, string name)
         {
             using (var db = DbContextFactory.GetDbContext())
@@ -41,8 +81,8 @@ namespace Client.DataAccess.Repository
                 var cashAccount = db.CashAccounts.FirstOrDefault(c => c.Id == id);
                 if (cashAccount == null) return false;
 
-                if (currencyId != null) cashAccount.CurrencyId = currencyId;
-                if (name != null) cashAccount.Name = name;
+                cashAccount.CurrencyId = currencyId;
+                cashAccount.Name = name;
                 cashAccount.DirtyFlag = true;
 
                 return db.SaveChanges() > 0;
@@ -67,7 +107,7 @@ namespace Client.DataAccess.Repository
             return success && CashFlowRepository.DeleteCashAccount(id);
         }
 
-        public static bool RemoveCashAccount(string id)
+        public static bool DeleteSyncCashAccount(string id)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -76,6 +116,21 @@ namespace Client.DataAccess.Repository
                 if (cashAccount == null) return false;
 
                 db.CashAccounts.Remove(cashAccount);
+
+                return db.SaveChanges() > 0;
+            }
+        }
+
+        public static bool UnflagCashAccount(string id, int usn)
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                var cashAccount = db.CashAccounts.FirstOrDefault(c => c.Id == id);
+
+                if (cashAccount == null) return false;
+
+                cashAccount.USN = usn;
+                cashAccount.DirtyFlag = false;
 
                 return db.SaveChanges() > 0;
             }

@@ -34,5 +34,17 @@ namespace Client.Desktop.Properties {
                 this["FirstRun"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int LastUSN {
+            get {
+                return ((int)(this["LastUSN"]));
+            }
+            set {
+                this["LastUSN"] = value;
+            }
+        }
     }
 }

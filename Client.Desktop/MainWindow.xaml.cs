@@ -28,6 +28,7 @@ namespace Client.Desktop
             InitializeComponent();
             if (Properties.App.Default.FirstRun)
             {
+                Properties.App.Default.LastUSN = 0;
                 Properties.App.Default.FirstRun = false;
                 Properties.App.Default.Save();
             }
@@ -62,11 +63,7 @@ namespace Client.Desktop
 
         private void ConfigureDatabase()
         {
-#if DEBUG
-            DbContextFactory.SetDefaultPassword();
-#else
             DbContextFactory.SetPassword(Properties.Login.Default.AccountId);
-#endif
             Seed.SeedMethod();
         }
     }

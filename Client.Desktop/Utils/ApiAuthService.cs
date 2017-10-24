@@ -11,10 +11,21 @@ namespace Client.Desktop.Utils
     public enum ApiRequestEnum
     {
         Login,
-        Register,
-        RefreshToken, 
+        Registration,
+        RefreshToken,
         Logout,
-        Health
+        Health,
+        SyncState,
+        SyncChunk,
+        CreateCashAccount,
+        CreateCashFlow,
+        CreateCashFlowCategory,
+        DeleteCashAccount,
+        DeleteCashFlow,
+        DeleteCashFlowCategory,
+        UpdateCashAccount,
+        UpdateCashFlow,
+        UpdateCashFlowCategory
     }
 
     public static class ApiAuthService
@@ -32,7 +43,7 @@ namespace Client.Desktop.Utils
         private static HttpClient GetClient()
         {
             var httpClient = new HttpClient { BaseAddress = new Uri("https://localhost:5001/api/") };
-           httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.Login.Default.JwtToken);
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.Login.Default.JwtToken);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return httpClient;
         }
@@ -45,19 +56,26 @@ namespace Client.Desktop.Utils
             switch (apiRequestEnum)
             {
                 case ApiRequestEnum.Login:
-                    uri = "token/login";
-                    break;
-                case ApiRequestEnum.Register:
-                    uri = "token/registration";
-                    break;
+                case ApiRequestEnum.Registration:
                 case ApiRequestEnum.RefreshToken:
-                    uri = "token/refreshToken";
-                    break;
                 case ApiRequestEnum.Logout:
-                    uri = "token/logout";
+                    uri = "token/" + apiRequestEnum;
                     break;
                 case ApiRequestEnum.Health:
                     uri = "health/authorized";
+                    break;
+                case ApiRequestEnum.SyncState:
+                case ApiRequestEnum.SyncChunk:
+                case ApiRequestEnum.CreateCashAccount:
+                case ApiRequestEnum.CreateCashFlow:
+                case ApiRequestEnum.CreateCashFlowCategory:
+                case ApiRequestEnum.DeleteCashAccount:
+                case ApiRequestEnum.DeleteCashFlow:
+                case ApiRequestEnum.DeleteCashFlowCategory:
+                case ApiRequestEnum.UpdateCashAccount:
+                case ApiRequestEnum.UpdateCashFlow:
+                case ApiRequestEnum.UpdateCashFlowCategory:
+                    uri = "sync/" + apiRequestEnum;
                     break;
                 default:
                     return string.Empty;

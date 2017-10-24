@@ -35,7 +35,7 @@ namespace Client.Desktop.Pages
 
             try
             {
-                var response = await ApiAuthService.PostAsync(ApiRequestEnum.Register, new { login, password });
+                var response = await ApiAuthService.PostAsync(ApiRequestEnum.Registration, new { login, password });
                 if (response.IsSuccessStatusCode)
                 {
                     MessageBoxExtension.ShowInfo("Registration successful");

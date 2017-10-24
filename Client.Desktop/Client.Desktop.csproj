@@ -103,6 +103,10 @@
     <Compile Include="Helper\NotifyPropertyChangedExtension.cs" />
     <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Helper\ResponseParser.cs" />
+    <Compile Include="Models\SyncChunkResponseParameters.cs" />
+    <Compile Include="Models\SyncStateResponseParameters.cs" />
+    <Compile Include="Models\SyncUpdateRequestParameters.cs" />
+    <Compile Include="Sync\SyncProvider.cs" />
     <Compile Include="ViewModel\AddCategoryDialogViewModel.cs" />
     <Compile Include="ViewModel\AddExpenseDialogViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />

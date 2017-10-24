@@ -32,8 +32,7 @@ namespace Server.WebApi.Controllers
         {
             var accountId = HttpContext.GetAccountId();
             var usn = _historyChangeRepository.GetLastUpdateSequenceNumber(accountId);
-            var dateNow = DateTime.Now.ToUniversalTime();
-            return Json(new { USN = usn, Time = dateNow });
+            return Json(new { USN = usn });
         }
 
         [HttpGet("SyncChunk")]

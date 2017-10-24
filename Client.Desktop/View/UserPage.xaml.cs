@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Client.DataAccess.Repository;
 using Client.Desktop.Models;
+using Client.Desktop.Sync;
 using Client.Desktop.Utils;
 
 namespace Client.Desktop.Pages
@@ -67,30 +68,26 @@ namespace Client.Desktop.Pages
 
         private async void ButtonSync(object sender, RoutedEventArgs e)
         {
-            var expiredIn = Properties.Login.Default.ExpiresIn;
-            if (DateTime.Now.AddMinutes(10) > expiredIn)
-            {
-                var accountId = Properties.Login.Default.AccountId;
-                var refreshToken = AccountRepository.GetAccount(accountId).RefreshToken;
-                var refreshResponse = await ApiAuthService.PostAsync(ApiRequestEnum.RefreshToken, new {AccountId = accountId, RefreshToken = refreshToken});
-                if (refreshResponse != null && !refreshResponse.IsSuccessStatusCode)
-                {
-                    MessageBoxExtension.ShowError(refreshResponse);
-                    return;
-                }
+            var isTokenUpdated = await SyncProvider.UpdateToken();
 
-                var responseJwtToken = await refreshResponse.Content.ReadAsAsync<ResponseJWTFormat>();
-                Properties.Login.Default.JwtToken = responseJwtToken.AccessToken;
-                Properties.Login.Default.ExpiresIn = responseJwtToken.ExpiresIn;
-                AccountRepository.SetLoginAccount(accountId, responseJwtToken.RefreshToken);
-                Properties.Login.Default.Save();
+            if (!isTokenUpdated)
+            {
+                MessageBoxExtension.ShowError("Error while token refresh");
+                return;
             }
 
-            var response = await ApiAuthService.GetAsync(ApiRequestEnum.Health);
-            if (response != null && !response.IsSuccessStatusCode)
-                MessageBoxExtension.ShowError(response);
+            var lastClientUsn = Properties.App.Default.LastUSN;
+            var lastServerUsn = await SyncProvider.SyncStateCheck();
 
+            if (lastClientUsn < lastServerUsn)
+            {
+                await SyncProvider.IncrementalSync();
+            }
 
+            await SyncProvider.SendChanges();
+
+            lastClientUsn = Properties.App.Default.LastUSN;
+            lastServerUsn = await SyncProvider.SyncStateCheck();
         }
     }
 }
