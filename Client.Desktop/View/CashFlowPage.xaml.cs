@@ -28,6 +28,16 @@ namespace Client.Desktop.Pages
 
             this.DataContext = new CashFlowsPageViewModel();
         }
+
+
+        public CashFlowsPageViewModel ViewModel => DataContext as CashFlowsPageViewModel;
+
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (ViewModel == null) return;
+
+            ViewModel.SelectedCategory = e.NewValue;
+        }
     }
 }
 

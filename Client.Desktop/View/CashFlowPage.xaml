@@ -14,16 +14,16 @@
     d:DesignWidth="850"
     mc:Ignorable="d">
 
-    <Grid Height="485" VerticalAlignment="Bottom">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="79*" />
-            <ColumnDefinition Width="216*" />
+            <ColumnDefinition Width="210" />
+            <ColumnDefinition />
             <ColumnDefinition Width="130" />
             <ColumnDefinition Width="130" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="105" />
-            <RowDefinition Height="Auto" MinHeight="380" />
+            <RowDefinition Height="75" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackPanel
@@ -32,9 +32,7 @@
             Orientation="Horizontal">
 
             <Button
-                x:Name="btnAddCategoryTransaction"
-                Width="45"
-                Margin="5,36,5,37"
+                Margin="10"
                 HorizontalAlignment="Right"
                 Command="{Binding RunAddCategoryDialogCommand}"
                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
@@ -42,18 +40,14 @@
                 <materialDesign:PackIcon Kind="Plus" RenderTransformOrigin="-0.094,0.438" />
             </Button>
             <Button
-                x:Name="btnUpdateCategoryTransaction"
-                Width="46"
-                Margin="5,36,5,37"
+                Margin="10"
                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
                 ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
                 <materialDesign:PackIcon Kind="RotateRight" />
             </Button>
 
             <Button
-                x:Name="btnDeleteCategoryTransaction"
-                Width="45"
-                Margin="5"
+                Margin="10"
                 Command="{Binding RunDeleteCategoryDialogCommand}"
                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
                 ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
@@ -63,24 +57,19 @@
         <TreeView
             Grid.Row="1"
             Grid.Column="0"
-            ItemsSource="{Binding CashFlowCategories}">
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                </Style>
-            </TreeView.ItemContainerStyle>
-            <TreeView.ItemTemplate>
+            Margin="10"
+            ItemsSource="{Binding CashFlowCategories}"
+            SelectedItemChanged="TreeView_SelectedItemChanged">
+            <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type treeViewModel:CashFlowCategory}" ItemsSource="{Binding ChildrenCashflowCategories}">
-                    <TreeViewItem Header="{Binding Name}" />
+                    <TextBlock Margin="3,2" Text="{Binding Name}" />
                 </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
+            </TreeView.Resources>
         </TreeView>
         <Button
             Name="btnAddTransaction"
             Grid.Column="1"
-            Width="100"
-            Height="Auto"
-            Margin="0,34,15,29"
+            Margin="10"
             HorizontalAlignment="Right"
             Command="{Binding RunAddDialogCommand}"
             Style="{StaticResource MaterialDesignRaisedDarkButton}"
@@ -91,9 +80,7 @@
         <Button
             Name="btnUpdateTransaction"
             Grid.Column="2"
-            Width="100"
-            Height="Auto"
-            Margin="15,34,15,29"
+            Margin="10"
             Command="{Binding RunUpdateDialogCommand}"
             Style="{StaticResource MaterialDesignRaisedDarkButton}"
             ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
@@ -103,9 +90,7 @@
         <Button
             Name="btnDeleteTransaction"
             Grid.Column="3"
-            Width="100"
-            Height="Auto"
-            Margin="15,34,15,29"
+            Margin="10"
             Command="{Binding RunDeleteDialogCommand}"
             Style="{StaticResource MaterialDesignRaisedDarkButton}"
             ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
@@ -117,9 +102,7 @@
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="3"
-            Height="364"
-            Margin="10,0,20,10"
-            VerticalAlignment="Bottom"
+            Margin="10"
             AutoGenerateColumns="False"
             BorderThickness="2"
             IsSynchronizedWithCurrentItem="True"

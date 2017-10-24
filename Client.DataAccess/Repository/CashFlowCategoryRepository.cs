@@ -101,10 +101,11 @@ namespace Client.DataAccess.Repository
         public static bool DeleteCashFlowCategory(string id)
         {
             bool success;
+            CashFlowCategory category;
 
             using (var db = DbContextFactory.GetDbContext())
             {
-                var category = db.CashFlowCategories.FirstOrDefault(c => c.Id == id);
+                category = db.CashFlowCategories.Include(c => c.ChildrenCashflowCategories).FirstOrDefault(c => c.Id == id);
 
                 if (category == null) return false;
 
@@ -112,6 +113,15 @@ namespace Client.DataAccess.Repository
                 category.USN = -1;
 
                 success = db.SaveChanges() > 0;
+            }
+
+            if (success)
+            {
+                // Remove all child categories
+                foreach (var a in category.ChildrenCashflowCategories)
+                {
+                    success = DeleteCashFlowCategory(a.Id);
+                }
             }
 
             return success && CashFlowRepository.DeleteCashFlowCategory(id);
