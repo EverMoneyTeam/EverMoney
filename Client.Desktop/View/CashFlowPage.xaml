@@ -22,7 +22,7 @@
             <ColumnDefinition Width="130" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="105" />
             <RowDefinition Height="Auto" MinHeight="380" />
         </Grid.RowDefinitions>
 
@@ -30,50 +30,51 @@
             Grid.Row="0"
             Grid.Column="0"
             Orientation="Horizontal">
+
             <Button
-                Name="btnAddCategoryTransaction"
-                Width="50"
-                Margin="5"
+                x:Name="btnAddCategoryTransaction"
+                Width="45"
+                Margin="5,36,5,37"
                 HorizontalAlignment="Right"
                 Command="{Binding RunAddCategoryDialogCommand}"
                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
                 ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
-                Добавить
+                <materialDesign:PackIcon Kind="Plus" RenderTransformOrigin="-0.094,0.438" />
             </Button>
-
             <Button
-                Name="btnUpdateCategoryTransaction"
-                Width="50"
-                Margin="5"
+                x:Name="btnUpdateCategoryTransaction"
+                Width="46"
+                Margin="5,36,5,37"
                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
                 ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
-                Изменить
+                <materialDesign:PackIcon Kind="RotateRight" />
             </Button>
 
             <Button
-                Name="btnDeleteCategoryTransaction"
-                Width="50"
+                x:Name="btnDeleteCategoryTransaction"
+                Width="45"
                 Margin="5"
                 Command="{Binding RunDeleteCategoryDialogCommand}"
                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
                 ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
-                Удалить
+                <materialDesign:PackIcon Kind="Delete" />
             </Button>
         </StackPanel>
         <TreeView
             Grid.Row="1"
             Grid.Column="0"
-            ItemsSource="{Binding CashFlowCategories}"
-            
-            >
+            ItemsSource="{Binding CashFlowCategories}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
-
                 <HierarchicalDataTemplate DataType="{x:Type treeViewModel:CashFlowCategory}" ItemsSource="{Binding ChildrenCashflowCategories}">
                     <TreeViewItem Header="{Binding Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-
         <Button
             Name="btnAddTransaction"
             Grid.Column="1"
