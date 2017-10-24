@@ -25,12 +25,13 @@ namespace Client.DataAccess.Repository
             }
         }
 
-        public static bool AddCashFlow(string cashAccountId, decimal amount, string cashFlowCategoryId, DateTime date, string description)
+        public static bool AddCashFlow(string accountId, string cashAccountId, decimal amount, string cashFlowCategoryId, DateTime date, string description)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
                 var cashFlow = new CashFlow()
                 {
+                    AccountId = accountId,
                     CashAccountId = cashAccountId,
                     Amount = amount,
                     CashFlowCategoryId = cashFlowCategoryId,

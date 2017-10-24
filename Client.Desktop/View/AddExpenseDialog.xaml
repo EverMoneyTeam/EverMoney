@@ -42,7 +42,7 @@
             IsEditable="True"
             ItemsSource="{Binding CashAccounts}"
             SelectedIndex="{Binding SelectedCashAccountIndex}"
-            SelectedItem="{Binding SelectedCashAccountIndex}" />
+            SelectedItem="{Binding SelectedCashAccount}" />
 
 
         <TextBox
