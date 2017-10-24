@@ -30,22 +30,22 @@ namespace Client.DataAccess.Repository
         {
             using (var db = DbContextFactory.GetDbContext())
             {
-                var cashAccounts = db.CashAccounts.Where(a => a.AccountId == "00000000-0000-0000-0000-000000000000").ToList();
+                var cashAccounts = db.CashAccounts.Where(a => a.AccountId == Seed.DefaultAccountId).ToList();
                 foreach (var cashAccount in cashAccounts)
                 {
                     cashAccount.AccountId = accountId;
                 }
-                var cashFlowCategories = db.CashFlowCategories.Where(a => a.AccountId == "00000000-0000-0000-0000-000000000000").ToList();
+                var cashFlowCategories = db.CashFlowCategories.Where(a => a.AccountId == Seed.DefaultAccountId).ToList();
                 foreach (var cashFlowCategory in cashFlowCategories)
                 {
                     cashFlowCategory.AccountId = accountId;
                 }
-                var cashFlows = db.CashFlows.Where(a => a.AccountId == "00000000-0000-0000-0000-000000000000").ToList();
+                var cashFlows = db.CashFlows.Where(a => a.AccountId == Seed.DefaultAccountId).ToList();
                 foreach (var cashFlow in cashFlows)
                 {
                     cashFlow.AccountId = accountId;
                 }
-                db.Entry(db.Accounts.First(a => a.Id == "00000000-0000-0000-0000-000000000000")).State = EntityState.Deleted;
+                db.Entry(db.Accounts.First(a => a.Id == Seed.DefaultAccountId)).State = EntityState.Deleted;
                 db.SaveChanges();
             }
         }

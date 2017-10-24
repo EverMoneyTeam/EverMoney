@@ -8,59 +8,33 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-    d:DesignHeight="300"
+    Width="300"
+    Height="400"
+    d:DesignHeight="400"
     d:DesignWidth="300"
     mc:Ignorable="d">
-    <Grid
-        Width="300"
-        Height="400"
-        Margin="0,10,0,0"
-        VerticalAlignment="Top">
+    <Grid Margin="0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="147*" />
-            <ColumnDefinition Width="145*" />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="55*" />
-            <RowDefinition Height="44*" />
-            <RowDefinition Height="61*" />
-            <RowDefinition Height="50*" />
-            <RowDefinition Height="43*" />
-            <RowDefinition Height="98*" />
-            <RowDefinition Height="49*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <Button
-            Name="btnCashFlow"
-            Height="37"
-            Margin="10,10,10,0"
-            VerticalAlignment="Top"
-            materialDesign:RippleAssist.Feedback="Red"
-            Background="Gray"
-            BorderBrush="Gray"
-            Content="Расходы"
-            Style="{StaticResource MaterialDesignRaisedAccentButton}"
-            ToolTip="Resource name: MaterialDesignRaisedAccentButton" />
-        <Button
-            Name="btnIncome"
-            Grid.Column="1"
-            Height="37"
-            Margin="10,10,8,0"
-            VerticalAlignment="Top"
-            materialDesign:RippleAssist.Feedback="Green"
-            Background="Gray"
-            BorderBrush="Gray"
-            Content="Доходы"
-            Style="{StaticResource MaterialDesignRaisedAccentButton}"
-            ToolTip="Resource name: MaterialDesignRaisedAccentButton" />
 
         <ComboBox
             Name="cbCashAccount"
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Height="25"
-            Margin="35,10,35,0"
-            VerticalAlignment="Top"
+            Margin="10"
+            VerticalAlignment="Center"
             materialDesign:ComboBoxAssist.ShowSelectedItem="false"
             materialDesign:HintAssist.Hint="Wallet"
             materialDesign:HintAssist.HintOpacity=".26"
@@ -76,10 +50,9 @@
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Height="42"
-            Margin="35,10,35,0"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Сумма"
+            Margin="10"
+            VerticalAlignment="Center"
+            materialDesign:HintAssist.Hint="Amount"
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
             Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -88,11 +61,10 @@
             Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Height="29"
-            Margin="35,14,35,0"
-            VerticalAlignment="Top"
+            Margin="10"
+            VerticalAlignment="Center"
             materialDesign:ComboBoxAssist.ShowSelectedItem="false"
-            materialDesign:HintAssist.Hint="Категория"
+            materialDesign:HintAssist.Hint="Category"
             materialDesign:HintAssist.HintOpacity=".26"
             DisplayMemberPath="Name"
             IsEditable="True"
@@ -106,9 +78,8 @@
             Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Height="24"
-            Margin="35,10,35,0"
-            VerticalAlignment="Top"
+            Margin="10"
+            VerticalAlignment="Center"
             materialDesign:HintAssist.Hint="Date"
             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
             Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" />
@@ -118,9 +89,8 @@
             Grid.Row="5"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Height="76"
-            Margin="35,10,35,0"
-            VerticalAlignment="Top"
+            Margin="10"
+            VerticalAlignment="Center"
             materialDesign:HintAssist.Hint="Description"
             AcceptsReturn="True"
             SpellCheck.IsEnabled="True"
@@ -133,31 +103,37 @@
             Name="btnAccept"
             Grid.Row="6"
             Grid.Column="0"
-            Height="30"
-            Margin="10,0,10,10"
-            VerticalAlignment="Bottom"
+            Margin="10"
+            VerticalAlignment="Center"
             Command="{x:Static wpf:DialogHost.CloseDialogCommand}"
             IsDefault="True"
             Style="{StaticResource MaterialDesignFlatButton}">
             <Button.CommandParameter>
                 <sys:Boolean>True</sys:Boolean>
             </Button.CommandParameter>
-            Принять
+            Add
         </Button>
         <Button
             Name="btnCancel"
             Grid.Row="6"
             Grid.Column="1"
-            Height="30"
-            Margin="10,0,10,10"
-            VerticalAlignment="Bottom"
+            Margin="10"
+            VerticalAlignment="Center"
             Command="materialDesign:DialogHost.CloseDialogCommand"
             IsCancel="True"
             Style="{StaticResource MaterialDesignFlatButton}">
             <Button.CommandParameter>
                 <sys:Boolean>False</sys:Boolean>
             </Button.CommandParameter>
-            Отмена
+            Cancel
         </Button>
+        <Label
+            Grid.ColumnSpan="2"
+            Margin="10,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="Spending"
+            FontSize="24"
+            FontWeight="Bold" />
     </Grid>
 </UserControl>

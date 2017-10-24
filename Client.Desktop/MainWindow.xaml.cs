@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using Client.DataAccess.Context;
+using Client.Desktop.View;
+using UserPage = Client.Desktop.View.UserPage;
 
 namespace Client.Desktop
 {
@@ -33,28 +35,22 @@ namespace Client.Desktop
                 Properties.App.Default.Save();
             }
             ConfigureDatabase();
-            //DataContext = new MainWindowViewModel();
         }
 
         private void Switch_MainPage(object sender, MouseButtonEventArgs e)
         {
-
+            Frame.NavigationService.Navigate(new MainPage());
         }
 
-        //private void Switch_MainPage(object sender, MouseButtonEventArgs e)
-        //{
-        //    Frame.NavigationService.Navigate(new MainPage());
-        //}
-
-
-        private void Switch_CashFlowsPage(object sender, MouseButtonEventArgs e)
+        private void Switch_SpendingPage(object sender, MouseButtonEventArgs e)
         {
-            Frame.NavigationService.Navigate(new CashFlowPage());
+            Frame.NavigationService.Navigate(new SpendingPage());
         }
 
-        //private void Sample1_DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
-        //{
-        //}
+        private void Switch_CashAccountPage(object sender, MouseButtonEventArgs e)
+        {
+            Frame.NavigationService.Navigate(new CashAccountPage());
+        }
 
         private void Switch_UserPage(object sender, MouseButtonEventArgs e)
         {

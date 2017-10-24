@@ -26,70 +26,49 @@ namespace Client.Desktop.ViewModel
 
         public CashAccount SelectedCashAccount
         {
-            get { return _cashAccount; }
-            set
-            {
-                this.MutateVerbose(ref _cashAccount, value, RaisePropertyChanged());
-            }
+            get => _cashAccount;
+            set => this.MutateVerbose(ref _cashAccount, value, RaisePropertyChanged());
         }
 
         public int SelectedCashAccountIndex { get; set; }
 
         public ObservableCollection<CashAccount> CashAccounts
         {
-            get { return _cashAccounts; }
-            set
-            {
-                this.MutateVerbose(ref _cashAccounts, value, RaisePropertyChanged());
-            }
+            get => _cashAccounts;
+            set => this.MutateVerbose(ref _cashAccounts, value, RaisePropertyChanged());
         }
 
         public CashFlowCategory SelectedCashFlowCategory
         {
-            get { return _cashFlowCategory; }
-            set
-            {
-                this.MutateVerbose(ref _cashFlowCategory, value, RaisePropertyChanged());
-            }
+            get => _cashFlowCategory;
+            set => this.MutateVerbose(ref _cashFlowCategory, value, RaisePropertyChanged());
         }
 
         public int SelectedCashFlowCategoryIndex { get; set; }
 
         public ObservableCollection<CashFlowCategory> CashFlowCategories
         {
-            get { return _cashFlowCategories; }
-            set
-            {
-                this.MutateVerbose(ref _cashFlowCategories, value, RaisePropertyChanged());
-            }
+            get => _cashFlowCategories;
+            set => this.MutateVerbose(ref _cashFlowCategories, value, RaisePropertyChanged());
         }
 
 
         public decimal Amount
         {
-            get { return _amount; }
-            set
-            {
-                this.MutateVerbose(ref _amount, value, RaisePropertyChanged());
-            }
+            get => _amount;
+            set => this.MutateVerbose(ref _amount, value, RaisePropertyChanged());
         }
 
         public string Date
         {
-            get { return _date; }
-            set
-            {
-                this.MutateVerbose(ref _date, value, RaisePropertyChanged());
-            }
+            get => _date;
+            set => this.MutateVerbose(ref _date, value, RaisePropertyChanged());
         }
 
         public string Description
         {
-            get { return _description; }
-            set
-            {
-                this.MutateVerbose(ref _description, value, RaisePropertyChanged());
-            }
+            get => _description;
+            set => this.MutateVerbose(ref _description, value, RaisePropertyChanged());
         }
 
         public UpdateCashFlowDialogViewModel(CashFlow selectedCashFlow)

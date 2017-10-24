@@ -7,8 +7,6 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="RegistrationPage"
-    d:DesignHeight="485"
-    d:DesignWidth="715"
     mc:Ignorable="d">
 
     <Grid>
@@ -20,7 +18,7 @@
             <TextBlock
                 HorizontalAlignment="Center"
                 FontSize="36"
-                Text="Create Account" />
+                Text="Registration" />
             <TextBox
                 x:Name="tbxLogin"
                 Margin="0,5,0,0"
@@ -36,13 +34,13 @@
                 Margin="0,5,0,0"
                 Padding="5"
                 Click="btnReg_Click"
-                Content="REGISTER" />
+                Content="Sign Up" />
             <Button
                 x:Name="btnBack"
                 Margin="0,5,0,0"
                 Padding="5"
                 Click="btnBack_Click"
-                Content="BACK" />
+                Content="Return" />
         </StackPanel>
     </Grid>
 </Page>

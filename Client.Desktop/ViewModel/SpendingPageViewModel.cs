@@ -16,7 +16,7 @@ using System.Windows.Input;
 namespace Client.Desktop.ViewModel
 {
 
-    public class CashFlowsPageViewModel : BaseViewModel
+    public class SpendingPageViewModel : BaseViewModel
     {
         private ObservableCollection<CashFlow> _cashFlows;
 
@@ -46,7 +46,7 @@ namespace Client.Desktop.ViewModel
 
         public DeleteCashFlowDialogViewModel deleteCashFlowDialogViewModel;
 
-        public CashFlowsPageViewModel()
+        public SpendingPageViewModel()
         {
             RefreshData();
             if (CashFlows.Any())
@@ -55,47 +55,26 @@ namespace Client.Desktop.ViewModel
 
         public ObservableCollection<CashFlow> CashFlows
         {
-            get
-            {
-                return _cashFlows;
-            }
-            set
-            {
-                this.MutateVerbose(ref _cashFlows, value, RaisePropertyChanged());
-            }
+            get => _cashFlows;
+            set => this.MutateVerbose(ref _cashFlows, value, RaisePropertyChanged());
         }
 
         public CashFlow SelectedCashFlow
         {
-            get
-            {
-                return _cashFlow;
-            }
-            set
-            {
-                this.MutateVerbose(ref _cashFlow, value, RaisePropertyChanged());
-            }
+            get => _cashFlow;
+            set => this.MutateVerbose(ref _cashFlow, value, RaisePropertyChanged());
         }
 
         public ObservableCollection<CashFlowCategory> CashFlowCategories
         {
-            get
-            {
-                return _cashFlowCategories;
-            }
-            set
-            {
-                this.MutateVerbose(ref _cashFlowCategories, value, RaisePropertyChanged());
-            }
+            get => _cashFlowCategories;
+            set => this.MutateVerbose(ref _cashFlowCategories, value, RaisePropertyChanged());
         }
 
         public object SelectedCategory
         {
-            get { return _selectedItem; }
-            set
-            {
-                this.MutateVerbose(ref _selectedItem, value, RaisePropertyChanged());
-            }
+            get => _selectedItem;
+            set => this.MutateVerbose(ref _selectedItem, value, RaisePropertyChanged());
         }
 
         private async void ExecuteRunAddCategoryDialog(object o)

@@ -7,9 +7,11 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:materialMenu="clr-namespace:MaterialMenu;assembly=MaterialMenu"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="WPF Client"
+    Title="EverMoney"
     Width="1000"
     Height="600"
+    MinWidth="900"
+    MinHeight="500"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
     TextElement.FontSize="14"
@@ -36,22 +38,25 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="1" Cursor="Hand">
+                    <Label
+                        Grid.Column="1"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="Switch_MainPage">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon
                                 Width="24"
                                 Height="24"
-                                Kind="Etsy" />
+                                Kind="BlurRadial" />
                             <AccessText
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
-                                Text="Главная" />
+                                Text="Main Menu" />
                         </StackPanel>
                     </Label>
                     <Label
                         Grid.Column="2"
                         Cursor="Hand"
-                        MouseLeftButtonUp="Switch_CashFlowsPage">
+                        MouseLeftButtonUp="Switch_SpendingPage">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon
                                 Width="24"
@@ -60,7 +65,7 @@
                             <AccessText
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
-                                Text="Расходы" />
+                                Text="Spengings" />
                         </StackPanel>
                     </Label>
                     <Label Grid.Column="3" Cursor="Hand">
@@ -72,10 +77,25 @@
                             <AccessText
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
-                                Text="Доходы" />
+                                Text="Incomes" />
                         </StackPanel>
                     </Label>
-                    <Label Grid.Column="4" Cursor="Hand">
+                    <Label
+                        Grid.Column="4"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="Switch_CashAccountPage">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Kind="Wallet" />
+                            <AccessText
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Cash Accounts" />
+                        </StackPanel>
+                    </Label>
+                    <Label Grid.Column="5" Cursor="Hand">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon
                                 Width="24"
@@ -84,10 +104,10 @@
                             <AccessText
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
-                                Text="Бюджет" />
+                                Text="Budget" />
                         </StackPanel>
                     </Label>
-                    <Label Grid.Column="5" Cursor="Hand">
+                    <Label Grid.Column="6" Cursor="Hand">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon
                                 Width="24"
@@ -96,19 +116,7 @@
                             <AccessText
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
-                                Text="Календарь" />
-                        </StackPanel>
-                    </Label>
-                    <Label Grid.Column="6" Cursor="Hand">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon
-                                Width="24"
-                                Height="24"
-                                Kind="Bank" />
-                            <AccessText
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="Банки" />
+                                Text="Calendar" />
                         </StackPanel>
                     </Label>
                     <Label Grid.Column="7" Cursor="Hand">
@@ -120,7 +128,7 @@
                             <AccessText
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
-                                Text="Долги" />
+                                Text="Debts" />
                         </StackPanel>
                     </Label>
                     <Label Grid.Column="8" Cursor="Hand">
@@ -132,7 +140,7 @@
                             <AccessText
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
-                                Text="Отчеты" />
+                                Text="Reports" />
                         </StackPanel>
                     </Label>
                     <Label
@@ -148,7 +156,7 @@
                             <AccessText
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
-                                Text="Пользователь" />
+                                Text="User" />
                         </StackPanel>
                     </Label>
                 </Grid>

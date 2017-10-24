@@ -1,25 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Client.DataAccess.Repository;
 using Client.Desktop.Models;
+using Client.Desktop.Pages;
 using Client.Desktop.Sync;
 using Client.Desktop.Utils;
 
-namespace Client.Desktop.Pages
+namespace Client.Desktop.View
 {
     /// <summary>
     /// Interaction logic for UserPage.xaml
@@ -33,9 +21,9 @@ namespace Client.Desktop.Pages
             {
                 GuestGrid.Visibility = Visibility.Hidden;
                 UserGrid.Visibility = Visibility.Visible;
-
-                GreetingsMessage.Text = "Добро Пожаловать, " + Properties.Login.Default.UserLogin;
             }
+
+            GreetingsMessage.Text = "Welcome, " + Properties.Login.Default.UserLogin;
         }
 
         private async void ButtonLogOut(object sender, RoutedEventArgs e)
@@ -49,10 +37,8 @@ namespace Client.Desktop.Pages
             Properties.Login.Default.JwtToken = "";
             Properties.Login.Default.UserLogin = "Guest";
             Properties.Login.Default.ExpiresIn = DateTime.MinValue;
-            //Properties.Login.Default.AccountId = "00000000-0000-0000-0000-000000000000";
             Properties.Login.Default.Save();
 
-            //NavigationService.Refresh();
             NavigationService.Navigate(new MainPage());
         }
 
@@ -85,9 +71,6 @@ namespace Client.Desktop.Pages
             }
 
             await SyncProvider.SendChanges();
-
-            lastClientUsn = Properties.App.Default.LastUSN;
-            lastServerUsn = await SyncProvider.SyncStateCheck();
         }
     }
 }

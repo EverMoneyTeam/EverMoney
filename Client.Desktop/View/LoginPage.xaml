@@ -7,8 +7,6 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Login"
-    d:DesignHeight="485"
-    d:DesignWidth="715"
     mc:Ignorable="d">
 
     <Grid>
@@ -17,6 +15,10 @@
             Margin="0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="36"
+                Text="Login" />
             <TextBox
                 x:Name="tbxLogin"
                 Margin="0,5,0,0"
@@ -34,13 +36,13 @@
                 Margin="0,5,0,0"
                 Padding="5"
                 Click="btnLogin_Click"
-                Content="LOGIN" />
+                Content="Sign In" />
             <Button
                 x:Name="btnRegister"
                 Margin="0,5,0,0"
                 Padding="5"
                 Click="btnBack_Click"
-                Content="BACK" />
+                Content="Return" />
         </StackPanel>
     </Grid>
 </Page>
