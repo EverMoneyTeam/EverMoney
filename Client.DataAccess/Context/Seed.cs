@@ -13,13 +13,12 @@ namespace Client.DataAccess.Context
         public const string CurrencyId1 = "00000000-0000-0000-0000-000000000001";
         public const string CurrencyId2 = "00000000-0000-0000-0000-000000000002";
         public const string CurrencyId3 = "00000000-0000-0000-0000-000000000003";
-        public const string MainCategoryId = "00000000-0000-0000-0000-0000000000FF";
 
         public static void SeedMethod()
         {
             using (var db = DbContextFactory.GetDbContext())
             {
-                if (db.Accounts.Any()) return;
+                if (db.Accounts.Any() && db.Currencies.Any()) return;
                 string cashAccountId1 = Guid.NewGuid().ToString();
                 string catergoryId1 = Guid.NewGuid().ToString();
                 string catergoryId2 = Guid.NewGuid().ToString();
@@ -28,7 +27,7 @@ namespace Client.DataAccess.Context
 
                 db.Accounts.Add(new Account {Id = DefaultAccountId, Login = "Guest", IsCurrent = true});
 
-                db.CashFlowCategories.Add(new CashFlowCategory { Id = MainCategoryId, Name = "All categories", AccountId = DefaultAccountId, DirtyFlag = true });
+                //db.CashFlowCategories.Add(new CashFlowCategory { Id = MainCategoryId, Name = "All categories", AccountId = DefaultAccountId, DirtyFlag = true });
 
                 //db.CashAccounts.Add(new CashAccount() { Id = cashAccountId1, Name = "PrivatBank", Amount = 10000, CurrencyId = currencyId1, AccountId = accountId, DirtyFlag = true });
 

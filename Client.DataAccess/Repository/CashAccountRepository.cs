@@ -48,11 +48,20 @@ namespace Client.DataAccess.Repository
         {
             using (var db = DbContextFactory.GetDbContext())
             {
-                db.CashAccounts.Add(new CashAccount()
+                var cashAccount = db.CashAccounts.FirstOrDefault(c => c.Id == id);
+                if (cashAccount == null)
                 {
-                    Id = id,
-                    USN = usn
-                });
+                    db.CashAccounts.Add(new CashAccount()
+                    {
+                        Id = id,
+                        USN = usn
+                    });
+                }
+                else
+                {
+                    if (cashAccount.DirtyFlag) return false;
+                    cashAccount.USN = usn;
+                }
 
                 return db.SaveChanges() > 0;
             }
@@ -64,6 +73,8 @@ namespace Client.DataAccess.Repository
             {
                 var cashAccount = db.CashAccounts.FirstOrDefault(c => c.Id == id);
                 if (cashAccount == null) return false;
+
+                if (cashAccount.DirtyFlag) return false;
 
                 if (accountId != null) cashAccount.AccountId = accountId;
                 if (currencyId != null) cashAccount.CurrencyId = currencyId;
@@ -101,10 +112,17 @@ namespace Client.DataAccess.Repository
                 var cashAccount = db.CashAccounts.FirstOrDefault(c => c.Id == id);
                 if (cashAccount == null) return false;
 
-                cashAccount.USN = -1;
-                cashAccount.DirtyFlag = true;
+                if (cashAccount.USN == 0)
+                {
+                    success = DeleteSyncCashAccount(cashAccount.Id);
+                }
+                else
+                {
+                    cashAccount.USN = -1;
+                    cashAccount.DirtyFlag = true;
 
-                success = db.SaveChanges() > 0;
+                    success = db.SaveChanges() > 0;
+                }
             }
 
             return success && CashFlowRepository.DeleteCashAccount(id);

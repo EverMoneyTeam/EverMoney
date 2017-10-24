@@ -57,13 +57,21 @@ namespace Client.DataAccess.Repository
         {
             using (var db = DbContextFactory.GetDbContext())
             {
-                var cashFlow = new CashFlow()
-                {
-                    Id = id,
-                    USN = usn
-                };
+                var cashFlow = db.CashFlows.FirstOrDefault(c => c.Id == id);
 
-                db.CashFlows.Add(cashFlow);
+                if (cashFlow == null)
+                {
+                    db.CashFlows.Add(new CashFlow()
+                    {
+                        Id = id,
+                        USN = usn
+                    });
+                }
+                else
+                {
+                    if (cashFlow.DirtyFlag) return false;
+                    cashFlow.USN = usn;
+                }
 
                 return db.SaveChanges() > 0;
             }
@@ -132,6 +140,11 @@ namespace Client.DataAccess.Repository
                 cashAccount.Amount -= cashFlow.Amount;
                 cashAccount.DirtyFlag = true;
 
+                if (cashFlow.USN == 0)
+                {
+                    return DeleteSyncCashFlow(cashFlow.Id);
+                }
+
                 cashFlow.USN = -1;
                 cashFlow.DirtyFlag = true;
 
@@ -147,8 +160,15 @@ namespace Client.DataAccess.Repository
 
                 foreach (var cashFlow in cashFlows)
                 {
-                    cashFlow.USN = -1;
-                    cashFlow.DirtyFlag = true;
+                    if (cashFlow.USN == 0)
+                    {
+                        if (!DeleteSyncCashFlow(cashFlow.Id)) return false;
+                    }
+                    else
+                    {
+                        cashFlow.USN = -1;
+                        cashFlow.DirtyFlag = true;
+                    }
                 }
 
                 return db.SaveChanges() > 0;
@@ -163,8 +183,15 @@ namespace Client.DataAccess.Repository
 
                 foreach (var cashFlow in cashFlows)
                 {
-                    cashFlow.USN = -1;
-                    cashFlow.DirtyFlag = true;
+                    if (cashFlow.USN == 0)
+                    {
+                        if (!DeleteSyncCashFlow(cashFlow.Id)) return false;
+                    }
+                    else
+                    {
+                        cashFlow.USN = -1;
+                        cashFlow.DirtyFlag = true;
+                    }
                 }
 
                 return db.SaveChanges() > 0;

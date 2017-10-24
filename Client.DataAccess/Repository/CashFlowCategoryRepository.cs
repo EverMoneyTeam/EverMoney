@@ -55,11 +55,21 @@ namespace Client.DataAccess.Repository
         {
             using (var db = DbContextFactory.GetDbContext())
             {
-                db.CashFlowCategories.Add(new CashFlowCategory()
+                var category = db.CashFlowCategories.FirstOrDefault(c => c.Id == id);
+
+                if (category == null)
                 {
-                    Id = id,
-                    USN = usn
-                });
+                    db.CashFlowCategories.Add(new CashFlowCategory()
+                    {
+                        Id = id,
+                        USN = usn
+                    });
+                }
+                else
+                {
+                    if (category.DirtyFlag) return false;
+                    category.USN = usn;
+                }
 
                 return db.SaveChanges() > 0;
             }
@@ -89,6 +99,8 @@ namespace Client.DataAccess.Repository
 
                 if (category == null) return false;
 
+                if (category.DirtyFlag) return false;
+
                 if (name != null) category.Name = name;
                 if (parentId != null) category.ParentCashflowCategoryId = parentId;
                 if (accountId != null) category.AccountId = accountId;
@@ -109,10 +121,17 @@ namespace Client.DataAccess.Repository
 
                 if (category == null) return false;
 
-                category.DirtyFlag = true;
-                category.USN = -1;
+                if (category.USN == 0)
+                {
+                    success = DeleteSyncCashFlowCategory(category.Id);
+                }
+                else
+                {
+                    category.DirtyFlag = true;
+                    category.USN = -1;
 
-                success = db.SaveChanges() > 0;
+                    success = db.SaveChanges() > 0;
+                }
             }
 
             if (success)

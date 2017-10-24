@@ -83,6 +83,8 @@ namespace Client.Desktop.Sync
                     if (isSyncSuccess)
                     {
                         currentUsn = change.USN;
+                        Properties.App.Default.LastUSN = change.USN;
+                        Properties.App.Default.Save();
                     }
                     else
                     {
@@ -161,7 +163,7 @@ namespace Client.Desktop.Sync
                 case "AccountId":
                     isSyncSuccess = CashFlowCategoryRepository.UpdateSyncCashFlowCategory(change.RowId, change.USN, accountId: change.Value);
                     break;
-                case "ParrentCashflowCategoryId":
+                case "ParentCashflowCategoryId":
                     isSyncSuccess = CashFlowCategoryRepository.UpdateSyncCashFlowCategory(change.RowId, change.USN, parentId: change.Value);
                     break;
                 case null:
