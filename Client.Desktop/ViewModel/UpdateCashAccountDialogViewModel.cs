@@ -1,35 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Client.DataAccess.Model;
-using Client.DataAccess.Repository;
 using Client.Desktop.Helper;
 
 namespace Client.Desktop.ViewModel
 {
-    public class AddCashAccountDialogViewModel : BaseViewModel
+    public class UpdateCashAccountDialogViewModel : BaseViewModel
     {
-        private Currency _selectedCurrency;
+        private Currency _cashFlowCategory;
 
         private ObservableCollection<Currency> _currencies;
 
         private decimal _amount;
 
         private string _name;
+        private CashAccount selectedCashAccount;
 
-        public AddCashAccountDialogViewModel()
+        public UpdateCashAccountDialogViewModel(CashAccount selectedCashAccount)
         {
-            var currencies = CurrencyRepository.GetAllCurrencies();
-            Currencies = new ObservableCollection<Currency>(currencies);
-            SelectedCurrencyIndex = 0;
+            this.selectedCashAccount = selectedCashAccount;
         }
+
+
 
         public Currency SelectedCurrency
         {
-            get => _selectedCurrency;
-            set => this.MutateVerbose(ref _selectedCurrency, value, RaisePropertyChanged());
+            get => _cashFlowCategory;
+            set => this.MutateVerbose(ref _cashFlowCategory, value, RaisePropertyChanged());
         }
 
         public int SelectedCurrencyIndex { get; set; }

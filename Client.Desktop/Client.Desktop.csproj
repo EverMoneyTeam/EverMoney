@@ -107,17 +107,17 @@
     <Compile Include="Models\SyncStateResponseParameters.cs" />
     <Compile Include="Models\SyncUpdateRequestParameters.cs" />
     <Compile Include="Sync\SyncProvider.cs" />
-    <Compile Include="ViewModel\AddCashAccountViewModel.cs" />
+    <Compile Include="ViewModel\AddCashAccountDialogViewModel.cs" />
     <Compile Include="ViewModel\AddCategoryDialogViewModel.cs" />
     <Compile Include="ViewModel\AddExpenseDialogViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CashAccountViewModel.cs" />
-    <Compile Include="ViewModel\DeleteCashAccountViewModel.cs" />
+    <Compile Include="ViewModel\DeleteCashAccountDialogViewModel.cs" />
     <Compile Include="ViewModel\DeleteCategoryDialogViewModel.cs" />
     <Compile Include="ViewModel\DeleteExpenseDialogViewModel.cs" />
     <Compile Include="ViewModel\SpendingPageViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\UpdateCashAccountViewModel.cs" />
+    <Compile Include="ViewModel\UpdateCashAccountDialogViewModel.cs" />
     <Compile Include="ViewModel\UpdateExpenseDialogViewModel.cs" />
     <Compile Include="View\AddCashAccountDialog.xaml.cs">
       <DependentUpon>AddCashAccountDialog.xaml</DependentUpon>
@@ -130,6 +130,9 @@
     </Compile>
     <Compile Include="View\CashAccountPage.xaml.cs">
       <DependentUpon>CashAccountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeleteCashAccountDialog.xaml.cs">
+      <DependentUpon>DeleteCashAccountDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DeleteCategoryDialog.xaml.cs">
       <DependentUpon>DeleteCategoryDialog.xaml</DependentUpon>
@@ -147,6 +150,9 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>App.settings</DependentUpon>
+    </Compile>
+    <Compile Include="View\UpdateCashAccountDialog.xaml.cs">
+      <DependentUpon>UpdateCashAccountDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UpdateExpenseDialog.xaml.cs">
       <DependentUpon>UpdateExpenseDialog.xaml</DependentUpon>
@@ -184,6 +190,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DeleteCashAccountDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\DeleteCategoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -209,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TransactionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UpdateCashAccountDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

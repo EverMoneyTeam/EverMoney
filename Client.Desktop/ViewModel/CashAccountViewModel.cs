@@ -27,9 +27,9 @@ namespace Client.Desktop.ViewModel
 
         public AddCashAccountDialogViewModel addCashAccountDialogViewModel;
 
-        //public UpdateCashAccountDialogViewModel updateCashAccountDialogViewModel;
+        public UpdateCashAccountDialogViewModel updateCashAccountDialogViewModel;
 
-        //public DeleteCashAccountDialogViewModel deleteCashAccountDialogViewModel;
+        public DeleteCashAccountDialogViewModel deleteCashAccountDialogViewModel;
 
 
         public CashAccount SelectedCashAccount
@@ -47,9 +47,8 @@ namespace Client.Desktop.ViewModel
         private async void ExecuteRunAddDialog(object o)
         {
             addCashAccountDialogViewModel = new AddCashAccountDialogViewModel();
-            var view = new AddCashFlowDialog
+            var view = new AddCashAccountDialog
             {
-
                 DataContext = addCashAccountDialogViewModel
             };
 
@@ -63,16 +62,15 @@ namespace Client.Desktop.ViewModel
         private async void ExecuteRunUpdateDialog(object o)
         {
             //let's set up a little MVVM, cos that's what the cool kids are doing:
-            //updateCashAccountDialogViewModel = new UpdateCashAccountDialogViewModel(SelectedCashAccount);
-            //var view = new UpdateCashFlowDialog
-            //{
+            updateCashAccountDialogViewModel = new UpdateCashAccountDialogViewModel(SelectedCashAccount);
+            var view = new UpdateCashAccountDialog
+            {
+                DataContext = updateCashAccountDialogViewModel
+            };
 
-            //    DataContext = updateCashAccountDialogViewModel
-            //};
 
-
-            ////show the dialog
-            //var result = await DialogHost.Show(view, "RootDialog", ClosingUpdateDialogEventHandler);
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ClosingUpdateDialogEventHandler);
 
             //check the result...
             //Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
@@ -80,21 +78,25 @@ namespace Client.Desktop.ViewModel
 
         private async void ExecuteRunDeleteDialog(object o)
         {
-            //deleteCashAccountDialogViewModel = new DeleteCashAccountDialogViewModel(SelectedCashAccount);
-            //var view = new DeleteCashFlowDialog
-            //{
-            //    DataContext = deleteCashAccountDialogViewModel
-            //};
+            deleteCashAccountDialogViewModel = new DeleteCashAccountDialogViewModel(SelectedCashAccount);
+            var view = new DeleteCashAccountDialog
+            {
+                DataContext = deleteCashAccountDialogViewModel
+            };
 
-            ////show the dialog
-            //var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ClosingDeleteDialogEventHandler);
         }
 
         private void ClosingAddDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            if ((bool)eventArgs.Parameter == true)
+            if ((bool) eventArgs.Parameter == true)
             {
-                //CashFlowRepository.AddCashFlow(cashAccountSelectedItem.Id, -Math.Abs(addCashAccountDialogViewModel.Amount), categorySelectedItem.Id, Convert.ToDateTime(addCashAccountDialogViewModel.Date), addCashAccountDialogViewModel.Description);
+                //TODO: add check
+                var selectedCurrency = addCashAccountDialogViewModel.SelectedCurrency;
+
+                CashAccountRepository.AddCashAccount(Properties.Login.Default.AccountId, selectedCurrency.Id,
+                    addCashAccountDialogViewModel.Name, addCashAccountDialogViewModel.Amount);
                 //Renue content DataGrid
                 RefreshData();
                 //Set to zero fields
@@ -104,12 +106,12 @@ namespace Client.Desktop.ViewModel
 
         private void ClosingUpdateDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            if ((bool)eventArgs.Parameter == true)
+            if ((bool) eventArgs.Parameter == true)
             {
-                //var cashAccountSelectedItem = updateCashAccountDialogViewModel.SelectedCashAccount as CashAccount;
-                //var categorySelectedItem = updateCashAccountDialogViewModel.SelectedCashFlowCategory as CashFlowCategory;
+                Currency selectedCurrency = updateCashAccountDialogViewModel.SelectedCurrency;
 
-               // CashFlowRepository.UpdateCashFlow(SelectedCashAccount.Id, cashAccountSelectedItem.Id, -Math.Abs(updateCashAccountDialogViewModel.Amount), categorySelectedItem.Id, Convert.ToDateTime(updateCashAccountDialogViewModel.Date), updateCashAccountDialogViewModel.Description);
+                CashAccountRepository.UpdateCashAccount(SelectedCashAccount.Id, selectedCurrency.Id,
+                    updateCashAccountDialogViewModel.Name, updateCashAccountDialogViewModel.Amount);
                 //Renue content DataGrid
                 RefreshData();
             }
@@ -117,9 +119,9 @@ namespace Client.Desktop.ViewModel
 
         private void ClosingDeleteDialogEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            if ((bool)eventArgs.Parameter == true)
+            if ((bool) eventArgs.Parameter == true)
             {
-                CashFlowRepository.DeleteCashFlow(SelectedCashAccount.Id);
+                CashAccountRepository.DeleteCashAccount(SelectedCashAccount.Id);
                 //Renue content DataGrid
                 RefreshData();
             }

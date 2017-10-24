@@ -26,7 +26,7 @@ namespace Client.DataAccess.Repository
             }
         }
 
-        public static bool AddCashAccount(string accountId, string currencyId, string name)
+        public static bool AddCashAccount(string accountId, string currencyId, string name, decimal amount)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -35,6 +35,7 @@ namespace Client.DataAccess.Repository
                     AccountId = accountId,
                     CurrencyId = currencyId,
                     Name = name,
+                    Amount = amount,
                     DirtyFlag = true
                 });
 
@@ -74,7 +75,7 @@ namespace Client.DataAccess.Repository
             }
         }
 
-        public static bool UpdateCashAccount(string id, string currencyId, string name)
+        public static bool UpdateCashAccount(string id, string currencyId, string name, decimal amount)
         {
             using (var db = DbContextFactory.GetDbContext())
             {
@@ -83,6 +84,7 @@ namespace Client.DataAccess.Repository
 
                 cashAccount.CurrencyId = currencyId;
                 cashAccount.Name = name;
+                cashAccount.Amount = amount;
                 cashAccount.DirtyFlag = true;
 
                 return db.SaveChanges() > 0;
