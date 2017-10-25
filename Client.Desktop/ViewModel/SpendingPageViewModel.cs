@@ -194,6 +194,12 @@ namespace Client.Desktop.ViewModel
             CashFlows = new ObservableCollection<CashFlow>(CashFlowRepository.GetAllCashFlows(Properties.Login.Default.AccountId));
         }
 
+        public void RefreshGridDataOnClick()
+        {
+            var category = SelectedCategory as CashFlowCategory;
+            CashFlows = new ObservableCollection<CashFlow>(CashFlowRepository.GetCashFlowsByCategory(Properties.Login.Default.AccountId, category.Id));
+        }
+
         private async void ExecuteRunDeleteDialog(object o)
         {
             deleteCashFlowDialogViewModel = new DeleteCashFlowDialogViewModel(SelectedCashFlow);

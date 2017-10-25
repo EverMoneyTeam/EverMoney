@@ -27,6 +27,21 @@ namespace Client.DataAccess.Repository
             }
         }
 
+        public static List<CashFlowCategory> GetAllChildrenCashFlowCategoriesRecursively(string parentCashFlowCategoryId)
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                List<CashFlowCategory> inner = new List<CashFlowCategory>();
+                foreach (var c in db.CashFlowCategories.Where(c => c.ParentCashflowCategoryId == parentCashFlowCategoryId))
+                {
+                    inner.Add(c);
+                    inner = inner.Union(GetAllChildrenCashFlowCategoriesRecursively(c.Id)).ToList();
+                }
+
+                return inner;
+            }
+        }
+
         public static List<CashFlowCategory> GetModifiedCashFlowCategories()
         {
             using (var db = DbContextFactory.GetDbContext())

@@ -24,6 +24,7 @@ namespace Client.Desktop.View
             if (ViewModel == null) return;
 
             ViewModel.SelectedCategory = e.NewValue;
+            ViewModel.RefreshGridDataOnClick();
         }
     }
 }

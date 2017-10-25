@@ -17,6 +17,21 @@ namespace Client.DataAccess.Repository
             }
         }
 
+        public static List<CashFlow> GetCashFlowsByCategory(string accountId, string categoryId)
+        {
+            using (var db = DbContextFactory.GetDbContext())
+            {
+                var list = db.CashFlows.Where(c => c.AccountId == accountId && c.Amount < 0 && c.USN > -1 && c.CashFlowCategoryId == categoryId).Include(c => c.CashAccount.Currency).Include(c => c.CashFlowCategory).ToList();
+                var childrenCashFlowCategories = CashFlowCategoryRepository.GetAllChildrenCashFlowCategoriesRecursively(categoryId);
+                foreach (var item in childrenCashFlowCategories)
+                {
+                    var cashFlows = db.CashFlows.Where(c => c.AccountId == accountId && c.Amount < 0 && c.USN > -1 && c.CashFlowCategoryId == item.Id).Include(c => c.CashAccount.Currency).Include(c => c.CashFlowCategory).ToList();
+                    list.AddRange(cashFlows);
+                }
+                return list;
+            }
+        }
+
         public static List<CashFlow> GetModifiedCashFlows()
         {
             using (var db = DbContextFactory.GetDbContext())
